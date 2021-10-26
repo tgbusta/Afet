@@ -28,6 +28,7 @@ app.post("/users", async (req, res) => {
 })
 //exmp: http://localhost:5000/users
 //{"user_name" : "Ramazan", "user_surname" : "SARI", "user_mail" : "ramazan.sari@ailevecalisma.gov.tr", "user_pass" : "00000"}
+
 // TÜM VERİYİ ÇEKME //
 app.get("/users", async (req, res) => {
     try{
@@ -38,6 +39,7 @@ app.get("/users", async (req, res) => {
     }
 })
 // exmp: http://localhost:5000/users
+
 //ARANAN VERİYİ ÇEKME //
 app.get("/users/:id", async (req,res) =>{
     try {
@@ -50,6 +52,7 @@ app.get("/users/:id", async (req,res) =>{
     }
 })
 // exmp: http://localhost:5000/users/16
+
 // VERİ GÜNCELLEME//
 app.put("/users/:id", async (req,res) => {
     try {

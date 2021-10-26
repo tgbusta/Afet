@@ -48,7 +48,7 @@ const HomeScreen = () => {
 
         <Container>
           <Row>
-            <Col>
+            <Col className="col-md-12">
               <Card
                 className="border-secondary mt-3"
                 style={{ height: "11em" }}
@@ -59,7 +59,7 @@ const HomeScreen = () => {
                 </Card.Body>
               </Card>
             </Col>
-            <Col>
+            <Col className="col-md-12">
               <Card
                 className="border-secondary mt-3"
                 style={{ height: "11em" }}
@@ -76,7 +76,7 @@ const HomeScreen = () => {
               </Card>
             </Col>
           </Row>
-          <Row>
+          <Row className="col-md-12">
             <Col>
               <Card
                 className="border-secondary mt-3"
@@ -92,7 +92,7 @@ const HomeScreen = () => {
                 </Card.Body>
               </Card>
             </Col>
-            <Col>
+            <Col className="col-md-12">
               <Card
                 className="border-secondary mt-3"
                 style={{ height: "11em" }}
@@ -105,7 +105,7 @@ const HomeScreen = () => {
             </Col>
           </Row>
           <Row>
-            <Col>
+            <Col className="col-md-12">
               <Card
                 className="border-secondary mt-3 "
                 style={{ height: "11em" }}
@@ -116,7 +116,7 @@ const HomeScreen = () => {
                 </Card.Body>
               </Card>
             </Col>
-            <Col>
+            <Col className="col-md-12">
               <Card
                 className="border-secondary my-3"
                 style={{ height: "11em" }}
