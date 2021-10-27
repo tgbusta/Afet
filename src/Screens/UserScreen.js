@@ -26,7 +26,7 @@ const UserScreen = () => {
       const jsonData = await response.json();
 
       setUsers(jsonData);
-
+      
     }catch (e) {
       console.error(e.message)
     }
@@ -55,6 +55,7 @@ const UserScreen = () => {
               <th scope="col">Sıra No</th>
               <th scope="col">Personel Adı</th>
               <th scope="col">Personel Soyadı</th>
+              <th scope="col">Kullanıcı Adı</th>
               <th scope="col">E-Posta Adresi</th>
               <th scope="col">İşlem</th>
             </tr>
@@ -65,7 +66,8 @@ const UserScreen = () => {
                   <td>{user.user_id}</td>
                   <td>{user.user_name}</td>
                   <td>{user.user_surname}</td>
-                  <td>{user.user_mail}</td>
+                  <td>{user.user_username}</td>
+                  <td>{user.user_email}</td>
                   <td>
                     <button className="btn btn-danger" onClick={() => deleteUser(user.user_id)}>Sil</button>
                   </td>

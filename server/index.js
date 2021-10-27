@@ -9,16 +9,15 @@ app.use(express.json());
 // VERİ EKLEME //
 app.post("/users", async (req, res) => {
     try {
-
+   
        const user_name = req.body.user_name;
        const user_surname = req.body.user_surname;
-       const user_mail = req.body.user_mail;
+       const user_email = req.body.user_email;
        const user_pass = req.body.user_pass;
        const user_username = req.body.user_username;
-
-
-       const addUser = await pool.query("INSERT INTO users (user_name, user_surname, user_mail, user_pass, user_username) VALUES($1, $2, $3, $4, $5) RETURNING * ",
-           [user_name, user_surname, user_mail, user_pass, user_username]
+     
+       const addUser = await pool.query("INSERT INTO users (user_username, user_name, user_surname, user_pass, user_email) VALUES($1, $2, $3, $4, $5) RETURNING * ",
+           [user_username, user_name,user_surname, user_pass, user_email]
        );
 
        res.json(addUser.rows[0]);
@@ -27,7 +26,7 @@ app.post("/users", async (req, res) => {
     }
 })
 //exmp: http://localhost:5000/users
-//{"user_name" : "Ramazan", "user_surname" : "SARI", "user_mail" : "ramazan.sari@ailevecalisma.gov.tr", "user_pass" : "00000"}
+//{"user_name" : "Ramazan", "user_surname" : "SARI", "user_email" : "ramazan.sari@ailevecalisma.gov.tr", "user_pass" : "00000"}
 
 // TÜM VERİYİ ÇEKME //
 app.get("/users", async (req, res) => {

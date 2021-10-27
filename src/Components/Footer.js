@@ -13,7 +13,7 @@ const Footer = () => {
       <Row>
         <Col>
           <h2>Hava Durumu</h2>
-          <a target="_blank" href="https://bookeder.com/weather/ankara-18522">
+          <a target="_blank" href="/">
             <img
               src="https://w.bookcdn.com/weather/picture/32_18522_1_21_34495e_250_2c3e50_ffffff_ffffff_1_2071c9_ffffff_0_6.png?scode=124&domid=765&anc_id=51659"
               alt="booked.net"
@@ -85,11 +85,11 @@ const Footer = () => {
       </Row>
       <Dropdown.Divider />
       <Row>
-        <small class="credits text-center">
+        <small className="credits text-center">
           Aile ve Sosyal Hizmetler Bakanlığı | Bilgi Teknolojileri
           GenelMüdürlüğü
         </small>
-        <small class="copyright text-center">
+        <small className="copyright text-center">
           <p>2021 &copy; Tüm Hakları Saklıdır</p>
         </small>
       </Row>

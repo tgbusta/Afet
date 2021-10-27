@@ -14,23 +14,29 @@ const SubmitUser = () => {
   const [validated, setValidated] = useState(false);
   const [user_name, setUser_name] = useState("");
   const [user_surname, setUser_surname] = useState("");
-  const [user_mail, setUser_mail] = useState("");
+  const [user_email, setUser_email] = useState("");
   const [user_pass, setUser_pass] = useState("");
   const [user_username, setUser_username] = useState("");
 
   const handleSubmit = async e => {
-    const form = e.currentTarget;
-    if (form.checkValidity() === false) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
 
-    setValidated(true);
+    
+    //const form = e.currentTarget;
+    //if (form.checkValidity() === false) {
+    //    e.preventDefault();
+    //    e.stopPropagation();
+    //}
 
-    if(validated){
+      
+
+    //setValidated(true);
+
+    //if(validated){
+      
         e.preventDefault();
         try{
-            const body = {user_name, user_surname, user_mail, user_pass, user_username};
+        
+            const body = {user_name, user_surname, user_email, user_pass, user_username};
             const response =  await fetch("http://localhost:5000/users", {
                 method: "POST",
                 headers : {"Content-Type" : "application/json"},
@@ -38,18 +44,18 @@ const SubmitUser = () => {
             });
 
             console.log(response);
+            window.location.reload();
         }catch (e) {
             console.error(e.message)
         }
-    }
-
+    //}
   };
 
   return (
     
     <Container>
         <h3 className="py-3">Kullanıcı Kaydı Oluştur</h3>
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form noValidate validated={validated}>
         <Row className="mb-3">
 
 <Form.Group as={Col} md="4" controlId="validationCustomName">
@@ -85,7 +91,7 @@ const SubmitUser = () => {
               label="E-Posta Adresi"
               className="mb-3"
             >
-              <Form.Control type="email" placeholder="E-Posta Adresi" onChange={e => setUser_mail(e.target.value)}/>
+              <Form.Control type="email" placeholder="E-Posta Adresi" onChange={e => setUser_email(e.target.value)}/>
               <Form.Control.Feedback type="invalid">
               Geçerli bir e-posta adresi giriniz.
               </Form.Control.Feedback>
@@ -123,7 +129,7 @@ const SubmitUser = () => {
         </Row>
         <Row className="text-center pt-5">
           <FormGroup>
-            <Button type="submit" className="bg-success">
+            <Button type="button" className="bg-success" onClick={handleSubmit}>
               Kaydet
             </Button>
           </FormGroup>

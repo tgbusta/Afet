@@ -10,8 +10,8 @@ const Navi = () => {
       <Container>
         <LinkContainer to="/">
           <Navbar.Brand href="/">
-            <div class="d-flex bd-highlight">
-              <div class="p-2 bd-highlight">
+            <div className="d-flex bd-highlight">
+              <div className="p-2 bd-highlight">
                 <Image src={logo} fluid style={{ width: "300px" }} />
                 <br />
                 <h3 className="">Afet Yardım Sistemi</h3>
@@ -20,7 +20,7 @@ const Navi = () => {
                   style={{ position: "absolute", top: "65px", right: "65px" }}
                 />
               </div>
-              <div class="p-2 flex-shrink-1 bd-highlight align-self-end">
+              <div className="p-2 flex-shrink-1 bd-highlight align-self-end">
                 <Navbar.Collapse
                   id="basic-navbar-nav"
                   className="justify-content-end"
