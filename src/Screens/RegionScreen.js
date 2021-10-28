@@ -1,7 +1,45 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Container, Table, Dropdown } from "react-bootstrap";
 import SubmitRegion from "../Components/SubmitRegion";
+
+
 const RegionScreen = () => {
+
+  const [regions, setRegions] = useState([]);
+  
+  //delete region function
+
+  const deleteRegion = async (id) => {
+    try{
+      const deleteRegion = await fetch('http://localhost:5000/regions/' + id, {
+        method: "DELETE"
+      })
+
+      setRegions(regions.filter(regions => regions.region_id !== id));
+    }catch (e) {
+      console.error(e.message)
+    }
+}
+
+  //get regions function
+  const getRegions = async () => {
+    try{
+      const response = await fetch("http://localhost:5000/regions")
+      const jsonData = await response.json();
+
+      setRegions(jsonData);
+      
+    }catch (e) {
+      console.error(e.message)
+    }
+  }
+
+  console.log(regions);
+
+  useEffect(() =>{
+    getRegions();
+  }, [])
+   
   return (
     <div>
       <Container>
@@ -25,42 +63,18 @@ const RegionScreen = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Sil Güncelle</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Sil Güncelle</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Sil Güncelle</td>
-            </tr>
-            <tr>
-              <th scope="row">4</th>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Sil Güncelle</td>
-            </tr>
+          {regions.map( region => (
+                <tr key={regions.region_id}>
+                  <td>{region.region_id}</td>
+                  <td>{region.region_name}</td>
+                  <td>{region.city_id}</td>
+                  <td>{region.district_id}</td>
+                  <td>{region.disaster_date}</td>
+                  <td>
+                    <button className="btn btn-danger" onClick={() => deleteRegion(regions.region_id)}>Sil</button>
+                  </td>
+                </tr>
+            ))}
           </tbody>
         </Table>
       </Container>

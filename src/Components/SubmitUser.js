@@ -26,9 +26,6 @@ const SubmitUser = () => {
     //    e.preventDefault();
     //    e.stopPropagation();
     //}
-
-      
-
     //setValidated(true);
 
     //if(validated){

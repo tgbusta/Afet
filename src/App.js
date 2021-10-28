@@ -18,10 +18,10 @@ function App() {
       <Container className="shadow p-3 mb-5 bg-white rounded" style={{background:"#e8eaed" }}>
         <Route path="/" component={HomeScreen} exact/>
         <Route path="/home" component={HomeScreen}/>
-        <Route path="/aid" component={AidScreen}/>
+        <Route path="/aids" component={AidScreen}/>
         <Route path="/case" component={CaseScreen}/>
-        <Route path="/donation" component={DonationScreen}/>
-        <Route path="/region" component={RegionScreen}/>
+        <Route path="/donations" component={DonationScreen}/>
+        <Route path="/regions" component={RegionScreen}/>
         <Route path="/users" component={UserScreen}/>
       </Container>
       <Footer/>

@@ -6,6 +6,66 @@ const pool = require("./db");
 app.use(cors());
 app.use(express.json());
 
+// il tablosu getir //
+app.get("/cities", async (req, res) => {
+    try{
+        const allCities = await pool.query("SELECT * FROM cities");
+        res.json(allCities.rows);
+    }catch (err){
+        console.error(err.message)
+    }
+})
+// ilce tablosu getir //
+app.get("/districts", async (req, res) => {
+    try{
+        const allDistricts = await pool.query("SELECT * FROM districts");
+        res.json(allDistricts.rows);
+    }catch (err){
+        console.error(err.message)
+    }
+})
+
+// afet tipi tablosu getir //
+app.get("/disastertypes", async (req, res) => {
+    try{
+        const allDisasterTypes = await pool.query("SELECT * FROM disaster_types");
+        res.json(allDisasterTypes.rows);
+    }catch (err){
+        console.error(err.message)
+    }
+})
+
+//bölgeleri getir
+
+app.get("/regions", async (req, res) => {
+    try{
+        const allRegions = await pool.query("SELECT * FROM regions");
+        res.json(allRegions.rows);
+    }catch (err){
+        console.error(err.message)
+    }
+})
+
+// Afet Bölge Kayıt //
+app.post("/regions", async (req, res) => {
+    try {
+       const disaster_type_id = req.body.disaster_type_id;
+       const city_id = req.body.city_id;
+       const region_name = req.body.region_name;
+       const disaster_date = req.body.disaster_date;
+       const district_id = req.body.district_id;
+     
+       const addUser = await pool.query("INSERT INTO regions (disaster_type_id, city_id, region_name, disaster_date, district_id) VALUES($1, $2, $3, $4, $5) RETURNING * ",
+           [disaster_type_id, city_id, region_name, disaster_date, district_id]
+       );
+
+       res.json(addUser.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
+
 // VERİ EKLEME //
 app.post("/users", async (req, res) => {
     try {
@@ -43,7 +103,7 @@ app.get("/users", async (req, res) => {
 app.get("/users/:id", async (req,res) =>{
     try {
         const {id} = req.params;
-        const user = await pool.query("SELECT * FROM users WHERE user_id = $1", [id])
+        const user = await pool.query("SELECT * FROM users WHERE user_id = $1 ORDER BY user_id DESC", [id])
 
         res.json(user.rows[0]);
     }catch (err){
@@ -76,6 +136,55 @@ app.delete("/users/:id", async (req,res) =>{
     }
 })
 //http://localhost:5000/users/17
+
+
+//yardım ekleme
+
+app.post("/aids", async (req, res) => {
+    try {
+   
+       const affected_name = req.body.affected_name; //affected
+       const affected_surname = req.body.affected_surname;
+       const affected_tckn = req.body.affected_tckn;
+        const affected_email = req.body.affected_email;
+        const affected_year_of_birth = req.body.affected_year_of_birth;
+
+       const aid_date = req.body.aid_date; //aids ?
+       const region_name = req.body.region_name; //regions *
+     
+       const addAid = await pool.query("INSERT INTO affecteds (affected_name, affected_surname, affected_tckn, affected_email, affected_year_of_birth) VALUES($1, $2, $3, $4, $5) RETURNING * ",
+           [affected_name, affected_surname,affected_tckn, affected_email, affected_year_of_birth]
+       );
+
+       res.json(addAid.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
+
+//bölge ekleme
+
+app.post("/regions", async (req, res) => {
+    try {
+   
+       const region_name = req.body.region_name; //regions
+       const disaster_date = req.body.disaster_date;
+
+       const city = req.body.city; //cities
+       const district = req.body.district; //districts
+       const disaster_type = req.body.disaster_type; //disaster_types
+
+      
+       const addRegion = await pool.query("INSERT INTO regions (region_name, disaster_date) VALUES($1, $2) RETURNING * ",
+           [region_name, disaster_date]
+       );
+
+       res.json(addRegion.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+})
 
 
 
