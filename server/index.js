@@ -6,7 +6,7 @@ const pool = require("./db");
 app.use(cors());
 app.use(express.json());
 
-// il tablosu getir //
+// cities get//
 app.get("/cities", async (req, res) => {
     try{
         const allCities = await pool.query("SELECT * FROM cities");
@@ -15,7 +15,7 @@ app.get("/cities", async (req, res) => {
         console.error(err.message)
     }
 })
-// ilce tablosu getir //
+// districts get//
 app.get("/districts", async (req, res) => {
     try{
         const allDistricts = await pool.query("SELECT * FROM districts");
@@ -25,7 +25,7 @@ app.get("/districts", async (req, res) => {
     }
 })
 
-// afet tipi getir //
+// disaster_type get //
 app.get("/disastertypes", async (req, res) => {
     try{
         const allDisasterTypes = await pool.query("SELECT * FROM disaster_types");
@@ -35,7 +35,7 @@ app.get("/disastertypes", async (req, res) => {
     }
 })
 
-//Afet Bölge getir //
+//regions get //
 
 app.get("/regions", async (req, res) => {
     try{
@@ -46,7 +46,7 @@ app.get("/regions", async (req, res) => {
     }
 })
 
-// Afet Bölge Kayıt //
+// regions post //
 app.post("/regions", async (req, res) => {
     try {
        const disaster_type_id = req.body.disaster_type_id;
@@ -64,7 +64,8 @@ app.post("/regions", async (req, res) => {
         console.error(err.message);
     }
 })
-// bağış-yardım tipi getir //
+
+// donation_types get //
 app.get("/donationtypes", async (req, res) => {
     try{
         const allDonationTypes = await pool.query("SELECT * FROM donation_types");
@@ -74,7 +75,7 @@ app.get("/donationtypes", async (req, res) => {
     }
 })
 
-//Tüzel Bağışçı Bağış Kayıt//
+//legal_donors post//
 app.post("/legaldonors", async (req, res) => {
     try {
        const donor_title = req.body.donor_title ;
@@ -95,7 +96,7 @@ app.post("/legaldonors", async (req, res) => {
     }
 })
 
-//Gerçek Bağışçı Bağış Kayıt//
+//real_donors post//
 app.post("/realdonors", async (req, res) => {
     try {
        const donor_name = req.body.donor_name ;
@@ -121,7 +122,7 @@ app.post("/realdonors", async (req, res) => {
 
 
 
-// VERİ EKLEME //
+// users post //
 app.post("/users", async (req, res) => {
     try {
    
@@ -143,7 +144,7 @@ app.post("/users", async (req, res) => {
 //exmp: http://localhost:5000/users
 //{"user_name" : "Ramazan", "user_surname" : "SARI", "user_email" : "ramazan.sari@ailevecalisma.gov.tr", "user_pass" : "00000"}
 
-// TÜM VERİYİ ÇEKME //
+// users get //
 app.get("/users", async (req, res) => {
     try{
         const allUsers = await pool.query("SELECT * FROM users");
@@ -154,7 +155,7 @@ app.get("/users", async (req, res) => {
 })
 // exmp: http://localhost:5000/users
 
-//ARANAN VERİYİ ÇEKME //
+//users search //
 app.get("/users/:id", async (req,res) =>{
     try {
         const {id} = req.params;
@@ -167,7 +168,7 @@ app.get("/users/:id", async (req,res) =>{
 })
 // exmp: http://localhost:5000/users/16
 
-// VERİ GÜNCELLEME//
+// users put//
 app.put("/users/:id", async (req,res) => {
     try {
         const {id} = req.params;
@@ -180,7 +181,8 @@ app.put("/users/:id", async (req,res) => {
 })
 // http://localhost:5000/users/16
 //{ "user_new_name" : "Ramazan" }
-// VER SİLME //
+
+// user delete //
 app.delete("/users/:id", async (req,res) =>{
     try{
         const {id} = req.params;
@@ -193,7 +195,7 @@ app.delete("/users/:id", async (req,res) =>{
 //http://localhost:5000/users/17
 
 
-//yardım ekleme
+// aids post //
 
 app.post("/aids", async (req, res) => {
     try {
@@ -218,28 +220,7 @@ app.post("/aids", async (req, res) => {
 })
 
 
-//bölge ekleme
 
-app.post("/regions", async (req, res) => {
-    try {
-   
-       const region_name = req.body.region_name; //regions
-       const disaster_date = req.body.disaster_date;
-
-       const city = req.body.city; //cities
-       const district = req.body.district; //districts
-       const disaster_type = req.body.disaster_type; //disaster_types
-
-      
-       const addRegion = await pool.query("INSERT INTO regions (region_name, disaster_date) VALUES($1, $2) RETURNING * ",
-           [region_name, disaster_date]
-       );
-
-       res.json(addRegion.rows[0]);
-    } catch (err) {
-        console.error(err.message);
-    }
-})
 
 
 
