@@ -25,7 +25,7 @@ app.get("/districts", async (req, res) => {
     }
 })
 
-// afet tipi tablosu getir //
+// afet tipi getir //
 app.get("/disastertypes", async (req, res) => {
     try{
         const allDisasterTypes = await pool.query("SELECT * FROM disaster_types");
@@ -35,7 +35,7 @@ app.get("/disastertypes", async (req, res) => {
     }
 })
 
-//bölgeleri getir
+//Afet Bölge getir //
 
 app.get("/regions", async (req, res) => {
     try{
@@ -64,6 +64,61 @@ app.post("/regions", async (req, res) => {
         console.error(err.message);
     }
 })
+// bağış-yardım tipi getir //
+app.get("/donationtypes", async (req, res) => {
+    try{
+        const allDonationTypes = await pool.query("SELECT * FROM donation_types");
+        res.json(allDonationTypes.rows);
+    }catch (err){
+        console.error(err.message)
+    }
+})
+
+//Tüzel Bağışçı Bağış Kayıt//
+app.post("/legaldonors", async (req, res) => {
+    try {
+       const donor_title = req.body.donor_title ;
+       const donor_tax_number = req.body.donor_tax_number;
+       const donor_tel = req.body.donor_tel;
+       const donor_email = req.body.donor_email;
+       const donation_type_id = req.body.donation_type_id;
+       const region_id = req.body.region_id;
+       const donation_date = req.body.donation_date;
+     
+       const addLegalDonor = await pool.query("INSERT INTO regions (donor_title, donor_tax_number, donor_tel, donor_email, donation_type_id, region_id, donation_date) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING * ",
+           [donor_title, donor_tax_number, donor_tel, donor_email, donation_type_id, region_id, donation_date]
+       );
+
+       res.json(addLegalDonor.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
+//Gerçek Bağışçı Bağış Kayıt//
+app.post("/realdonors", async (req, res) => {
+    try {
+       const donor_name = req.body.donor_name ;
+       const donor_surname = req.body.donor_surname ;
+       const donor_tckn = req.body.donor_tckn;
+       const donor_tel = req.body.donor_tel;
+       const donor_email = req.body.donor_email;
+       const donation_type_id = req.body.donation_type_id;
+       const region_id = req.body.region_id;
+       const donation_date = req.body.donation_date;
+
+     
+       const addRealDonor = await pool.query("INSERT INTO regions (donor_name, donor_surname, donor_tckn, donor_tel, donor_email, donation_type_id, region_id, donation_date) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING * ",
+
+       [donor_name, donor_surname, donor_tckn, donor_tel, donor_email, donation_type_id, region_id, donation_date]
+       );
+
+       res.json(addRealDonor.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 
 
 // VERİ EKLEME //

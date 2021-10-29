@@ -64,7 +64,7 @@ const RegionScreen = () => {
           </thead>
           <tbody>
           {regions.map( region => (
-                <tr key={regions.region_id}>
+                <tr key={region.region_id}>
                   <td>{region.region_id}</td>
                   <td>{region.region_name}</td>
                   <td>{region.city_id}</td>

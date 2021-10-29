@@ -1,4 +1,4 @@
-import React, { validated, handleSubmit } from "react";
+import React, { validated, handleSubmit, useState, useEffect } from "react";
 import {
   Form,
   Button,
@@ -13,12 +13,123 @@ import {
 } from "react-bootstrap";
 
 const SubmitDonation = () => {
+  const [validated, setValidated] = useState(false);
+  const [donor_name, setDonor_name] = useState("");
+  const [donor_surname, setDonor_surname] = useState("");
+  const [donor_tckn, setDonor_tckn] = useState("");
+  const [donor_title, setDonor_title] = useState("");
+  const [donor_tax_number, setDonor_tax_number] = useState();
+  const [donor_tel, setDonor_tel] = useState("");
+  const [donor_email, setDonor_email] = useState("");
+  const [donation_type_id, setDonation_type_id] = useState("");
+  const [region_id, setRegion_id] = useState("");
+  const [donation_date, setDonation_date] = useState("");
+  const [donation_types, setDonation_types] = useState([]);
+  const [regions, setRegions] = useState([]);
+
+  const handleSubmitReal = async (e) => {
+    //const form = e.currentTarget;
+    //if (form.checkValidity() === false) {
+    //    e.preventDefault();
+    //    e.stopPropagation();
+    //}
+    //setValidated(true);
+
+    //if(validated){
+
+    e.preventDefault();
+    try {
+      const body = {
+        donor_name,
+        donor_surname,
+        donor_tckn,
+        donor_tel,
+        donor_email,
+        donation_type_id,
+        region_id,
+        donation_date,
+      };
+      const response = await fetch("http://localhost:5000/realdonors", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      console.log(response);
+      window.location.reload();
+    } catch (e) {
+      console.error(e.message);
+    }
+    //}
+  };
+  const handleSubmitLegal = async (e) => {
+    //const form = e.currentTarget;
+    //if (form.checkValidity() === false) {
+    //    e.preventDefault();
+    //    e.stopPropagation();
+    //}
+    //setValidated(true);
+
+    //if(validated){
+
+    e.preventDefault();
+    try {
+      const body = {
+        donor_title,
+        donor_tax_number,
+        donor_tel,
+        donor_email,
+        donation_type_id,
+        region_id,
+        donation_date,
+      };
+      const response = await fetch("http://localhost:5000/legaldonors", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      console.log(response);
+      window.location.reload();
+    } catch (e) {
+      console.error(e.message);
+    }
+    //}
+  };
+
+  const getDonation_types = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/donationtypes");
+      const jsonData = await response.json();
+
+      setDonation_types(jsonData);
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+
+  const getRegions = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/regions");
+      const jsonData = await response.json();
+
+      setRegions(jsonData);
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+
+  useEffect(() => {
+    getRegions();
+    getDonation_types();
+  }, []);
+
   return (
     <Container>
       <h3 className="py-3">Bağış Kaydı Oluştur</h3>
       <Tabs defaultActiveKey="real" id="aid-tabs" className="my-3">
         <Tab eventKey="real" title="Gerçek Kişi">
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form noValidate validated={validated}>
             <Row className="mb-3">
               <Form.Group as={Col} md="4" controlId="validationCustomDonorName">
                 <FloatingLabel
@@ -26,7 +137,12 @@ const SubmitDonation = () => {
                   label="Bağışçının Adı"
                   className="mb-3"
                 >
-                  <Form.Control type="text" placeholder="Bağışçının Adı" required/>
+                  <Form.Control
+                    type="text"
+                    placeholder="Bağışçının Adı"
+                    onChange={(e) => setDonor_name(e.target.value)}
+                    required
+                  />
                   <Form.Control.Feedback type="invalid">
                     Bu alanın doldurulması zorunludur.
                   </Form.Control.Feedback>
@@ -43,7 +159,12 @@ const SubmitDonation = () => {
                   label="Bağışçının Soyadı"
                   className="mb-3"
                 >
-                  <Form.Control type="text" placeholder="Bağışçının Soyadı" required/>
+                  <Form.Control
+                    type="text"
+                    placeholder="Bağışçının Soyadı"
+                    required
+                    onChange={(e) => setDonor_surname(e.target.value)}
+                  />
                   <Form.Control.Feedback type="invalid">
                     Bu alanın doldurulması zorunludur.
                   </Form.Control.Feedback>
@@ -60,7 +181,12 @@ const SubmitDonation = () => {
                   label="TC Kimlik Numarası"
                   className="mb-3"
                 >
-                  <Form.Control type="text" placeholder="TC Kimlik Numarası" required/>
+                  <Form.Control
+                    type="text"
+                    placeholder="TC Kimlik Numarası"
+                    required
+                    onChange={(e) => setDonor_tckn(e.target.value)}
+                  />
                   <Form.Control.Feedback type="invalid">
                     Bu alanın doldurulması zorunludur.
                   </Form.Control.Feedback>
@@ -75,7 +201,12 @@ const SubmitDonation = () => {
                   label="Telefon Numarası"
                   className="mb-3"
                 >
-                  <Form.Control type="tel" placeholder="Telefon Numarası" required/>
+                  <Form.Control
+                    type="tel"
+                    placeholder="Telefon Numarası"
+                    required
+                    onChange={(e) => setDonor_tel(e.target.value)}
+                  />
                   <Form.Control.Feedback type="invalid">
                     Bu alanın doldurulması zorunludur.
                   </Form.Control.Feedback>
@@ -85,14 +216,19 @@ const SubmitDonation = () => {
               <Form.Group
                 as={Col}
                 md="8"
-                controlId="validationCustomDonorAdress"
+                controlId="validationCustomDonorEmail"
               >
                 <FloatingLabel
                   controlId="floatingInput"
-                  label="Adres"
+                  label="EPosta"
                   className="mb-3"
                 >
-                  <Form.Control type="text" placeholder="Adres" required/>
+                  <Form.Control
+                    type="email"
+                    placeholder="E-Posta Adresi"
+                    required
+                    onChange={(e) => setDonor_email(e.target.value)}
+                  />
                   <Form.Control.Feedback type="invalid">
                     Bu alanın doldurulması zorunludur.
                   </Form.Control.Feedback>
@@ -107,7 +243,20 @@ const SubmitDonation = () => {
                   label="Bağış Bölgesi"
                   className="mb-3"
                 >
-                  <Form.Control type="text" placeholder="Bağış Bölgesi" required/>
+                  <Form.Control
+                    as="select"
+                    placeholder="Bağış Bölgesi"
+                    required
+                    onChange={(e) => setRegion_id(e.target.value)}
+                  >
+                    <option value="" disabled selected></option>
+
+                    {regions.map((regions) => (
+                      <option key={regions.region_id} value={regions.region_id}>
+                        {regions.region_name}
+                      </option>
+                    ))}
+                  </Form.Control>
                   <Form.Control.Feedback type="invalid">
                     Bu alanın doldurulması zorunludur.
                   </Form.Control.Feedback>
@@ -121,10 +270,22 @@ const SubmitDonation = () => {
               >
                 <FloatingLabel
                   controlId="floatingInput"
-                  label="Bağış Tutarı"
+                  label="Bağış Türü"
                   className="mb-3"
                 >
-                  <Form.Control type="text" placeholder="Bağış Tutarı" required/>
+                 <Form.Control
+                    as="select"
+                    required
+                    onChange={(e) => setDonation_type_id(e.target.value)}
+                  >
+                    <option value="" disabled selected></option>
+
+                    {donation_types.map((donation_types) => (
+                      <option key={donation_types.donation_type_id} value={donation_types.donation_type_id}>
+                        {donation_types.donation_type}
+                      </option>
+                    ))}
+                  </Form.Control>
                   <Form.Control.Feedback type="invalid">
                     Bu alanın doldurulması zorunludur.
                   </Form.Control.Feedback>
@@ -145,6 +306,7 @@ const SubmitDonation = () => {
                     type="date"
                     aria-describedby="inputGroupPrepend"
                     required
+                    onChange={(e) => setDonation_date(e.target.value)}
                   />
                   <Form.Control.Feedback type="invalid">
                     Bu alanın doldurulması zorunludur.
@@ -155,7 +317,11 @@ const SubmitDonation = () => {
 
             <Row className="text-center pt-5">
               <FormGroup>
-                <Button type="submit" className="bg-success">
+                <Button
+                  type="button"
+                  className="bg-success"
+                  onSubmit={handleSubmitReal}
+                >
                   Kaydet
                 </Button>
               </FormGroup>
@@ -164,7 +330,7 @@ const SubmitDonation = () => {
         </Tab>
 
         <Tab eventKey="legal" title="Tüzel Kişi">
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form noValidate validated={validated}>
             <Row className="mb-3">
               <Form.Group
                 as={Col}
@@ -176,7 +342,12 @@ const SubmitDonation = () => {
                   label="Bağışçının Unvanı"
                   className="mb-3"
                 >
-                  <Form.Control type="text" placeholder="Bağışçının Unvanı" required/>
+                  <Form.Control
+                    type="text"
+                    placeholder="Bağışçının Unvanı"
+                    required
+                    onChange={(e) => setDonor_title(e.target.value)}
+                  />
                   <Form.Control.Feedback type="invalid">
                     Bu alanın doldurulması zorunludur.
                   </Form.Control.Feedback>
@@ -189,7 +360,12 @@ const SubmitDonation = () => {
                   label="Vergi Numarası"
                   className="mb-3"
                 >
-                  <Form.Control type="text" placeholder="Vergi Numarası" required/>
+                  <Form.Control
+                    type="text"
+                    placeholder="Vergi Numarası"
+                    required
+                    onChange={(e) => setDonor_tax_number(e.target.value)}
+                  />
                   <Form.Control.Feedback type="invalid">
                     Bu alanın doldurulması zorunludur.
                   </Form.Control.Feedback>
@@ -204,7 +380,12 @@ const SubmitDonation = () => {
                   label="Telefon Numarası"
                   className="mb-3"
                 >
-                  <Form.Control type="tel" placeholder="Telefon Numarası" required/>
+                  <Form.Control
+                    type="tel"
+                    placeholder="Telefon Numarası"
+                    required
+                    onChange={(e) => setDonor_tel(e.target.value)}
+                  />
                   <Form.Control.Feedback type="invalid">
                     Bu alanın doldurulması zorunludur.
                   </Form.Control.Feedback>
@@ -221,7 +402,12 @@ const SubmitDonation = () => {
                   label="Adres"
                   className="mb-3"
                 >
-                  <Form.Control type="text" placeholder="Adres" required/>
+                  <Form.Control
+                    type="email"
+                    placeholder="E-Posta Adresi"
+                    required
+                    onChange={(e) => setDonor_email(e.target.value)}
+                  />
                   <Form.Control.Feedback type="invalid">
                     Bu alanın doldurulması zorunludur.
                   </Form.Control.Feedback>
@@ -236,7 +422,20 @@ const SubmitDonation = () => {
                   label="Bağış Bölgesi"
                   className="mb-3"
                 >
-                  <Form.Control type="text" placeholder="Bağış Bölgesi" required/>
+                  <Form.Control
+                    as="select"
+                    placeholder="Bağış Bölgesi"
+                    required
+                    onChange={(e) => setRegion_id(e.target.value)}
+                  >
+                    <option value="" disabled selected></option>
+
+                    {regions.map((regions) => (
+                      <option key={regions.region_id} value={regions.region_id}>
+                        {regions.region_name}
+                      </option>
+                    ))}
+                  </Form.Control>
                   <Form.Control.Feedback type="invalid">
                     Bu alanın doldurulması zorunludur.
                   </Form.Control.Feedback>
@@ -250,10 +449,23 @@ const SubmitDonation = () => {
               >
                 <FloatingLabel
                   controlId="floatingInput"
-                  label="Bağış Tutarı"
+                  label="Bağış Türü"
                   className="mb-3"
                 >
-                  <Form.Control type="text" placeholder="Bağış Tutarı" required/>
+                  <Form.Control
+                    as="select"
+                    required
+                    onChange={(e) => setDonation_type_id(e.target.value)}
+                  >
+                    <option value="" disabled selected></option>
+
+                    {donation_types.map((donation_types) => (
+                      <option key={donation_types.donation_type_id} value={donation_types.donation_type_id}>
+                        {donation_types.donation_type}
+                      </option>
+                    ))}
+                  </Form.Control>
+                  
                   <Form.Control.Feedback type="invalid">
                     Bu alanın doldurulması zorunludur.
                   </Form.Control.Feedback>
@@ -274,6 +486,7 @@ const SubmitDonation = () => {
                     type="date"
                     aria-describedby="inputGroupPrepend"
                     required
+                    onChange={(e) => setDonation_date(e.target.value)}
                   />
                   <Form.Control.Feedback type="invalid">
                     Bu alanın doldurulması zorunludur.
@@ -284,7 +497,11 @@ const SubmitDonation = () => {
 
             <Row className="text-center pt-5">
               <FormGroup>
-                <Button type="submit" className="bg-success">
+                <Button
+                  type="button"
+                  className="bg-success"
+                  onSubmit={handleSubmitLegal}
+                >
                   Kaydet
                 </Button>
               </FormGroup>
