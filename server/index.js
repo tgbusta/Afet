@@ -66,7 +66,7 @@ app.post("/regions", async (req, res) => {
   }
 });
 
-//adis get //
+//aids get //
 
 app.get("/aids", async (req, res) => {
   try {
@@ -264,36 +264,6 @@ app.delete("/users/:id", async (req, res) => {
   }
 });
 //http://localhost:5000/users/17
-
-// aids post //
-
-app.post("/aids", async (req, res) => {
-  try {
-    const affected_name = req.body.affected_name; //affected
-    const affected_surname = req.body.affected_surname;
-    const affected_tckn = req.body.affected_tckn;
-    const affected_email = req.body.affected_email;
-    const affected_year_of_birth = req.body.affected_year_of_birth;
-
-    const aid_date = req.body.aid_date; //aids ?
-    const region_name = req.body.region_name; //regions *
-
-    const addAid = await pool.query(
-      "INSERT INTO affecteds (affected_name, affected_surname, affected_tckn, affected_email, affected_year_of_birth) VALUES($1, $2, $3, $4, $5) RETURNING * ",
-      [
-        affected_name,
-        affected_surname,
-        affected_tckn,
-        affected_email,
-        affected_year_of_birth,
-      ]
-    );
-
-    res.json(addAid.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-  }
-});
 
 app.listen(5000, () => {
   console.log("Server has started on port 5000");

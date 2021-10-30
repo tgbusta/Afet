@@ -22,7 +22,7 @@ const AidScreen = () => {
               <th scope="col">Soyadı</th>
               <th scope="col">Afet Bölgesi</th>
               <th scope="col">Yardım Tarihi</th>
-              <th scope="col">Yardım Tutarı</th>
+              <th scope="col">Yardım Türü</th>
               <th scope="col"></th>
             </tr>
           </thead>

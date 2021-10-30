@@ -1,4 +1,4 @@
-import React, { validated, handleSubmit, useState, useEffect } from "react";
+import React, { validated, useState, useEffect } from "react";
 import {
   Form,
   Button,
@@ -10,93 +10,92 @@ import {
 } from "react-bootstrap";
 
 const SubmitAid = () => {
+  const [validated, setValidated] = useState(false);
 
+  const [region_id, setRegion_id] = useState("");
+  const [donation_type_id, setDonation_type_id] = useState("");
+  const [aid_date, setAid_date] = useState("");
+  const [affected_name, setAffected_name] = useState("");
+  const [affected_surname, setAffected_surname] = useState("");
+  const [affected_tckn, setAffected_tckn] = useState("");
+  const [affected_email, setAffected_email] = useState("");
+  const [affected_tel, setAffected_tel] = useState("");
+  const [affected_year_of_birth, setAffected_year_of_birth] = useState("");
 
-    const [region_id, setRegion_id] = useState("");
-    const [donation_type_id, setDonation_type_id] = useState("");
-    const [aid_date, setAid_date] = useState("");
-    const [affected_name, setAffected_name] = useState("");
-    const [affected_surname, setAffected_surname] = useState("");
-    const [affected_tckn, setAffected_tckn] = useState("");
-    const [affected_year_of_birth, setAffected_year_of_birth] = useState("");
-    const [affected_email, setAffected_email] = useState("");
-    const [affected_tel, setAffected_tel] = useState("");
-    const [regions, setRegions] = useState([]);
-    const [donation_types, setDonationTypes] = useState([]);
+  const [regions, setRegions] = useState([]);
+  const [donation_types, setDonationTypes] = useState([]);
 
-
-    const handleSubmit = async (e) => {
-      console.log("submit");
-  
-      e.preventDefault();
-      try {
-        const body = {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const body = {
         region_id,
         donation_type_id,
         aid_date,
         affected_name,
         affected_surname,
         affected_tckn,
-        affected_year_of_birth,
         affected_email,
         affected_tel,
-        };
-        console.log(body);
-        const response = await fetch("http://localhost:5000/aids", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
-  
-        console.log(response);
-      } catch (e) {
-        console.error(e.message);
-      }
-    };
-  
-    const getRegions = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/regions");
-        const jsonData = await response.json();
-  
-        setRegions(jsonData);
-      } catch (e) {
-        console.error(e.message);
-      }
-    };
-  
-    const getDonationTypes = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/donationtypes");
-        const jsonData = await response.json();
-  
-        setDonationTypes(jsonData);
-      } catch (e) {
-        console.error(e.message);
-      }
-    };
-  
-    
-  
-    useEffect(() => {
-      getRegions();
-      getDonationTypes();
-    }, []);
-  
+        affected_year_of_birth,
+      };
+      console.log(body);
+      const response = await fetch("http://localhost:5000/aids", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      console.log(response);
+      window.location.reload();
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+
+  const getRegions = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/regions");
+      const jsonData = await response.json();
+
+      setRegions(jsonData);
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+
+  const getDonationTypes = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/donationtypes");
+      const jsonData = await response.json();
+
+      setDonationTypes(jsonData);
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+
+  useEffect(() => {
+    getRegions();
+    getDonationTypes();
+  }, []);
 
   return (
     <Container>
       <h3 className="py-3">Yardım Kaydı Oluştur</h3>
-      <Form noValidate validated={validated} >
+      <Form noValidate validated={validated}>
         <Row className="my-3">
-          
           <Form.Group as={Col} md="4" controlId="validationCustomAidName">
             <FloatingLabel
               controlId="floatingInput"
               label="Afetzedenin Adı"
               className="mb-3"
             >
-              <Form.Control type="text" placeholder="Afetzedenin Adı" onChange={(e) => setAffected_name(e.target.value)}/>
+              <Form.Control
+                type="text"
+                placeholder="Afetzedenin Adı"
+                onChange={(e) => setAffected_name(e.target.value)}
+              />
               <Form.Control.Feedback type="invalid">
                 Bu alanın doldurulması zorunludur.
               </Form.Control.Feedback>
@@ -109,7 +108,11 @@ const SubmitAid = () => {
               label="Afetzedenin Soyadı"
               className="mb-3"
             >
-              <Form.Control type="text" placeholder="Afetzedenin Soyadı" onChange={(e) => setAffected_surname(e.target.value)} />
+              <Form.Control
+                type="text"
+                placeholder="Afetzedenin Soyadı"
+                onChange={(e) => setAffected_surname(e.target.value)}
+              />
               <Form.Control.Feedback type="invalid">
                 Bu alanın doldurulması zorunludur.
               </Form.Control.Feedback>
@@ -126,7 +129,11 @@ const SubmitAid = () => {
               label="TC Kimlik Numarası"
               className="mb-3"
             >
-              <Form.Control type="text" placeholder="TC Kimlik Numarası" onChange={(e) => setAffected_tckn(e.target.value)}/>
+              <Form.Control
+                type="text"
+                placeholder="TC Kimlik Numarası"
+                onChange={(e) => setAffected_tckn(e.target.value)}
+              />
               <Form.Control.Feedback type="invalid">
                 Bu alanın doldurulması zorunludur.
               </Form.Control.Feedback>
@@ -140,7 +147,11 @@ const SubmitAid = () => {
               label="Doğum Yılı"
               className="mb-3"
             >
-              <Form.Control type="text" placeholder="Doğum Yılı" onChange={(e) => setAffected_year_of_birth(e.target.value)}/>
+              <Form.Control
+                type="text"
+                placeholder="Doğum Yılı"
+                onChange={(e) => setAffected_year_of_birth(e.target.value)}
+              />
               <Form.Control.Feedback type="invalid">
                 Bu alanın doldurulması zorunludur.
               </Form.Control.Feedback>
@@ -153,7 +164,11 @@ const SubmitAid = () => {
               label="Telefon Numarası"
               className="mb-3"
             >
-              <Form.Control type="text" placeholder="Telefon Numarası" onChange={(e) => setAffected_tel(e.target.value)}/>
+              <Form.Control
+                type="text"
+                placeholder="Telefon Numarası"
+                onChange={(e) => setAffected_tel(e.target.value)}
+              />
               <Form.Control.Feedback type="invalid">
                 Bu alanın doldurulması zorunludur.
               </Form.Control.Feedback>
@@ -166,9 +181,13 @@ const SubmitAid = () => {
               label="E-Posta Adresi"
               className="mb-3"
             >
-              <Form.Control type="email" placeholder="E-Posta" onChange={(e) => setAffected_email(e.target.value)}/>
+              <Form.Control
+                type="email"
+                placeholder="E-Posta Adresi"
+                onChange={(e) => setAffected_email(e.target.value)}
+              />
               <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
+              Geçerli bir e-posta adresi giriniz.
               </Form.Control.Feedback>
             </FloatingLabel>
           </Form.Group>
@@ -181,7 +200,6 @@ const SubmitAid = () => {
               label="Afet Bölgesi"
               className="mb-3"
             >
-            
               <Form.Control
                 as="select"
                 onChange={(e) => setRegion_id(e.target.value)}
@@ -195,7 +213,6 @@ const SubmitAid = () => {
                 ))}
               </Form.Control>
 
-
               <Form.Control.Feedback type="invalid">
                 Bu alanın doldurulması zorunludur.
               </Form.Control.Feedback>
@@ -208,7 +225,6 @@ const SubmitAid = () => {
               label="Yardım Türü"
               className="mb-3"
             >
-                           
               <Form.Control
                 as="select"
                 onChange={(e) => setDonation_type_id(e.target.value)}
@@ -216,14 +232,15 @@ const SubmitAid = () => {
               >
                 <option value="" disabled selected></option>
                 {donation_types.map((donation_types) => (
-                  <option key={donation_types.donation_type_id} value={donation_types.donation_type_id}>
+                  <option
+                    key={donation_types.donation_type_id}
+                    value={donation_types.donation_type_id}
+                  >
                     {donation_types.donation_type}
                   </option>
                 ))}
               </Form.Control>
-              
-              
-              
+
               <Form.Control.Feedback type="invalid">
                 Bu alanın doldurulması zorunludur.
               </Form.Control.Feedback>
@@ -251,7 +268,7 @@ const SubmitAid = () => {
 
         <Row className="text-center pt-5">
           <FormGroup>
-            <Button type="button" className="bg-success" onSubmit={handleSubmit}>
+            <Button type="button" className="bg-success" onClick={handleSubmit}>
               Kaydet
             </Button>
           </FormGroup>
