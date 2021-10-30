@@ -7,7 +7,7 @@ const RegionScreen = () => {
 
   const [regions, setRegions] = useState([]);
   
-  //delete region function
+  //delete region
 
   const deleteRegion = async (id) => {
     try{
@@ -21,7 +21,7 @@ const RegionScreen = () => {
     }
 }
 
-  //get regions function
+  //get regions
   const getRegions = async () => {
     try{
       const response = await fetch("http://localhost:5000/regions")
@@ -69,9 +69,10 @@ const RegionScreen = () => {
                   <td>{region.region_name}</td>
                   <td>{region.city_id}</td>
                   <td>{region.district_id}</td>
+                  <td>{region.disaster_type_id}</td>
                   <td>{region.disaster_date}</td>
                   <td>
-                    <button className="btn btn-danger" onClick={() => deleteRegion(regions.region_id)}>Sil</button>
+                    <button className="btn btn-danger" onClick={() => deleteRegion(region.region_id)}>Sil</button>
                   </td>
                 </tr>
             ))}

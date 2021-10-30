@@ -1,8 +1,44 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {Container, Dropdown, Table} from 'react-bootstrap'
 import SubmitAid from '../Components/SubmitAid'
 
 const AidScreen = () => {
+
+  const [aids, setAids] = useState([]);
+
+
+  const deleteAid = async (id) => {
+    try{
+      const deleteAid = await fetch('http://localhost:5000/aids/' + id, {
+        method: "DELETE"
+      })
+
+      setAids(aids.filter(aids => aids.aid_id !== id));
+    }catch (e) {
+      console.error(e.message)
+    }
+}
+
+const getAids = async () => {
+  try{
+    const response = await fetch("http://localhost:5000/aids")
+    const jsonData = await response.json();
+
+    setAids(jsonData);
+    
+  }catch (e) {
+    console.error(e.message)
+  }
+}
+
+console.log(aids);
+
+useEffect(() =>{
+  getAids();
+}, [])
+
+
+
     return (
         <div>
             <Container>
@@ -23,46 +59,24 @@ const AidScreen = () => {
               <th scope="col">Afet Bölgesi</th>
               <th scope="col">Yardım Tarihi</th>
               <th scope="col">Yardım Türü</th>
-              <th scope="col"></th>
+              <th scope="col">İşlem</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Sil Güncelle</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Sil Güncelle</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Sil Güncelle</td>
-            </tr>
-            <tr>
-              <th scope="row">4</th>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Column content</td>
-              <td>Sil Güncelle</td>
-            </tr>
+          {aids.map( aid => (
+                <tr key={aid.aid_id}>
+                  <td>{aid.aid_id}</td>
+                  <td>{aid.affected_name}</td>
+                  <td>{aid.affected_surname}</td>
+                  <td>{aid.region_id}</td>
+                  <td>{aid.aid_date}</td>
+                  <td>{aid.donation_type_id}</td>
+                  <td>
+                    <button className="btn btn-danger" onClick={() => deleteAid(aid.aid_id)}>Sil</button>
+                  </td>
+                </tr>
+            ))}
+            
           </tbody>
         </Table>
       </Container>    

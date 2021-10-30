@@ -4,12 +4,14 @@ import './index.css';
 import 'react-alert-confirm/dist/index.css';
 import App from './App';
 import './bootstrap.min.css'
+import {BrowserRouter} from 'react-router-dom'
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <BrowserRouter><App /></BrowserRouter>
+  </React.StrictMode>
+  ,
   document.getElementById('root')
 );
 

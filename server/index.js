@@ -66,6 +66,20 @@ app.post("/regions", async (req, res) => {
   }
 });
 
+// region delete //
+app.delete("/regions/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const deleteRegion = await pool.query(
+        "DELETE FROM regions WHERE region_id = $1",
+        [id]
+      );
+      res.json("silme başarılı");
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
+
 //aids get //
 
 app.get("/aids", async (req, res) => {
@@ -111,6 +125,20 @@ app.post("/aids", async (req, res) => {
   }
 });
 
+// aid delete //
+app.delete("/aids/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const deleteAid = await pool.query(
+        "DELETE FROM aids WHERE aid_id = $1",
+        [id]
+      );
+      res.json("silme başarılı");
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
+
 // donation_types get //
 app.get("/donationtypes", async (req, res) => {
   try {
@@ -120,6 +148,20 @@ app.get("/donationtypes", async (req, res) => {
     console.error(err.message);
   }
 });
+
+//donations delete
+app.delete("/donations/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const deleteDonation = await pool.query(
+        "DELETE FROM donations WHERE aid_id = $1",
+        [id]
+      );
+      res.json("silme başarılı");
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
 
 //legal_donors post//
 app.post("/legaldonors", async (req, res) => {
