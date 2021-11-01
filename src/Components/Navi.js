@@ -25,7 +25,7 @@ const Navi = () => {
                   id="basic-navbar-nav"
                   className="justify-content-end"
                 >
-                  <Nav className="flex-wrap justify-content-center">
+                  <Nav className="flex-wrap justify-content-center" style={{ fontSize: ".85rem" }}>
                     <NavLink className="px-3"
                       to={"/home"}
                       activeStyle={{

@@ -204,8 +204,9 @@ const SubmitAid = () => {
                 as="select"
                 onChange={(e) => setRegion_id(e.target.value)}
                 required
+                defaultValue=""
               >
-                <option value="" disabled selected></option>
+                <option value="" disabled></option>
                 {regions.map((regions) => (
                   <option key={regions.region_id} value={regions.region_id}>
                     {regions.region_name}
@@ -229,8 +230,9 @@ const SubmitAid = () => {
                 as="select"
                 onChange={(e) => setDonation_type_id(e.target.value)}
                 required
+                defaultValue=""
               >
-                <option value="" disabled selected></option>
+                <option value="" disabled></option>
                 {donation_types.map((donation_types) => (
                   <option
                     key={donation_types.donation_type_id}

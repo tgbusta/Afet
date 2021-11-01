@@ -77,11 +77,11 @@ const SubmitDonation = () => {
       const body = {
         donor_title,
         donor_tax_number,
-        donor_tel,
-        donor_email,
-        donation_type_id,
         region_id,
+        donation_type_id,
         donation_date,
+        donor_tel,
+        donor_email
       };
       const response = await fetch("http://localhost:5000/legaldonors", {
         method: "POST",
@@ -320,9 +320,9 @@ const SubmitDonation = () => {
                 <Button
                   type="button"
                   className="bg-success"
-                  onSubmit={handleSubmitReal}
+                  onClick={handleSubmitReal}
                 >
-                  Kaydet
+                  Kaydet Gerçek
                 </Button>
               </FormGroup>
             </Row>
@@ -500,9 +500,9 @@ const SubmitDonation = () => {
                 <Button
                   type="button"
                   className="bg-success"
-                  onSubmit={handleSubmitLegal}
+                  onClick={handleSubmitLegal}
                 >
-                  Kaydet
+                  Kaydet Tüzel
                 </Button>
               </FormGroup>
             </Row>
