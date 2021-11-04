@@ -4,7 +4,7 @@ import Image from "react-bootstrap/Image";
 import slider2 from "../img/pexels-ron-lach-9169658.jpg";
 import slider1 from "../img/afetyardim1.jpg";
 import slider3 from "../img/basvuru.JPG";
-import Production from "../Components/Production";
+import Production from "../Components/Product";
 
 
 const HomeScreen = () => {
@@ -53,7 +53,7 @@ const HomeScreen = () => {
             <Col className="col-md-6, col-sm-12, col-lg-6">
               <Card
                 className="shadow border-secondary mt-3 rounded"
-                style={{ height: "11em" }}
+                style={{ minHeight: "15em" }}
               >
                 <Card.Header>YARDIM PROGRAMI</Card.Header>
                 <Card.Body>
@@ -63,8 +63,8 @@ const HomeScreen = () => {
             </Col>
             <Col className="col-md-6, col-sm-12, col-lg-6">
               <Card
-                className="border-secondary mt-3"
-                style={{ height: "11em" }}
+                className="shadow border-secondary mt-3 rounded"
+                style={{ minHeight: "15em" }}
               >
                 <Card.Header>KAPSAMI</Card.Header>
                 <Card.Body>
@@ -81,8 +81,8 @@ const HomeScreen = () => {
           <Row >
             <Col className="col-md-6, col-sm-12, col-lg-6">
               <Card
-                className="border-secondary mt-3"
-                style={{ height: "11em" }}
+                className="shadow border-secondary mt-3 rounded"
+                style={{ minHeight: "15em" }}
               >
                 <Card.Header>KİMLER FAYDALANIR</Card.Header>
                 <Card.Body>
@@ -96,8 +96,8 @@ const HomeScreen = () => {
             </Col>
             <Col className="col-md-6, col-sm-12, col-lg-6">
               <Card
-                className="border-secondary mt-3"
-                style={{ height: "11em" }}
+                className="shadow border-secondary mt-3 rounded"
+                style={{ minHeight: "15em" }}
               >
                 <Card.Header>BAŞVURAN</Card.Header>
                 <Card.Body>
@@ -109,8 +109,8 @@ const HomeScreen = () => {
           <Row>
             <Col className="col-md-6, col-sm-12, col-lg-6">
               <Card
-                className="border-secondary mt-3 "
-                style={{ height: "11em" }}
+                className="shadow border-secondary mt-3 rounded"
+                style={{ minHeight: "15em" }}
               >
                 <Card.Header>EVRAK</Card.Header>
                 <Card.Body>
@@ -120,8 +120,8 @@ const HomeScreen = () => {
             </Col>
             <Col className="col-md-6, col-sm-12, col-lg-6">
               <Card
-                className="border-secondary my-3"
-                style={{ height: "11em" }}
+                className="shadow border-secondary mt-3 rounded"
+                style={{ minHeight: "15em" }}
               >
                 <Card.Header>TUTAR VE ÖDEME DÖNEMİ</Card.Header>
                 <Card.Body>

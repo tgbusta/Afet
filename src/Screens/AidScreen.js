@@ -1,10 +1,14 @@
 import React, {useEffect, useState} from 'react'
-import {Container, Dropdown, Table} from 'react-bootstrap'
+import {Container, Dropdown, Table, Button} from 'react-bootstrap'
 import SubmitAid from '../Components/SubmitAid'
+import moment from 'moment'
 
 const AidScreen = () => {
 
   const [aids, setAids] = useState([]);
+  const [regions, setRegions] = useState([]);
+  const [donTypes, setDonTypes] = useState([]);
+
 
 
   const deleteAid = async (id) => {
@@ -31,10 +35,36 @@ const getAids = async () => {
   }
 }
 
-console.log(aids);
+const getRegions = async () => {
+  try{
+    const response = await fetch("http://localhost:5000/regions")
+    const jsonData = await response.json();
+
+    setRegions(jsonData);
+    
+  }catch (e) {
+    console.error(e.message)
+  }
+}
+
+const getDonationtypes = async () => {
+  try{
+    const response = await fetch("http://localhost:5000/donationtypes")
+    const jsonData = await response.json();
+    setDonTypes(jsonData);
+  
+  }catch (e){
+    console.error(e.message)
+  }
+}
+
+
+console.log(donTypes);
 
 useEffect(() =>{
   getAids();
+  getRegions();
+  getDonationtypes();
 }, [])
 
 
@@ -68,11 +98,19 @@ useEffect(() =>{
                   <td>{aid.aid_id}</td>
                   <td>{aid.affected_name}</td>
                   <td>{aid.affected_surname}</td>
-                  <td>{aid.region_id}</td>
-                  <td>{aid.aid_date}</td>
-                  <td>{aid.donation_type_id}</td>
+                  {regions.filter(x => x.region_id === aid.region_id).map(filtered => (
+                  <td key={aid.region_id}>
+                    {filtered.region_name}
+                  </td>
+                  ))}
+                  <td>{moment(aid.aid_date).format("l")}</td>
+                  {donTypes.filter(x => x.donation_type_id === aid.donation_type_id).map(filtered => (
+                  <td key={aid.region_id}>
+                    {filtered.donation_type}
+                  </td>
+                  ))}
                   <td>
-                    <button className="btn btn-danger" onClick={() => deleteAid(aid.aid_id)}>Sil</button>
+                    <Button  variant="outline-danger" onClick={() => deleteAid(aid.aid_id)}>Sil</Button>
                   </td>
                 </tr>
             ))}
