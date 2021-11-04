@@ -16,8 +16,8 @@ function App() {
     <Router>
       <Navi />
       <Container
-        className="shadow p-3 mb-5 bg-white rounded"
-        style={{ background: "#e8eaed" }}
+        className="shadow p-3 mb-5 rounded"
+        
       >
         <Switch>
           <Route path="/" component={HomeScreen} exact />
@@ -36,3 +36,5 @@ function App() {
 }
 
 export default App;
+
+  

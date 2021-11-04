@@ -4,12 +4,14 @@ import Image from "react-bootstrap/Image";
 import slider2 from "../img/pexels-ron-lach-9169658.jpg";
 import slider1 from "../img/afetyardim1.jpg";
 import slider3 from "../img/basvuru.JPG";
+import Production from "../Components/Production";
+
 
 const HomeScreen = () => {
   return (
     <div>
       <Container className="py-3">
-        <Carousel nextLabel="ilerü" fade>
+        <Carousel nextLabel="ileri" fade>
           <Carousel.Item>
             <Image className="d-block w-100" src={slider1} fluid />
             <Carousel.Caption>
@@ -48,9 +50,9 @@ const HomeScreen = () => {
 
         <Container>
           <Row>
-            <Col className="col-md-12">
+            <Col className="col-md-6, col-sm-12, col-lg-6">
               <Card
-                className="border-secondary mt-3"
+                className="shadow border-secondary mt-3 rounded"
                 style={{ height: "11em" }}
               >
                 <Card.Header>YARDIM PROGRAMI</Card.Header>
@@ -59,7 +61,7 @@ const HomeScreen = () => {
                 </Card.Body>
               </Card>
             </Col>
-            <Col className="col-md-12">
+            <Col className="col-md-6, col-sm-12, col-lg-6">
               <Card
                 className="border-secondary mt-3"
                 style={{ height: "11em" }}
@@ -76,8 +78,8 @@ const HomeScreen = () => {
               </Card>
             </Col>
           </Row>
-          <Row className="col-md-12">
-            <Col>
+          <Row >
+            <Col className="col-md-6, col-sm-12, col-lg-6">
               <Card
                 className="border-secondary mt-3"
                 style={{ height: "11em" }}
@@ -92,7 +94,7 @@ const HomeScreen = () => {
                 </Card.Body>
               </Card>
             </Col>
-            <Col className="col-md-12">
+            <Col className="col-md-6, col-sm-12, col-lg-6">
               <Card
                 className="border-secondary mt-3"
                 style={{ height: "11em" }}
@@ -105,7 +107,7 @@ const HomeScreen = () => {
             </Col>
           </Row>
           <Row>
-            <Col className="col-md-12">
+            <Col className="col-md-6, col-sm-12, col-lg-6">
               <Card
                 className="border-secondary mt-3 "
                 style={{ height: "11em" }}
@@ -116,7 +118,7 @@ const HomeScreen = () => {
                 </Card.Body>
               </Card>
             </Col>
-            <Col className="col-md-12">
+            <Col className="col-md-6, col-sm-12, col-lg-6">
               <Card
                 className="border-secondary my-3"
                 style={{ height: "11em" }}
@@ -134,37 +136,8 @@ const HomeScreen = () => {
           </Row>
         </Container>
         <Container className="py-5">
-            <h2 className="py-2">Hesap Numaralarımız</h2>
-         <Table hover variant="secondary" className="mb-3">
-            <thead>
-              <tr>
-                <th>Banka Adı</th>
-                <th>Hesap Türü</th>
-                <th>Hesap No</th>
-                <th>IBAN</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Ziraat Bankası</td>
-                <td>Türk Lirası</td>
-                <td>2124994-5007</td>
-                <td>TR66 0001 0004 8802 1249 9450 07</td>
-              </tr>
-              <tr>
-                <td>VakıfBank</td>
-                <td>Türk Lirası</td>
-                <td>00158007266577589</td>
-                <td>TR29 0001 5001 5800 7266 5775 89</td>
-              </tr>
-              <tr>
-                <td>Türkiye İş Bankası</td>
-                <td>Türk Lirası</td>
-                <td>1346-50627</td>
-                <td>TR92 0006 4000 0011 3460 0506 27</td>
-              </tr>
-            </tbody>
-          </Table>
+            <h2 className="py-2">Siz de Onlara Elinizi Uzatın</h2>
+         <Production/>
         </Container>
       </Container>
     </div>
