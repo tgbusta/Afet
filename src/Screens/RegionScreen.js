@@ -1,45 +1,83 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Table, Dropdown } from "react-bootstrap";
 import SubmitRegion from "../Components/SubmitRegion";
-
+import moment from "moment";
 
 const RegionScreen = () => {
-
   const [regions, setRegions] = useState([]);
-  
+  const [disasterTypes, setDisasterTypes] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [districts, setDistricts] = useState([]);
+
   //delete region
 
   const deleteRegion = async (id) => {
-    try{
-      const deleteRegion = await fetch('http://localhost:5000/regions/' + id, {
-        method: "DELETE"
-      })
+    try {
+      const deleteRegion = await fetch("http://localhost:5000/regions/" + id, {
+        method: "DELETE",
+      });
 
-      setRegions(regions.filter(regions => regions.region_id !== id));
-    }catch (e) {
-      console.error(e.message)
+      setRegions(regions.filter((regions) => regions.region_id !== id));
+    } catch (e) {
+      console.error(e.message);
     }
-}
+  };
 
   //get regions
   const getRegions = async () => {
-    try{
-      const response = await fetch("http://localhost:5000/regions")
+    try {
+      const response = await fetch("http://localhost:5000/regions");
       const jsonData = await response.json();
 
       setRegions(jsonData);
-      
-    }catch (e) {
-      console.error(e.message)
+    } catch (e) {
+      console.error(e.message);
     }
-  }
+  };
 
   console.log(regions);
 
-  useEffect(() =>{
+  //get disaster types
+  const getDisasterTypes = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/disastertypes");
+      const jsonData = await response.json();
+
+      setDisasterTypes(jsonData);
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+  //get cities
+  const getCities = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/cities");
+      const jsonData = await response.json();
+      setCities(jsonData);
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+
+  //get districts
+  const getDistricts = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/districts");
+      const jsonData = await response.json();
+
+      setDistricts(jsonData);
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+
+  useEffect(() => {
     getRegions();
-  }, [])
-   
+    getDistricts();
+    getCities();
+    getDisasterTypes();
+  }, []);
+
   return (
     <div>
       <Container>
@@ -49,7 +87,7 @@ const RegionScreen = () => {
       <Dropdown.Divider />
 
       <Container className="py-5">
-      <h3>Afet Bölgeleri</h3>
+        <h3>Afet Bölgeleri</h3>
         <Table className="table table-secondary table-hover" responsive="md">
           <thead>
             <tr>
@@ -63,18 +101,36 @@ const RegionScreen = () => {
             </tr>
           </thead>
           <tbody>
-          {regions.map( region => (
-                <tr key={region.region_id}>
-                  <td>{region.region_id}</td>
-                  <td>{region.region_name}</td>
-                  <td>{region.city_id}</td>
-                  <td>{region.district_id}</td>
-                  <td>{region.disaster_type_id}</td>
-                  <td>{region.disaster_date}</td>
-                  <td>
-                    <button className="btn btn-danger" onClick={() => deleteRegion(region.region_id)}>Sil</button>
-                  </td>
-                </tr>
+            {regions.map((region) => (
+              <tr key={region.region_id}>
+                <td>{region.region_id}</td>
+                <td>{region.region_name}</td>
+                {cities
+                  .filter((x) => x.city_id === region.city_id)
+                  .map((filtered) => (
+                    <td key={region.region_id}>{filtered.city}</td>
+                  ))}
+                {districts
+                  .filter((x) => x.district_id === region.district_id)
+                  .map((filtered) => (
+                    <td key={region.region_id}>{filtered.district}</td>
+                  ))}
+                {disasterTypes
+                  .filter((x) => x.disaster_type_id === region.disaster_type_id)
+                  .map((filtered) => (
+                    <td key={region.region_id}>{filtered.disaster_type}</td>
+                  ))}
+
+                <td>{moment(region.disaster_date).format("l")}</td>
+                <td>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => deleteRegion(region.region_id)}
+                  >
+                    Sil
+                  </button>
+                </td>
+              </tr>
             ))}
           </tbody>
         </Table>

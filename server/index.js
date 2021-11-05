@@ -6,7 +6,8 @@ const pool = require("./db");
 app.use(cors());
 app.use(express.json());
 
-// cities get//
+// cities //
+//get//
 app.get("/cities", async (req, res) => {
   try {
     const allCities = await pool.query("SELECT * FROM cities");
@@ -15,7 +16,25 @@ app.get("/cities", async (req, res) => {
     console.error(err.message);
   }
 });
-// districts get//
+
+//search//
+app.get("/cities/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const city = await pool.query(
+      "SELECT * FROM cities WHERE city_id = $1 ORDER BY city_id DESC",
+      [id]
+    );
+
+    res.json(city.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+//http://localhost:5000/cities/1
+
+//--------------------------------districts-------------------------------------------------------//
+//get//
 app.get("/districts", async (req, res) => {
   try {
     const allDistricts = await pool.query("SELECT * FROM districts");
@@ -25,7 +44,24 @@ app.get("/districts", async (req, res) => {
   }
 });
 
-// disaster_type get //
+//search//
+app.get("/districts/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const district = await pool.query(
+      "SELECT * FROM districts WHERE district_id = $1 ORDER BY district_id DESC",
+      [id]
+    );
+
+    res.json(district.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+//http://localhost:5000/districts/1
+
+//--------------------------------disaster_type--------------------------------------------------//
+//get//
 app.get("/disastertypes", async (req, res) => {
   try {
     const allDisasterTypes = await pool.query("SELECT * FROM disaster_types");
@@ -35,7 +71,27 @@ app.get("/disastertypes", async (req, res) => {
   }
 });
 
-//regions get //
+//search//
+app.get("/disastertypes/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const disasterType = await pool.query(
+      "SELECT * FROM disaster_types WHERE disaster_type_id = $1 ORDER BY disaster_type_id DESC",
+      [id]
+    );
+
+    res.json(disasterType.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+// exmp: http://localhost:5000/disastertypes/1
+
+
+
+//--------------- regions-------------------------------------------------------------------------------- //
+
+//get//
 
 app.get("/regions", async (req, res) => {
   try {
@@ -46,10 +102,7 @@ app.get("/regions", async (req, res) => {
   }
 });
 
-
-
-
-// regions post //
+//post//
 app.post("/regions", async (req, res) => {
   try {
     const disaster_type_id = req.body.disaster_type_id;
@@ -69,21 +122,22 @@ app.post("/regions", async (req, res) => {
   }
 });
 
-// region delete //
+//delete//
 app.delete("/regions/:id", async (req, res) => {
-    try {
-      const { id } = req.params;
-      const deleteRegion = await pool.query(
-        "DELETE FROM regions WHERE region_id = $1",
-        [id]
-      );
-      res.json("silme başarılı");
-    } catch (err) {
-      console.error(err.message);
-    }
-  });
+  try {
+    const { id } = req.params;
+    const deleteRegion = await pool.query(
+      "DELETE FROM regions WHERE region_id = $1",
+      [id]
+    );
+    res.json("silme başarılı");
+  } catch (err) {
+    console.error(err.message);
+  }
+});
 
-//aids get //
+// --------------------------------------------aids-------------------------------------------------------------- //
+//get//
 
 app.get("/aids", async (req, res) => {
   try {
@@ -94,7 +148,7 @@ app.get("/aids", async (req, res) => {
   }
 });
 
-// aids post //
+//post//
 app.post("/aids", async (req, res) => {
   try {
     const region_id = req.body.region_id;
@@ -128,21 +182,21 @@ app.post("/aids", async (req, res) => {
   }
 });
 
-// aid delete //
+//delete//
 app.delete("/aids/:id", async (req, res) => {
-    try {
-      const { id } = req.params;
-      const deleteAid = await pool.query(
-        "DELETE FROM aids WHERE aid_id = $1",
-        [id]
-      );
-      res.json("silme başarılı");
-    } catch (err) {
-      console.error(err.message);
-    }
-  });
+  try {
+    const { id } = req.params;
+    const deleteAid = await pool.query("DELETE FROM aids WHERE aid_id = $1", [
+      id,
+    ]);
+    res.json("silme başarılı");
+  } catch (err) {
+    console.error(err.message);
+  }
+});
 
-// donation_types get //
+//----------------------donation_types-----------------------------------------------------------//
+//get //
 app.get("/donationtypes", async (req, res) => {
   try {
     const allDonationTypes = await pool.query("SELECT * FROM donation_types");
@@ -152,21 +206,23 @@ app.get("/donationtypes", async (req, res) => {
   }
 });
 
-//donations delete
+//-----------------------------donations-----------------------------------------------------------------//
+//delete//
 app.delete("/donations/:id", async (req, res) => {
-    try {
-      const { id } = req.params;
-      const deleteDonation = await pool.query(
-        "DELETE FROM donations WHERE aid_id = $1",
-        [id]
-      );
-      res.json("silme başarılı");
-    } catch (err) {
-      console.error(err.message);
-    }
-  });
+  try {
+    const { id } = req.params;
+    const deleteDonation = await pool.query(
+      "DELETE FROM donations WHERE aid_id = $1",
+      [id]
+    );
+    res.json("silme başarılı");
+  } catch (err) {
+    console.error(err.message);
+  }
+});
 
-//real_donors post//
+//------------------------------donors---------------------------------------------------------------//
+//legal post//
 app.post("/legaldonors", async (req, res) => {
   try {
     const donor_name = req.body.donor_name;
@@ -183,32 +239,34 @@ app.post("/legaldonors", async (req, res) => {
     const transfered = 0;
 
     const adddonations = await pool.query(
-
       "INSERT INTO donations (region_id, donation_type_id, donation_date, transfered, donor_tel, donor_email) VALUES($1, $2, $3, $4, $5, $6) RETURNING * ",
-      [region_id, donation_type_id, donation_date, transfered, donor_tel, donor_email]
-
+      [
+        region_id,
+        donation_type_id,
+        donation_date,
+        transfered,
+        donor_tel,
+        donor_email,
+      ]
     );
 
     res.json(adddonations.rows[0]);
 
     const res_donation_id = adddonations.rows[0].donation_id;
 
-    if(res_donation_id){
+    if (res_donation_id) {
       const add_donation_real_donor = await pool.query(
         "INSERT INTO donations_legal_donor (donation_id, donor_title, donor_tax_number) VALUES($1, $2, $3) RETURNING * ",
         [res_donation_id, donor_title, donor_tax_number]
       );
-    res.json(add_donation_real_donor.rows[0]);
+      res.json(add_donation_real_donor.rows[0]);
     }
-
-    
-
   } catch (err) {
     console.error(err.message);
   }
 });
 
-//real_donors post//
+//real post//
 app.post("/realdonors", async (req, res) => {
   try {
     const donor_name = req.body.donor_name;
@@ -222,32 +280,35 @@ app.post("/realdonors", async (req, res) => {
     const transfered = 0;
 
     const adddonations = await pool.query(
-
       "INSERT INTO donations (region_id, donation_type_id, donation_date, transfered, donor_tel, donor_email) VALUES($1, $2, $3, $4, $5, $6) RETURNING * ",
-      [region_id, donation_type_id, donation_date, transfered, donor_tel, donor_email]
-
+      [
+        region_id,
+        donation_type_id,
+        donation_date,
+        transfered,
+        donor_tel,
+        donor_email,
+      ]
     );
 
     res.json(adddonations.rows[0]);
 
     const res_donation_id = adddonations.rows[0].donation_id;
 
-    if(res_donation_id){
+    if (res_donation_id) {
       const add_donation_real_donor = await pool.query(
         "INSERT INTO donations_real_donor (donation_id, donor_name, donor_surname, donor_tckn) VALUES($1, $2, $3, $4) RETURNING * ",
         [res_donation_id, donor_name, donor_surname, donor_tckn]
       );
-    res.json(add_donation_real_donor.rows[0]);
+      res.json(add_donation_real_donor.rows[0]);
     }
-
-    
-
   } catch (err) {
     console.error(err.message);
   }
 });
 
-// users post //
+//-------------------------------users---------------------------------------------------------//
+//post//
 app.post("/users", async (req, res) => {
   try {
     const user_name = req.body.user_name;
@@ -269,7 +330,7 @@ app.post("/users", async (req, res) => {
 //exmp: http://localhost:5000/users
 //{"user_name" : "Ramazan", "user_surname" : "SARI", "user_email" : "ramazan.sari@ailevecalisma.gov.tr", "user_pass" : "00000"}
 
-// users get //
+//get//
 app.get("/users", async (req, res) => {
   try {
     const allUsers = await pool.query("SELECT * FROM users");
@@ -280,7 +341,7 @@ app.get("/users", async (req, res) => {
 });
 // exmp: http://localhost:5000/users
 
-//users search //
+//search//
 app.get("/users/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -296,7 +357,7 @@ app.get("/users/:id", async (req, res) => {
 });
 // exmp: http://localhost:5000/users/16
 
-// users put//
+//put//
 app.put("/users/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -313,7 +374,7 @@ app.put("/users/:id", async (req, res) => {
 // http://localhost:5000/users/16
 //{ "user_new_name" : "Ramazan" }
 
-// user delete //
+//delete//
 app.delete("/users/:id", async (req, res) => {
   try {
     const { id } = req.params;

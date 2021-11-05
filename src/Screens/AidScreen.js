@@ -1,85 +1,78 @@
-import React, {useEffect, useState} from 'react'
-import {Container, Dropdown, Table, Button} from 'react-bootstrap'
-import SubmitAid from '../Components/SubmitAid'
-import moment from 'moment'
+import React, { useEffect, useState } from "react";
+import { Container, Dropdown, Table, Button } from "react-bootstrap";
+import SubmitAid from "../Components/SubmitAid";
+import moment from "moment";
 
 const AidScreen = () => {
-
   const [aids, setAids] = useState([]);
   const [regions, setRegions] = useState([]);
   const [donTypes, setDonTypes] = useState([]);
 
-
-
+  //delete aid
   const deleteAid = async (id) => {
-    try{
-      const deleteAid = await fetch('http://localhost:5000/aids/' + id, {
-        method: "DELETE"
-      })
+    try {
+      const deleteAid = await fetch("http://localhost:5000/aids/" + id, {
+        method: "DELETE",
+      });
 
-      setAids(aids.filter(aids => aids.aid_id !== id));
-    }catch (e) {
-      console.error(e.message)
+      setAids(aids.filter((aids) => aids.aid_id !== id));
+    } catch (e) {
+      console.error(e.message);
     }
-}
+  };
 
-const getAids = async () => {
-  try{
-    const response = await fetch("http://localhost:5000/aids")
-    const jsonData = await response.json();
+  //get aid
+  const getAids = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/aids");
+      const jsonData = await response.json();
 
-    setAids(jsonData);
-    
-  }catch (e) {
-    console.error(e.message)
-  }
-}
+      setAids(jsonData);
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
 
-const getRegions = async () => {
-  try{
-    const response = await fetch("http://localhost:5000/regions")
-    const jsonData = await response.json();
+  //get regions
+  const getRegions = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/regions");
+      const jsonData = await response.json();
 
-    setRegions(jsonData);
-    
-  }catch (e) {
-    console.error(e.message)
-  }
-}
+      setRegions(jsonData);
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
 
-const getDonationtypes = async () => {
-  try{
-    const response = await fetch("http://localhost:5000/donationtypes")
-    const jsonData = await response.json();
-    setDonTypes(jsonData);
-  
-  }catch (e){
-    console.error(e.message)
-  }
-}
+  const getDonationtypes = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/donationtypes");
+      const jsonData = await response.json();
+      setDonTypes(jsonData);
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
 
+  console.log(donTypes);
 
-console.log(donTypes);
+  useEffect(() => {
+    getAids();
+    getRegions();
+    getDonationtypes();
+  }, []);
 
-useEffect(() =>{
-  getAids();
-  getRegions();
-  getDonationtypes();
-}, [])
-
-
-
-    return (
-        <div>
-            <Container>
+  return (
+    <div>
+      <Container>
         <SubmitAid />
       </Container>
 
       <Dropdown.Divider />
 
       <Container className="py-5">
-
-      <h3>Yapılan Yardımlar</h3>
+        <h3>Yapılan Yardımlar</h3>
         <Table className="table table-secondary table-hover" responsive="md">
           <thead>
             <tr>
@@ -93,33 +86,37 @@ useEffect(() =>{
             </tr>
           </thead>
           <tbody>
-          {aids.map( aid => (
-                <tr key={aid.aid_id}>
-                  <td>{aid.aid_id}</td>
-                  <td>{aid.affected_name}</td>
-                  <td>{aid.affected_surname}</td>
-                  {regions.filter(x => x.region_id === aid.region_id).map(filtered => (
-                  <td key={aid.region_id}>
-                    {filtered.region_name}
-                  </td>
+            {aids.map((aid) => (
+              <tr key={aid.aid_id}>
+                <td>{aid.aid_id}</td>
+                <td>{aid.affected_name}</td>
+                <td>{aid.affected_surname}</td>
+                {regions
+                  .filter((x) => x.region_id === aid.region_id)
+                  .map((filtered) => (
+                    <td key={aid.region_id}>{filtered.region_name}</td>
                   ))}
-                  <td>{moment(aid.aid_date).format("l")}</td>
-                  {donTypes.filter(x => x.donation_type_id === aid.donation_type_id).map(filtered => (
-                  <td key={aid.region_id}>
-                    {filtered.donation_type}
-                  </td>
+                <td>{moment(aid.aid_date).format("l")}</td>
+                {donTypes
+                  .filter((x) => x.donation_type_id === aid.donation_type_id)
+                  .map((filtered) => (
+                    <td key={aid.region_id}>{filtered.donation_type}</td>
                   ))}
-                  <td>
-                    <Button  variant="outline-danger" onClick={() => deleteAid(aid.aid_id)}>Sil</Button>
-                  </td>
-                </tr>
+                <td>
+                  <Button
+                    variant="outline-danger"
+                    onClick={() => deleteAid(aid.aid_id)}
+                  >
+                    Sil
+                  </Button>
+                </td>
+              </tr>
             ))}
-            
           </tbody>
         </Table>
-      </Container>    
-        </div>
-    )
-}
+      </Container>
+    </div>
+  );
+};
 
-export default AidScreen
+export default AidScreen;

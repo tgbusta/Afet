@@ -28,15 +28,7 @@ const SubmitDonation = () => {
   const [regions, setRegions] = useState([]);
 
   const handleSubmitReal = async (e) => {
-    //const form = e.currentTarget;
-    //if (form.checkValidity() === false) {
-    //    e.preventDefault();
-    //    e.stopPropagation();
-    //}
-    //setValidated(true);
-
-    //if(validated){
-
+    
     e.preventDefault();
     try {
       const body = {
@@ -60,18 +52,10 @@ const SubmitDonation = () => {
     } catch (e) {
       console.error(e.message);
     }
-    //}
+   
   };
   const handleSubmitLegal = async (e) => {
-    //const form = e.currentTarget;
-    //if (form.checkValidity() === false) {
-    //    e.preventDefault();
-    //    e.stopPropagation();
-    //}
-    //setValidated(true);
-
-    //if(validated){
-
+   
     e.preventDefault();
     try {
       const body = {
