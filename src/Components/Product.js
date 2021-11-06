@@ -26,6 +26,11 @@ useEffect(() => {
 
 return (
     <div>
+
+{products.map( (product)=> (
+  <h4 key= {product.donation_type_id}>{product.donation_type}</h4>
+))}
+
       <Row>
         <Col className="col-md-6, col-sm-12, col-lg-6">
           <Card className="shadow border-secondary mt-3 rounded" style={{ }}>
