@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Navbar, Nav, Container, Image } from "react-bootstrap";
+import { useHistory } from "react-router";
 import { LinkContainer } from "react-router-bootstrap";
 import logo from "../img/logo.jpg";
 
@@ -8,6 +9,7 @@ import SignedOut from "./SignedOut";
 
 const Navi = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const history = useHistory();
 
   function handleSignIn() {
     setIsAuthenticated(true);
@@ -15,6 +17,7 @@ const Navi = () => {
 
   function handleSignOut() {
     setIsAuthenticated(false);
+    history.push("/");
   }
 
   return (
@@ -39,7 +42,6 @@ const Navi = () => {
                 id="basic-navbar-nav"
                 className="justify-content-end"
               >
-
                 <Nav className="flex-wrap justify-content-end">
                   {isAuthenticated ? (
                     <SignedIn signOut={handleSignOut} />

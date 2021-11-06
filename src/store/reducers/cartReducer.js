@@ -9,8 +9,18 @@ export default function cartReducer (state= initialState, {type,payload}) {
     switch (type){
         case ADD_TO_CART:
             
-let product= state.cartState.find(c=>product.id===payload.id)
-
+let product= state.cartState.find(c=>product.donation_type_id===payload.id)
+if (product){
+    product.quantity++;
+    return{
+        ...state
+    }
+}else{
+    return{
+        ...state,
+        cartState:[...state.cartState,payload]
+    }
+}
             break;
     
         default:
