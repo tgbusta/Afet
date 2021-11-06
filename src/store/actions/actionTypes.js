@@ -9,3 +9,6 @@ export const REMOVE_DONATION = "REMOVE_DONATION"
 
 export const ADD_REGION = "ADD_REGION"
 export const REMOVE_REGION = "REMOVE_REGION"
+
+export const ADD_TO_CART = "ADD_TO_CART"
+export const REMOVE_FROM_CART = "REMOVE_FROM_CART"

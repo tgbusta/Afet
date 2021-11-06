@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Card, Button, Row, Col } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import nakit from "../img/nakit.jpg";
@@ -7,8 +7,24 @@ import temizlik from "../img/temizlik.jpg";
 import giyim from "../img/giyim.jpg";
 import { FaBoxOpen } from "react-icons/fa";
 
-function Production() {
-  return (
+function Product() {
+
+  const [products, setProducts] = useState([]);
+  const getProducts = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/donationtypes");
+      const jsonData = await response.json();
+      setProducts(jsonData);
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+
+useEffect(() => {
+ getProducts();
+}, [])
+
+return (
     <div>
       <Row>
         <Col className="col-md-6, col-sm-12, col-lg-6">
@@ -84,4 +100,4 @@ function Production() {
   );
 }
 
-export default Production;
+export default Product;

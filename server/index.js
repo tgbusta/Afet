@@ -6,7 +6,11 @@ const pool = require("./db");
 app.use(cors());
 app.use(express.json());
 
-// cities //
+
+
+
+
+// ---------------------------------cities------------------------------ //
 //get//
 app.get("/cities", async (req, res) => {
   try {
