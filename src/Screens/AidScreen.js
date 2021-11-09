@@ -4,9 +4,10 @@ import SubmitAid from "../Components/SubmitAid";
 import moment from "moment";
 
 const AidScreen = () => {
+
   const [aids, setAids] = useState([]);
   const [regions, setRegions] = useState([]);
-  const [donTypes, setDonTypes] = useState([]);
+  const [donationtypes, setDonationtypes] = useState([]);
 
   //delete aid
   const deleteAid = async (id) => {
@@ -44,18 +45,18 @@ const AidScreen = () => {
       console.error(e.message);
     }
   };
-
+  //get donation types
   const getDonationtypes = async () => {
     try {
       const response = await fetch("http://localhost:5000/donationtypes");
       const jsonData = await response.json();
-      setDonTypes(jsonData);
+      setDonationtypes(jsonData);
     } catch (e) {
       console.error(e.message);
     }
   };
 
-  console.log(donTypes);
+  console.log(donationtypes);
 
   useEffect(() => {
     getAids();
@@ -97,7 +98,7 @@ const AidScreen = () => {
                     <td key={aid.region_id}>{filtered.region_name}</td>
                   ))}
                 <td>{moment(aid.aid_date).format("l")}</td>
-                {donTypes
+                {donationtypes
                   .filter((x) => x.donation_type_id === aid.donation_type_id)
                   .map((filtered) => (
                     <td key={aid.region_id}>{filtered.donation_type}</td>

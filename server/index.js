@@ -6,10 +6,6 @@ const pool = require("./db");
 app.use(cors());
 app.use(express.json());
 
-
-
-
-
 // ---------------------------------cities------------------------------ //
 //get//
 app.get("/cities", async (req, res) => {
@@ -91,8 +87,6 @@ app.get("/disastertypes/:id", async (req, res) => {
 });
 // exmp: http://localhost:5000/disastertypes/1
 
-
-
 //--------------- regions-------------------------------------------------------------------------------- //
 
 //get//
@@ -115,12 +109,12 @@ app.post("/regions", async (req, res) => {
     const disaster_date = req.body.disaster_date;
     const district_id = req.body.district_id;
 
-    const addUser = await pool.query(
+    const addRegion = await pool.query(
       "INSERT INTO regions (disaster_type_id, city_id, region_name, disaster_date, district_id) VALUES($1, $2, $3, $4, $5) RETURNING * ",
       [disaster_type_id, city_id, region_name, disaster_date, district_id]
     );
 
-    res.json(addUser.rows[0]);
+    res.json(addRegion.rows[0]);
   } catch (err) {
     console.error(err.message);
   }
@@ -216,7 +210,7 @@ app.delete("/donations/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const deleteDonation = await pool.query(
-      "DELETE FROM donations WHERE aid_id = $1",
+      "DELETE FROM donations WHERE donation_id = $1",
       [id]
     );
     res.json("silme başarılı");
@@ -225,9 +219,19 @@ app.delete("/donations/:id", async (req, res) => {
   }
 });
 
-//------------------------------donors---------------------------------------------------------------//
-//legal post//
-app.post("/legaldonors", async (req, res) => {
+//get//
+
+app.get("/donations", async (req, res) => {
+  try {
+    const allDonations = await pool.query("SELECT * FROM donations");
+    res.json(allDonations.rows);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+//post//
+app.post("/donations", async (req, res) => {
   try {
     const donor_name = req.body.donor_name;
     const donor_surname = req.body.donor_surname;
@@ -237,79 +241,70 @@ app.post("/legaldonors", async (req, res) => {
     const donation_type_id = req.body.donation_type_id;
     const region_id = req.body.region_id;
     const donation_date = req.body.donation_date;
-    const donor_title = req.body.donor_title;
-    const donor_tax_number = req.body.donor_tax_number;
 
     const transfered = 0;
 
-    const adddonations = await pool.query(
-      "INSERT INTO donations (region_id, donation_type_id, donation_date, transfered, donor_tel, donor_email) VALUES($1, $2, $3, $4, $5, $6) RETURNING * ",
+    const addDonation = await pool.query(
+      "INSERT INTO regions (donor_name, donor_surname, donor_tckn, donor_tel, donor_email, donation_type_id, region_id, donation_date ) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING * ",
       [
-        region_id,
-        donation_type_id,
-        donation_date,
-        transfered,
+        donor_name,
+        donor_surname,
+        donor_tckn,
         donor_tel,
         donor_email,
+        donation_type_id,
+        region_id,
+        donation_date,
       ]
     );
 
-    res.json(adddonations.rows[0]);
-
-    const res_donation_id = adddonations.rows[0].donation_id;
-
-    if (res_donation_id) {
-      const add_donation_real_donor = await pool.query(
-        "INSERT INTO donations_legal_donor (donation_id, donor_title, donor_tax_number) VALUES($1, $2, $3) RETURNING * ",
-        [res_donation_id, donor_title, donor_tax_number]
-      );
-      res.json(add_donation_real_donor.rows[0]);
-    }
+    res.json(addDonation.rows[0]);
   } catch (err) {
     console.error(err.message);
   }
 });
+
 
 //real post//
-app.post("/realdonors", async (req, res) => {
-  try {
-    const donor_name = req.body.donor_name;
-    const donor_surname = req.body.donor_surname;
-    const donor_tckn = req.body.donor_tckn;
-    const donor_tel = req.body.donor_tel;
-    const donor_email = req.body.donor_email;
-    const donation_type_id = req.body.donation_type_id;
-    const region_id = req.body.region_id;
-    const donation_date = req.body.donation_date;
-    const transfered = 0;
+// app.post("/donations", async (req, res) => {
+//   try {
+//     const donor_name = req.body.donor_name;
+//     const donor_surname = req.body.donor_surname;
+//     const donor_tckn = req.body.donor_tckn;
+//     const donor_tel = req.body.donor_tel;
+//     const donor_email = req.body.donor_email;
+//     const donation_type_id = req.body.donation_type_id;
+//     const region_id = req.body.region_id;
+//     const donation_date = req.body.donation_date;
+//     const transfered = 0;
 
-    const adddonations = await pool.query(
-      "INSERT INTO donations (region_id, donation_type_id, donation_date, transfered, donor_tel, donor_email) VALUES($1, $2, $3, $4, $5, $6) RETURNING * ",
-      [
-        region_id,
-        donation_type_id,
-        donation_date,
-        transfered,
-        donor_tel,
-        donor_email,
-      ]
-    );
+//     const adddonations = await pool.query(
+//       "INSERT INTO donations (region_id, donation_type_id, donation_date, transfered, donor_tel, donor_email) VALUES($1, $2, $3, $4, $5, $6) RETURNING * ",
+//       [
+//         region_id,
+//         donation_type_id,
+//         donation_date,
+//         transfered,
+//         donor_tel,
+//         donor_email,
+//       ]
+//     );
 
-    res.json(adddonations.rows[0]);
+//     res.json(adddonations.rows[0]);
 
-    const res_donation_id = adddonations.rows[0].donation_id;
+//     const res_donation_id = adddonations.rows[0].donation_id;
 
-    if (res_donation_id) {
-      const add_donation_real_donor = await pool.query(
-        "INSERT INTO donations_real_donor (donation_id, donor_name, donor_surname, donor_tckn) VALUES($1, $2, $3, $4) RETURNING * ",
-        [res_donation_id, donor_name, donor_surname, donor_tckn]
-      );
-      res.json(add_donation_real_donor.rows[0]);
-    }
-  } catch (err) {
-    console.error(err.message);
-  }
-});
+//     if (res_donation_id) {
+//       const add_donation_real_donor = await pool.query(
+//         "INSERT INTO donations_real_donor (donation_id, donor_name, donor_surname, donor_tckn) VALUES($1, $2, $3, $4) RETURNING * ",
+//         [res_donation_id, donor_name, donor_surname, donor_tckn]
+//       );
+//       res.json(add_donation_real_donor.rows[0]);
+//     }
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+// });
 
 //-------------------------------users---------------------------------------------------------//
 //post//

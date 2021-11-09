@@ -7,9 +7,13 @@ import logo from "../img/logo.jpg";
 import SignedIn from "./SignedIn";
 import SignedOut from "./SignedOut";
 
+
+
+
 const Navi = () => {
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const history = useHistory();
+  const history= useHistory()
 
   function handleSignIn() {
     setIsAuthenticated(true);
@@ -17,7 +21,7 @@ const Navi = () => {
 
   function handleSignOut() {
     setIsAuthenticated(false);
-    history.push("/");
+history.push("/")
   }
 
   return (
@@ -42,6 +46,7 @@ const Navi = () => {
                 id="basic-navbar-nav"
                 className="justify-content-end"
               >
+
                 <Nav className="flex-wrap justify-content-end">
                   {isAuthenticated ? (
                     <SignedIn signOut={handleSignOut} />

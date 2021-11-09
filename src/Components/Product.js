@@ -55,8 +55,8 @@ function Product() {
             </Card.Body>
 
             <Card.Body>
-              <Button variant="outline-success">
-                <span className="mx-2">Bağış Kutusuna Ekle</span>
+            <Button variant="outline-success" >
+                <span className="mx-2">Bağış Yap</span>
                 <FaBoxOpen size="3em" />
               </Button>
             </Card.Body>
@@ -90,8 +90,8 @@ function Product() {
             </Card.Body>
 
             <Card.Body>
-              <Button variant="outline-success">
-                <span className="mx-2">Bağış Kutusuna Ekle</span>
+              <Button variant="outline-success" >
+                <span className="mx-2">Bağış Yap</span>
                 <FaBoxOpen size="3em" />
               </Button>
             </Card.Body>
@@ -126,8 +126,8 @@ function Product() {
             </Card.Body>
 
             <Card.Body>
-              <Button variant="outline-success">
-                <span className="mx-2">Bağış Kutusuna Ekle</span>
+            <Button variant="outline-success" >
+                <span className="mx-2">Bağış Yap</span>
                 <FaBoxOpen size="3em" />
               </Button>
             </Card.Body>
@@ -160,8 +160,8 @@ function Product() {
             </Card.Body>
 
             <Card.Body>
-              <Button variant="outline-success">
-                <span className="mx-2">Bağış Kutusuna Ekle</span>
+            <Button variant="outline-success" >
+                <span className="mx-2">Bağış Yap</span>
                 <FaBoxOpen size="3em" />
               </Button>
             </Card.Body>

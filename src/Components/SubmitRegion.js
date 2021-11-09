@@ -207,7 +207,7 @@ const SubmitRegion = () => {
         </Row>
         <Row className="text-center pt-5">
           <FormGroup>
-            <Button type="button" className="bg-success" onClick={handleSubmit}>
+          <Button className="mb-5" variant="outline-success" onClick={handleSubmit}>
               Kaydet
             </Button>
           </FormGroup>
