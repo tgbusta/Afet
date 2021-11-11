@@ -7,46 +7,69 @@ import {
   FormGroup,
   FloatingLabel,
   Container,
-} from "react-bootstrap";
+  Toast
+  } from "react-bootstrap";
+import { ToastContainer, toast } from 'react-toastify';
 
 const SubmitDonation = () => {
   const [validated, setValidated] = useState(false);
   const [donor_name, setDonor_name] = useState("");
   const [donor_surname, setDonor_surname] = useState("");
   const [donor_tckn, setDonor_tckn] = useState("");
+  const [donor_year_of_birth, setDonor_year_of_birth] = useState("");
   const [donor_tel, setDonor_tel] = useState("");
   const [donor_email, setDonor_email] = useState("");
   const [donation_type_id, setDonation_type_id] = useState("");
   const [region_id, setRegion_id] = useState("");
   const [donation_date, setDonation_date] = useState("");
+
   const [donation_types, setDonation_types] = useState([]);
   const [regions, setRegions] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const notify = () => toast("Kimlik doğrulama işlemi başarısız oldu!");
+
     try {
       const body = {
         donor_name,
         donor_surname,
         donor_tckn,
+        donor_year_of_birth,
         donor_tel,
         donor_email,
         donation_type_id,
         region_id,
         donation_date,
       };
-      const response = await fetch("http://localhost:5000/realdonors", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
 
-      console.log(response);
-      window.location.reload();
-    } catch (e) {
+      const kimlikdogrula = await fetch("http://localhost:5000/nvi/" + donor_name.toUpperCase()  + "/" + donor_surname.toUpperCase() + "/" + donor_year_of_birth + "/" + donor_tckn);
+      const jsonData = await kimlikdogrula.json();
+      console.log(jsonData.response.TCKimlikNoDogrulaResult);
+
+      if(jsonData.response.TCKimlikNoDogrulaResult){
+        const response = await fetch("http://localhost:5000/donations", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+  
+        console.log(response);
+        window.location.reload();
+      }else{
+
+//toastify
+
+
+      }
+    }
+
+    catch (e) {
       console.error(e.message);
     }
   };
+
 
   const getDonation_types = async () => {
     try {
@@ -137,6 +160,24 @@ const SubmitDonation = () => {
         </Row>
 
         <Row className="mb-4">
+        <Form.Group as={Col} md="4" controlId="validationCustomYearOfBirth">
+            <FloatingLabel
+              controlId="floatingInput"
+              label="Doğum Yılı"
+              className="mb-3"
+            >
+              <Form.Control
+                type="text"
+                placeholder="Doğum Yılı"
+                required
+                onChange={(e) => setDonor_year_of_birth(e.target.value)}
+              />
+              <Form.Control.Feedback type="invalid">
+                Bu alanın doldurulması zorunludur.
+              </Form.Control.Feedback>
+            </FloatingLabel>
+          </Form.Group>
+
           <Form.Group as={Col} md="4" controlId="validationCustomDonorTel">
             <FloatingLabel
               controlId="floatingInput"
@@ -155,7 +196,7 @@ const SubmitDonation = () => {
             </FloatingLabel>
           </Form.Group>
 
-          <Form.Group as={Col} md="8" controlId="validationCustomDonorEmail">
+          <Form.Group as={Col} md="4" controlId="validationCustomDonorEmail">
             <FloatingLabel
               controlId="floatingInput"
               label="EPosta"

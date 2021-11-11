@@ -7,6 +7,7 @@ import {
   FormGroup,
   Col,
   Row,
+  Toast
 } from "react-bootstrap";
 
 const SubmitAid = () => {
@@ -42,11 +43,9 @@ const SubmitAid = () => {
       };
       console.log(body);
 
-      
         const kimlikdogrula = await fetch("http://localhost:5000/nvi/" + affected_name.toUpperCase()  + "/" + affected_surname.toUpperCase() + "/" + affected_year_of_birth + "/" + affected_tckn);
         const jsonData = await kimlikdogrula.json();
         console.log(jsonData.response.TCKimlikNoDogrulaResult);
-
 
       if(jsonData.response.TCKimlikNoDogrulaResult){
         const response = await fetch("http://localhost:5000/aids", {
@@ -58,10 +57,10 @@ const SubmitAid = () => {
         console.log(response);
         window.location.reload();
       }else{
+
         alert('Kimlik Doğrulama Başarısız')
       }
 
-     
     } catch (e) {
       console.error(e.message);
     }
@@ -97,7 +96,7 @@ const SubmitAid = () => {
   return (
     <Container>
       <h3 className="py-3">Yardım Kaydı Oluştur</h3>
-      <Form noValidate validated={validated}>
+      <Form.Floating noValidate validated={validated}>
         <Row className="my-3">
           <Form.Group as={Col} md="4" controlId="validationCustomAidName">
             <FloatingLabel
@@ -289,7 +288,7 @@ const SubmitAid = () => {
             </Button>
           </FormGroup>
         </Row>
-      </Form>
+      </Form.Floating>
     </Container>
   );
 };

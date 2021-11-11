@@ -4,6 +4,7 @@ import './index.css';
 import 'react-alert-confirm/dist/index.css';
 import App from './App';
 import './bootstrap.min.css'
+import 'react-toastify/dist/ReactToastify.css';
 import {BrowserRouter} from 'react-router-dom'
 
 

@@ -8,6 +8,7 @@ import {
   Container,
   FloatingLabel,
 } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
 
 const SubmitUser = () => {
   const [validated, setValidated] = useState(false);
@@ -18,14 +19,6 @@ const SubmitUser = () => {
   const [user_username, setUser_username] = useState("");
 
   const handleSubmit = async (e) => {
-    //const form = e.currentTarget;
-    //if (form.checkValidity() === false) {
-    //    e.preventDefault();
-    //    e.stopPropagation();
-    //}
-    //setValidated(true);
-
-    //if(validated){
 
     e.preventDefault();
     try {
@@ -41,9 +34,11 @@ const SubmitUser = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-
+      
       console.log(response);
-      window.location.reload();
+      toast.success("Kullanıcı kaydı başarılı şekilde oluşturuldu.");
+     // window.location.reload();
+        
     } catch (e) {
       console.error(e.message);
     }
@@ -148,6 +143,7 @@ const SubmitUser = () => {
           </FormGroup>
         </Row>
       </Form>
+      <ToastContainer newestOnTop closeOnClick />
     </Container>
   );
 };

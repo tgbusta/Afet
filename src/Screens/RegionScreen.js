@@ -124,7 +124,7 @@ const RegionScreen = () => {
                 <td>{moment(region.disaster_date).format("l")}</td>
                 <td>
                   <button
-                    className="btn btn-danger"
+                    variant="outline-danger"
                     onClick={() => deleteRegion(region.region_id)}
                   >
                     Sil

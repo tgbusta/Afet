@@ -267,15 +267,17 @@ app.post("/donations", async (req, res) => {
     const donation_type_id = req.body.donation_type_id;
     const region_id = req.body.region_id;
     const donation_date = req.body.donation_date;
+    const donor_year_of_birth = req.body.donor_year_of_birth;
 
     const transfered = 0;
 
     const addDonation = await pool.query(
-      "INSERT INTO regions (donor_name, donor_surname, donor_tckn, donor_tel, donor_email, donation_type_id, region_id, donation_date ) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING * ",
+      "INSERT INTO regions (donor_name, donor_surname, donor_tckn,donor_year_of_birth, donor_tel, donor_email, donation_type_id, region_id, donation_date ) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING * ",
       [
         donor_name,
         donor_surname,
         donor_tckn,
+        donor_year_of_birth,
         donor_tel,
         donor_email,
         donation_type_id,
