@@ -9,6 +9,8 @@ import NotFound from './Screens/NotFound';
 import { Container } from "react-bootstrap";
 import Navi from "./Components/Navi";
 import Footer from "./Components/Footer";
+import Login from "./Screens/Login";
+
 
 function App() {
   return (
@@ -25,6 +27,7 @@ function App() {
           <Route path="/donations" component={DonationScreen} />
           <Route path="/regions" component={RegionScreen} />
           <Route path="/users" component={UserScreen} />
+          <Route path="/login" component={Login} />
           <Route component={NotFound} />
         </Switch>
       </Container>

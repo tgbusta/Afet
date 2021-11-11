@@ -21,6 +21,7 @@ const SubmitAid = () => {
   const [affected_email, setAffected_email] = useState("");
   const [affected_tel, setAffected_tel] = useState("");
   const [affected_year_of_birth, setAffected_year_of_birth] = useState("");
+ 
 
   const [regions, setRegions] = useState([]);
   const [donation_types, setDonationTypes] = useState([]);
@@ -40,14 +41,27 @@ const SubmitAid = () => {
         affected_year_of_birth,
       };
       console.log(body);
-      const response = await fetch("http://localhost:5000/aids", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
 
-      console.log(response);
-      window.location.reload();
+      
+        const kimlikdogrula = await fetch("http://localhost:5000/nvi/" + affected_name.toUpperCase()  + "/" + affected_surname.toUpperCase() + "/" + affected_year_of_birth + "/" + affected_tckn);
+        const jsonData = await kimlikdogrula.json();
+        console.log(jsonData.response.TCKimlikNoDogrulaResult);
+
+
+      if(jsonData.response.TCKimlikNoDogrulaResult){
+        const response = await fetch("http://localhost:5000/aids", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+  
+        console.log(response);
+        window.location.reload();
+      }else{
+        alert('Kimlik Doğrulama Başarısız')
+      }
+
+     
     } catch (e) {
       console.error(e.message);
     }

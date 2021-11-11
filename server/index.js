@@ -2,9 +2,35 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const pool = require("./db");
+const soap = require("soap");
 
 app.use(cors());
 app.use(express.json());
+
+
+//---------------nvi -------------------//
+
+ 
+app.get("/nvi/:ad/:soyad/:dyili/:tckno" , function(req,res) {
+  var url="https://tckimlik.nvi.gov.tr/Service/KPSPublic.asmx?WSDL"
+  try {
+    var args={
+      "TCKimlikNo":req.params.tckno,
+      "Ad":req.params.ad,
+      "Soyad":req.params.soyad,
+      "DogumYili":req.params.dyili,
+  }
+    soap.createClient(url, function(err, client) {
+      client.TCKimlikNoDogrula(args, function(err, result) {
+          res.send({"response":result})
+          console.log(req.params)
+      });
+  });
+  } catch (err){
+    console.error(err.message);
+  }
+})
+ 
 
 // ---------------------------------cities------------------------------ //
 //get//
