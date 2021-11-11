@@ -8,6 +8,8 @@ import {
   Container,
   FloatingLabel,
 } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
+
 
 const SubmitRegion = () => {
   const [cities, setCities] = useState([]);
@@ -213,6 +215,7 @@ const SubmitRegion = () => {
           </FormGroup>
         </Row>
       </Form>
+      <ToastContainer newestOnTop closeOnClick />
     </Container>
   );
 };

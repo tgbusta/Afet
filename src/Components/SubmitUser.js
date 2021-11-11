@@ -37,12 +37,13 @@ const SubmitUser = () => {
       
       console.log(response);
       toast.success("Kullanıcı kaydı başarılı şekilde oluşturuldu.");
-     // window.location.reload();
+      setTimeout(() => window.location.reload(), 5000);
+     
         
     } catch (e) {
       console.error(e.message);
     }
-    //}
+    
   };
 
   return (

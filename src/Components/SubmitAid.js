@@ -6,9 +6,10 @@ import {
   Container,
   FormGroup,
   Col,
-  Row,
-  Toast
+  Row
 } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
+
 
 const SubmitAid = () => {
   const [validated, setValidated] = useState(false);
@@ -55,10 +56,11 @@ const SubmitAid = () => {
         });
   
         console.log(response);
-        window.location.reload();
+        toast.success("Kullanıcı kaydı başarılı şekilde oluşturuldu.");
+        setTimeout(() => window.location.reload(), 5000);
       }else{
 
-        alert('Kimlik Doğrulama Başarısız')
+        toast.error("TC Kimlik Numarası doğrulaması başarısız oldu!")
       }
 
     } catch (e) {
@@ -289,6 +291,8 @@ const SubmitAid = () => {
           </FormGroup>
         </Row>
       </Form.Floating>
+      <ToastContainer newestOnTop closeOnClick />
+
     </Container>
   );
 };

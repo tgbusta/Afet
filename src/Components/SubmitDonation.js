@@ -6,9 +6,8 @@ import {
   Col,
   FormGroup,
   FloatingLabel,
-  Container,
-  Toast
-  } from "react-bootstrap";
+  Container
+} from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
 
 const SubmitDonation = () => {
@@ -56,10 +55,11 @@ const SubmitDonation = () => {
         });
   
         console.log(response);
-        window.location.reload();
+        toast.success("Kullanıcı kaydı başarılı şekilde oluşturuldu.");
+        setTimeout(() => window.location.reload(), 5000);
       }else{
 
-//toastify
+toast.error("TC Kimlik Numarası doğrulaması başarısız oldu!")
 
 
       }
@@ -301,6 +301,8 @@ const SubmitDonation = () => {
           </FormGroup>
         </Row>
       </Form>
+      <ToastContainer newestOnTop closeOnClick />
+
     </Container>
   );
 };
