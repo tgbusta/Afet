@@ -6,12 +6,13 @@ import {
   Col,
   FormGroup,
   FloatingLabel,
-  Container
+  Container,
 } from "react-bootstrap";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 
 const SubmitDonation = () => {
   const [validated, setValidated] = useState(false);
+
   const [donor_name, setDonor_name] = useState("");
   const [donor_surname, setDonor_surname] = useState("");
   const [donor_tckn, setDonor_tckn] = useState("");
@@ -36,7 +37,6 @@ const SubmitDonation = () => {
 
     console.log("submit");
 
-
     e.preventDefault();
 
     try {
@@ -52,30 +52,36 @@ const SubmitDonation = () => {
         donation_date,
       };
 
-      const kimlikdogrula = await fetch("http://localhost:5000/nvi/" + donor_name.toUpperCase()  + "/" + donor_surname.toUpperCase() + "/" + donor_year_of_birth + "/" + donor_tckn);
+      const kimlikdogrula = await fetch(
+        "http://localhost:5000/nvi/" +
+          donor_name.toUpperCase() +
+          "/" +
+          donor_surname.toUpperCase() +
+          "/" +
+          donor_year_of_birth +
+          "/" +
+          donor_tckn
+      );
       const jsonData = await kimlikdogrula.json();
       console.log(jsonData.response.TCKimlikNoDogrulaResult);
 
-      if(jsonData.response.TCKimlikNoDogrulaResult){
+      if (jsonData.response.TCKimlikNoDogrulaResult) {
         const response = await fetch("http://localhost:5000/donations", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
         });
-  
+
         console.log(response);
         toast.success("Bağış kaydı başarılı şekilde oluşturuldu.");
         setTimeout(() => window.location.reload(), 5000);
-      }else{
-      toast.error("TC Kimlik Numarası doğrulaması başarısız oldu!")
+      } else {
+        toast.error("TC Kimlik Numarası doğrulaması başarısız oldu!");
       }
-    }
-
-    catch (e) {
-      toast.error("Bağış kaydı oluşturulamadı!")
+    } catch (e) {
+      toast.error("Bağış kaydı oluşturulamadı!");
     }
   };
-
 
   const getDonation_types = async () => {
     try {
@@ -111,141 +117,108 @@ const SubmitDonation = () => {
       <Form noValidate validated={validated}>
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="validationCustomDonorName">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Bağışçının Adı"
-              className="mb-3"
-            >
-              <Form.Control
-                type="text"
-                placeholder="Bağışçının Adı"
-                onChange={(e) => setDonor_name(e.target.value)}
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+            <Form.Label>Bağışçının Adı</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Bağışçının adını giriniz."
+              onChange={(e) => setDonor_name(e.target.value)}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} md="4" controlId="validationCustomDonorSurname">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Bağışçının Soyadı"
-              className="mb-3"
-            >
-              <Form.Control
-                type="text"
-                placeholder="Bağışçının Soyadı"
-                required
-                onChange={(e) => setDonor_surname(e.target.value)}
-              />
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+            <Form.Label>Bağışçının Soyadı</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Bağışçının soyadını giriniz."
+              required
+              onChange={(e) => setDonor_surname(e.target.value)}
+            />
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} md="4" controlId="validationCustomDonorIdNumber">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="TC Kimlik Numarası"
-              className="mb-3"
-            >
-              <Form.Control
-                type="text"
-                placeholder="TC Kimlik Numarası"
-                required
-                onChange={(e) => setDonor_tckn(e.target.value)}
-              />
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+            <Form.Label>TC Kimlik Numarası</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Bağışçının TC Kimlik Numarasını giriniz."
+              required
+              onChange={(e) => setDonor_tckn(e.target.value)}
+            />
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
         </Row>
 
         <Row className="mb-4">
-        <Form.Group as={Col} md="4" controlId="validationCustomYearOfBirth">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Doğum Yılı"
-              className="mb-3"
-            >
-              <Form.Control
-                type="text"
-                placeholder="Doğum Yılı"
-                required
-                onChange={(e) => setDonor_year_of_birth(e.target.value)}
-              />
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+          <Form.Group as={Col} md="4" controlId="validationCustomYearOfBirth">
+            <Form.Label>Doğum Yılı</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Bağışçının doğum yılını giriniz."
+              required
+              onChange={(e) => setDonor_year_of_birth(e.target.value)}
+            />
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} md="4" controlId="validationCustomDonorTel">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Telefon Numarası"
-              className="mb-3"
-            >
+            <Form.Label>
+              Telefon Numarası
               <Form.Control
                 type="tel"
-                placeholder="Telefon Numarası"
+                placeholder="(5--) --- -- --"
                 required
                 onChange={(e) => setDonor_tel(e.target.value)}
               />
               <Form.Control.Feedback type="invalid">
                 Bu alanın doldurulması zorunludur.
               </Form.Control.Feedback>
-            </FloatingLabel>
+            </Form.Label>
           </Form.Group>
 
           <Form.Group as={Col} md="4" controlId="validationCustomDonorEmail">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="EPosta"
-              className="mb-3"
-            >
-              <Form.Control
-                type="email"
-                placeholder="E-Posta Adresi"
-                required
-                onChange={(e) => setDonor_email(e.target.value)}
-              />
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+            <Form.Label>E-Posta Adresi</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="---@---.---"
+              required
+              onChange={(e) => setDonor_email(e.target.value)}
+            />
+            <Form.Control.Feedback type="invalid">
+              Geçerli bir e-posta adresi giriniz.
+            </Form.Control.Feedback>
           </Form.Group>
         </Row>
 
         <Row className="mb-4">
           <Form.Group as={Col} md="4" controlId="validationCustomRegion">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Bağış Bölgesi"
-              className="mb-3"
+            <Form.Label>Bağış Bölgesini Seçiniz</Form.Label>
+            <Form.Control
+              as="select"
+              placeholder="Bağış Bölgesi"
+              required
+              onChange={(e) => setRegion_id(e.target.value)}
             >
-              <Form.Control
-                as="select"
-                placeholder="Bağış Bölgesi"
-                required
-                onChange={(e) => setRegion_id(e.target.value)}
-              >
-                <option value="" disabled selected></option>
+              <option value="" disabled selected></option>
 
-                {regions.map((regions) => (
-                  <option key={regions.region_id} value={regions.region_id}>
-                    {regions.region_name}
-                  </option>
-                ))}
-              </Form.Control>
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+              {regions.map((regions) => (
+                <option key={regions.region_id} value={regions.region_id}>
+                  {regions.region_name}
+                </option>
+              ))}
+            </Form.Control>
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group
@@ -253,62 +226,55 @@ const SubmitDonation = () => {
             md="4"
             controlId="validationCustomDonationAmount"
           >
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Bağış Türü"
-              className="mb-3"
+            <Form.Label>Bağış Türünü Seçiniz</Form.Label>
+            <Form.Control
+              as="select"
+              required
+              onChange={(e) => setDonation_type_id(e.target.value)}
             >
-              <Form.Control
-                as="select"
-                required
-                onChange={(e) => setDonation_type_id(e.target.value)}
-              >
-                <option value="" disabled selected></option>
+              <option value="" disabled selected></option>
 
-                {donation_types.map((donation_types) => (
-                  <option
-                    key={donation_types.donation_type_id}
-                    value={donation_types.donation_type_id}
-                  >
-                    {donation_types.donation_type}
-                  </option>
-                ))}
-              </Form.Control>
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+              {donation_types.map((donation_types) => (
+                <option
+                  key={donation_types.donation_type_id}
+                  value={donation_types.donation_type_id}
+                >
+                  {donation_types.donation_type}
+                </option>
+              ))}
+            </Form.Control>
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} md="4" controlId="validationCustomDonationDate">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Bağış Tarihi"
-              className="mb-3"
-            >
-              <Form.Control
-                type="date"
-                aria-describedby="inputGroupPrepend"
-                required
-                onChange={(e) => setDonation_date(e.target.value)}
-              />
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+            <Form.Label>Bağış Tarihi</Form.Label>
+            <Form.Control
+              type="date"
+              aria-describedby="inputGroupPrepend"
+              required
+              onChange={(e) => setDonation_date(e.target.value)}
+            />
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
         </Row>
 
         <Row className="text-center pt-5">
           <FormGroup>
-            <Button className="mb-5" variant="outline-success" onClick={handleSubmit}>
+            <Button
+              className="mb-5"
+              variant="outline-success"
+              onClick={handleSubmit}
+            >
               Kaydet
             </Button>
           </FormGroup>
         </Row>
       </Form>
       <ToastContainer newestOnTop closeOnClick />
-
     </Container>
   );
 };

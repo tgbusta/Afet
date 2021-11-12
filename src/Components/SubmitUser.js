@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Form,
-  Button,
-  Col,
-  Row,
-  FormGroup,
-  Container,
-  
-} from "react-bootstrap";
+import { Form, Button, Col, Row, FormGroup, Container } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 
 const SubmitUser = () => {
@@ -24,36 +16,33 @@ const SubmitUser = () => {
     if (form.checkValidity() === false) {
       e.preventDefault();
       e.stopPropagation();
-    }
-    else {
+    } else {
       setValidated(true);
     }
     console.log("submit");
 
     e.preventDefault();
-      try {
-        const body = {
-          user_name,
-          user_surname,
-          user_email,
-          user_pass,
-          user_username,
-        };
-        const response = await fetch("http://localhost:5000/users", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
+    try {
+      const body = {
+        user_name,
+        user_surname,
+        user_email,
+        user_pass,
+        user_username,
+      };
+      const response = await fetch("http://localhost:5000/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
 
-        console.log(response);
-        toast.success("Kullanıcı kaydı başarılı şekilde oluşturuldu.");
-        setTimeout(() => window.location.reload(), 5000);
-      } catch (e) {
-        console.error(e.message);
-        toast.error("Kullanıcı kaydı oluşturulamadı!");
-
-      }
-    
+      console.log(response);
+      toast.success("Kullanıcı kaydı başarılı şekilde oluşturuldu.");
+      setTimeout(() => window.location.reload(), 5000);
+    } catch (e) {
+      console.error(e.message);
+      toast.error("Kullanıcı kaydı oluşturulamadı!");
+    }
   };
 
   return (

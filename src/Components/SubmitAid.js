@@ -36,6 +36,7 @@ const SubmitAid = () => {
     }
 
     console.log("submit");
+
     e.preventDefault();
     try {
       const body = {
@@ -112,40 +113,32 @@ const SubmitAid = () => {
   return (
     <Container>
       <h3 className="py-3">Yardım Kaydı Oluştur</h3>
-      <Form.Floating noValidate validated={validated}>
+      <Form noValidate validated={validated}>
         <Row className="my-3">
           <Form.Group as={Col} md="4" controlId="validationCustomAidName">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Afetzedenin Adı"
-              className="mb-3"
-            >
-              <Form.Control
-                type="text"
-                placeholder="Afetzedenin Adı"
-                onChange={(e) => setAffected_name(e.target.value)}
-              />
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+            <Form.Label>Afetzedenin Adı</Form.Label>
+            <Form.Control
+              required
+              type="text"
+              placeholder="Afetzedenin adını giriniz."
+              onChange={(e) => setAffected_name(e.target.value)}
+            />
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} md="4" controlId="validationCustomAidSurname">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Afetzedenin Soyadı"
-              className="mb-3"
-            >
-              <Form.Control
-                type="text"
-                placeholder="Afetzedenin Soyadı"
-                onChange={(e) => setAffected_surname(e.target.value)}
-              />
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+            <Form.Label>Afetzedenin Soyadı</Form.Label>
+            <Form.Control
+              required
+              type="text"
+              placeholder="Afetzedenin soyadını giriniz."
+              onChange={(e) => setAffected_surname(e.target.value)}
+            />
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group
@@ -153,147 +146,113 @@ const SubmitAid = () => {
             md="4"
             controlId="validationCustomAidIdentityNumber"
           >
-            <FloatingLabel
-              controlId="floatingInput"
-              label="TC Kimlik Numarası"
-              className="mb-3"
-            >
-              <Form.Control
-                type="text"
-                placeholder="TC Kimlik Numarası"
-                onChange={(e) => setAffected_tckn(e.target.value)}
-              />
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+            <Form.Label>TC Kimlik Numarası</Form.Label>
+            <Form.Control
+              required
+              type="text"
+              placeholder="Afetzedeye ait TC Kimlik Numarasını giriniz."
+              onChange={(e) => setAffected_tckn(e.target.value)}
+            />
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
         </Row>
         <Row className="mb-4">
           <Form.Group as={Col} md="4" controlId="validationCustomAidBirthYear">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Doğum Yılı"
-              className="mb-3"
-            >
-              <Form.Control
-                type="text"
-                placeholder="Doğum Yılı"
-                onChange={(e) => setAffected_year_of_birth(e.target.value)}
-              />
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+            <Form.Label>Doğum Yılı</Form.Label>
+            <Form.Control
+              required
+              type="text"
+              placeholder="Afetzedenin doğum yılını giriniz."
+              onChange={(e) => setAffected_year_of_birth(e.target.value)}
+            />
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} md="4" controlId="validationCustomAidTel">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Telefon Numarası"
-              className="mb-3"
-            >
-              <Form.Control
-                type="text"
-                placeholder="Telefon Numarası"
-                onChange={(e) => setAffected_tel(e.target.value)}
-              />
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+            <Form.Label>Telefon Numarası</Form.Label>
+            <Form.Control
+              required
+              type="text"
+              placeholder="(5--) --- -- --"
+              onChange={(e) => setAffected_tel(e.target.value)}
+            />
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} md="4" controlId="validationCustomAidEmail">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="E-Posta Adresi"
-              className="mb-3"
-            >
-              <Form.Control
-                type="email"
-                placeholder="E-Posta Adresi"
-                onChange={(e) => setAffected_email(e.target.value)}
-              />
-              <Form.Control.Feedback type="invalid">
-                Geçerli bir e-posta adresi giriniz.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+            <FloatingLabel>E-Posta Adresi</FloatingLabel>
+            <Form.Control
+              type="email"
+              placeholder="---@---.---"
+              onChange={(e) => setAffected_email(e.target.value)}
+            />
+            <Form.Control.Feedback type="invalid">
+              Geçerli bir e-posta adresi giriniz.
+            </Form.Control.Feedback>
           </Form.Group>
         </Row>
 
         <Row className="mb-4">
           <Form.Group as={Col} md="4" controlId="validationCustomRegion">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Afet Bölgesi"
-              className="mb-3"
+            <Form.Label>Afet Bölgesi</Form.Label>
+            <Form.Control
+              required
+              as="select"
+              onChange={(e) => setRegion_id(e.target.value)}
             >
-              <Form.Control
-                as="select"
-                onChange={(e) => setRegion_id(e.target.value)}
-                required
-                defaultValue=""
-              >
-                <option value="" disabled></option>
-                {regions.map((regions) => (
-                  <option key={regions.region_id} value={regions.region_id}>
-                    {regions.region_name}
-                  </option>
-                ))}
-              </Form.Control>
+              <option value="" disabled selected></option>
+              {regions.map((regions) => (
+                <option key={regions.region_id} value={regions.region_id}>
+                  {regions.region_name}
+                </option>
+              ))}
+            </Form.Control>
 
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} md="4" controlId="validationCustomAidAmount">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Yardım Türü"
-              className="mb-3"
+            <Form.Label>Yardım Türü</Form.Label>
+            <Form.Control
+              required
+              as="select"
+              onChange={(e) => setDonation_type_id(e.target.value)}
             >
-              <Form.Control
-                as="select"
-                onChange={(e) => setDonation_type_id(e.target.value)}
-                required
-                defaultValue=""
-              >
-                <option value="" disabled></option>
-                {donation_types.map((donation_types) => (
-                  <option
-                    key={donation_types.donation_type_id}
-                    value={donation_types.donation_type_id}
-                  >
-                    {donation_types.donation_type}
-                  </option>
-                ))}
-              </Form.Control>
+              <option value="" disabled selected></option>
+              {donation_types.map((donation_types) => (
+                <option
+                  key={donation_types.donation_type_id}
+                  value={donation_types.donation_type_id}
+                >
+                  {donation_types.donation_type}
+                </option>
+              ))}
+            </Form.Control>
 
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} md="4" controlId="validationCustomAidDate">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Yardım Tarihi"
-              className="mb-3"
-            >
-              <Form.Control
-                type="date"
-                aria-describedby="inputGroupPrepend"
-                required
-                onChange={(e) => setAid_date(e.target.value)}
-              />
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+            <Form.Label>Yardım Tarihi</Form.Label>
+            <Form.Control
+              required
+              type="date"
+              aria-describedby="inputGroupPrepend"
+              onChange={(e) => setAid_date(e.target.value)}
+            />
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
         </Row>
 
@@ -308,7 +267,7 @@ const SubmitAid = () => {
             </Button>
           </FormGroup>
         </Row>
-      </Form.Floating>
+      </Form>
       <ToastContainer newestOnTop closeOnClick />
     </Container>
   );

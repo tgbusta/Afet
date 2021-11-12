@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Form,
-  Button,
-  Row,
-  Col,
-  FormGroup,
-  Container,
-  FloatingLabel,
-} from "react-bootstrap";
+import { Form, Button, Row, Col, FormGroup, Container } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 
 const SubmitRegion = () => {
@@ -102,119 +94,95 @@ const SubmitRegion = () => {
       <Form noValidate validated={validated}>
         <Row className="my-3">
           <Form.Group as={Col} md="6" controlId="validationCustomRegionName">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Afet Bölgesi Adı"
-              className="mb-3"
-            >
-              <Form.Control
-                type="text"
-                placeholder="Afet Bölgesi Adı"
-                required
-                onChange={(e) => setRegion_name(e.target.value)}
-              />
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+            <Form.Label>Afet Bölgesi Adı</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Afet bölgesi için bir ad oluşturunuz."
+              required
+              onChange={(e) => setRegion_name(e.target.value)}
+            />
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} md="6" controlId="validationCustomDisaster">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Afet Türü"
-              className="mb-3"
+            <Form.Label>Afet Türünü Seçiniz</Form.Label>
+            <Form.Control
+              required
+              as="select"
+              onChange={(e) => setDisaster_type_id(e.target.value)}
             >
-              <Form.Control
-                as="select"
-                onChange={(e) => setDisaster_type_id(e.target.value)}
-              >
-                <option value="" disabled selected></option>
+              <option value="" disabled selected></option>
 
-                {disasters.map((disaster_types) => (
-                  <option
-                    key={disaster_types.disaster_type_id}
-                    value={disaster_types.disaster_type_id}
-                  >
-                    {disaster_types.disaster_type}
-                  </option>
-                ))}
-              </Form.Control>
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+              {disasters.map((disaster_types) => (
+                <option
+                  key={disaster_types.disaster_type_id}
+                  value={disaster_types.disaster_type_id}
+                >
+                  {disaster_types.disaster_type}
+                </option>
+              ))}
+            </Form.Control>
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
         </Row>
 
         <Row className="mb-4">
           <Form.Group as={Col} md="4" controlId="validationCustomCity">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Afet İli"
-              className="mb-3"
+            <Form.Label>Afet İlini Seçiniz</Form.Label>
+            <Form.Control
+              as="select"
+              onChange={(e) => setCity_id(e.target.value)}
+              required
             >
-              <Form.Control
-                as="select"
-                onChange={(e) => setCity_id(e.target.value)}
-                required
-              >
-                <option value="" disabled selected></option>
-                {cities.map((cities) => (
-                  <option key={cities.city_id} value={cities.city_id}>
-                    {cities.city}
-                  </option>
-                ))}
-              </Form.Control>
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+              <option value="" disabled selected></option>
+              {cities.map((cities) => (
+                <option key={cities.city_id} value={cities.city_id}>
+                  {cities.city}
+                </option>
+              ))}
+            </Form.Control>
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} md="4" controlId="validationCustomDistrict">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Afet İlçesi"
-              className="mb-3"
+            <Form.Label>Afet İlçesini Seçiniz</Form.Label>
+            <Form.Control
+              as="select"
+              onChange={(e) => setDistrict_id(e.target.value)}
+              required
             >
-              <Form.Control
-                as="select"
-                onChange={(e) => setDistrict_id(e.target.value)}
-                required
-              >
-                <option value="" disabled selected></option>
-                {districts.map((districts) => (
-                  <option
-                    key={districts.district_id}
-                    value={districts.district_id}
-                  >
-                    {districts.district}
-                  </option>
-                ))}
-              </Form.Control>
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+              <option value="" disabled selected></option>
+              {districts.map((districts) => (
+                <option
+                  key={districts.district_id}
+                  value={districts.district_id}
+                >
+                  {districts.district}
+                </option>
+              ))}
+            </Form.Control>
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} md="4" controlId="validationCustomDisasterDate">
-            <FloatingLabel
-              controlId="floatingInput"
-              label="Afet Tarihi"
-              className="mb-3"
-            >
-              <Form.Control
-                type="date"
-                aria-describedby="inputGroupPrepend"
-                required
-                onChange={(e) => setDisaster_date(e.target.value)}
-              />
-              <Form.Control.Feedback type="invalid">
-                Bu alanın doldurulması zorunludur.
-              </Form.Control.Feedback>
-            </FloatingLabel>
+            <Form.Label>Afet Tarihi</Form.Label>
+            <Form.Control
+              type="date"
+              aria-describedby="inputGroupPrepend"
+              required
+              onChange={(e) => setDisaster_date(e.target.value)}
+            />
+            <Form.Control.Feedback type="invalid">
+              Bu alanın doldurulması zorunludur.
+            </Form.Control.Feedback>
           </Form.Group>
         </Row>
         <Row className="text-center pt-5">
