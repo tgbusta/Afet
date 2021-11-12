@@ -1,4 +1,4 @@
-import React, { useEffect, useState, validated } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Form,
   Button,
@@ -10,7 +10,6 @@ import {
 } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 
-
 const SubmitRegion = () => {
   const [cities, setCities] = useState([]);
   const [city_id, setCity_id] = useState("");
@@ -21,21 +20,15 @@ const SubmitRegion = () => {
   const [disasters, setDisasters] = useState([]);
   const [disaster_type_id, setDisaster_type_id] = useState("");
   const [validated, setValidated] = useState(false);
- 
 
   const handleSubmit = async (e) => {
-
-
     const form = e.currentTarget;
     if (form.checkValidity() === false) {
       e.preventDefault();
       e.stopPropagation();
-    }else{
+    } else {
       setValidated(true);
     }
-
-    
-
 
     console.log("submit");
 
@@ -56,8 +49,11 @@ const SubmitRegion = () => {
       });
 
       console.log(response);
+      toast.success("Bölge kaydı başarılı şekilde oluşturuldu.");
+      setTimeout(() => window.location.reload(), 5000);
     } catch (e) {
-      toast.error("Bölge kaydı oluşturulamadı!")
+      console.error(e.message);
+      toast.error("Bölge kaydı oluşturulamadı!");
     }
   };
 
@@ -129,17 +125,17 @@ const SubmitRegion = () => {
               label="Afet Türü"
               className="mb-3"
             >
-
-
               <Form.Control
                 as="select"
                 onChange={(e) => setDisaster_type_id(e.target.value)}
               >
-                
                 <option value="" disabled selected></option>
 
                 {disasters.map((disaster_types) => (
-                  <option key={disaster_types.disaster_type_id} value={disaster_types.disaster_type_id}>
+                  <option
+                    key={disaster_types.disaster_type_id}
+                    value={disaster_types.disaster_type_id}
+                  >
                     {disaster_types.disaster_type}
                   </option>
                 ))}
@@ -150,8 +146,6 @@ const SubmitRegion = () => {
             </FloatingLabel>
           </Form.Group>
         </Row>
-
-
 
         <Row className="mb-4">
           <Form.Group as={Col} md="4" controlId="validationCustomCity">
@@ -189,13 +183,16 @@ const SubmitRegion = () => {
                 onChange={(e) => setDistrict_id(e.target.value)}
                 required
               >
-               <option value="" disabled selected></option>
+                <option value="" disabled selected></option>
                 {districts.map((districts) => (
-                  <option key={districts.district_id} value={districts.district_id}>
+                  <option
+                    key={districts.district_id}
+                    value={districts.district_id}
+                  >
                     {districts.district}
                   </option>
                 ))}
-                </Form.Control>
+              </Form.Control>
               <Form.Control.Feedback type="invalid">
                 Bu alanın doldurulması zorunludur.
               </Form.Control.Feedback>
@@ -222,7 +219,11 @@ const SubmitRegion = () => {
         </Row>
         <Row className="text-center pt-5">
           <FormGroup>
-          <Button className="mb-5" variant="outline-success" onClick={handleSubmit}>
+            <Button
+              className="mb-5"
+              variant="outline-success"
+              onClick={handleSubmit}
+            >
               Kaydet
             </Button>
           </FormGroup>

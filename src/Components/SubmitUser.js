@@ -24,7 +24,13 @@ const SubmitUser = () => {
     if (form.checkValidity() === false) {
       e.preventDefault();
       e.stopPropagation();
-    } 
+    }
+    else {
+      setValidated(true);
+    }
+    console.log("submit");
+
+    e.preventDefault();
       try {
         const body = {
           user_name,
@@ -44,6 +50,8 @@ const SubmitUser = () => {
         setTimeout(() => window.location.reload(), 5000);
       } catch (e) {
         console.error(e.message);
+        toast.error("Kullanıcı kaydı oluşturulamadı!");
+
       }
     
   };

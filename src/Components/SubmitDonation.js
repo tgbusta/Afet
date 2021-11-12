@@ -1,4 +1,4 @@
-import React, { validated, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Form,
   Button,
@@ -26,6 +26,17 @@ const SubmitDonation = () => {
   const [regions, setRegions] = useState([]);
 
   const handleSubmit = async (e) => {
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    } else {
+      setValidated(true);
+    }
+
+    console.log("submit");
+
+
     e.preventDefault();
 
     try {

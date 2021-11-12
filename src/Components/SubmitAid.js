@@ -6,10 +6,9 @@ import {
   Container,
   FormGroup,
   Col,
-  Row
+  Row,
 } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
-
 
 const SubmitAid = () => {
   const [validated, setValidated] = useState(false);
@@ -23,12 +22,20 @@ const SubmitAid = () => {
   const [affected_email, setAffected_email] = useState("");
   const [affected_tel, setAffected_tel] = useState("");
   const [affected_year_of_birth, setAffected_year_of_birth] = useState("");
- 
 
   const [regions, setRegions] = useState([]);
   const [donation_types, setDonationTypes] = useState([]);
 
   const handleSubmit = async (e) => {
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    } else {
+      setValidated(true);
+    }
+
+    console.log("submit");
     e.preventDefault();
     try {
       const body = {
@@ -44,27 +51,34 @@ const SubmitAid = () => {
       };
       console.log(body);
 
-        const kimlikdogrula = await fetch("http://localhost:5000/nvi/" + affected_name.toUpperCase()  + "/" + affected_surname.toUpperCase() + "/" + affected_year_of_birth + "/" + affected_tckn);
-        const jsonData = await kimlikdogrula.json();
-        console.log(jsonData.response.TCKimlikNoDogrulaResult);
+      const kimlikdogrula = await fetch(
+        "http://localhost:5000/nvi/" +
+          affected_name.toUpperCase() +
+          "/" +
+          affected_surname.toUpperCase() +
+          "/" +
+          affected_year_of_birth +
+          "/" +
+          affected_tckn
+      );
+      const jsonData = await kimlikdogrula.json();
+      console.log(jsonData.response.TCKimlikNoDogrulaResult);
 
-      if(jsonData.response.TCKimlikNoDogrulaResult){
+      if (jsonData.response.TCKimlikNoDogrulaResult) {
         const response = await fetch("http://localhost:5000/aids", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
         });
-  
+
         console.log(response);
         toast.success("Yardım kaydı başarılı şekilde oluşturuldu.");
         setTimeout(() => window.location.reload(), 5000);
-      }else{
-
-        toast.error("TC Kimlik Numarası doğrulaması başarısız oldu!")
+      } else {
+        toast.error("TC Kimlik Numarası doğrulaması başarısız oldu!");
       }
-
     } catch (e) {
-      toast.error("Yardım kaydı oluşturulamadı!")
+      toast.error("Yardım kaydı oluşturulamadı!");
     }
   };
 
@@ -202,7 +216,7 @@ const SubmitAid = () => {
                 onChange={(e) => setAffected_email(e.target.value)}
               />
               <Form.Control.Feedback type="invalid">
-              Geçerli bir e-posta adresi giriniz.
+                Geçerli bir e-posta adresi giriniz.
               </Form.Control.Feedback>
             </FloatingLabel>
           </Form.Group>
@@ -285,14 +299,17 @@ const SubmitAid = () => {
 
         <Row className="text-center pt-5">
           <FormGroup>
-            <Button className="mb-5" variant="outline-success" onClick={handleSubmit}>
+            <Button
+              className="mb-5"
+              variant="outline-success"
+              onClick={handleSubmit}
+            >
               Kaydet
             </Button>
           </FormGroup>
         </Row>
       </Form.Floating>
       <ToastContainer newestOnTop closeOnClick />
-
     </Container>
   );
 };
