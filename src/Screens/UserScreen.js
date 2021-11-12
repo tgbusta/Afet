@@ -17,7 +17,7 @@ const UserScreen = () => {
       setUsers(users.filter((users) => users.user_id !== id));
       toast.error("Kullanıcı kaydı silindi!");
     } catch (e) {
-      console.error(e.message);
+      toast.error("Silme işlemi başarısız!");
     }
   };
 

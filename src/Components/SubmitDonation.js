@@ -28,8 +28,6 @@ const SubmitDonation = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const notify = () => toast("Kimlik doğrulama işlemi başarısız oldu!");
-
     try {
       const body = {
         donor_name,
@@ -55,18 +53,15 @@ const SubmitDonation = () => {
         });
   
         console.log(response);
-        toast.success("Kullanıcı kaydı başarılı şekilde oluşturuldu.");
+        toast.success("Bağış kaydı başarılı şekilde oluşturuldu.");
         setTimeout(() => window.location.reload(), 5000);
       }else{
-
-toast.error("TC Kimlik Numarası doğrulaması başarısız oldu!")
-
-
+      toast.error("TC Kimlik Numarası doğrulaması başarısız oldu!")
       }
     }
 
     catch (e) {
-      console.error(e.message);
+      toast.error("Bağış kaydı oluşturulamadı!")
     }
   };
 

@@ -119,7 +119,7 @@ app.get("/disastertypes/:id", async (req, res) => {
 
 app.get("/regions", async (req, res) => {
   try {
-    const allRegions = await pool.query("SELECT * FROM regions");
+    const allRegions = await pool.query("SELECT * FROM regions ORDER BY region_id DESC");
     res.json(allRegions.rows);
   } catch (err) {
     console.error(err.message);
@@ -165,7 +165,7 @@ app.delete("/regions/:id", async (req, res) => {
 
 app.get("/aids", async (req, res) => {
   try {
-    const allAids = await pool.query("SELECT * FROM aids");
+    const allAids = await pool.query("SELECT * FROM aids ORDER BY aid_id DESC");
     res.json(allAids.rows);
   } catch (err) {
     console.error(err.message);
@@ -249,7 +249,7 @@ app.delete("/donations/:id", async (req, res) => {
 
 app.get("/donations", async (req, res) => {
   try {
-    const allDonations = await pool.query("SELECT * FROM donations");
+    const allDonations = await pool.query("SELECT * FROM donations ORDER BY donation_id DESC");
     res.json(allDonations.rows);
   } catch (err) {
     console.error(err.message);
@@ -262,17 +262,17 @@ app.post("/donations", async (req, res) => {
     const donor_name = req.body.donor_name;
     const donor_surname = req.body.donor_surname;
     const donor_tckn = req.body.donor_tckn;
+    const donor_year_of_birth = req.body.donor_year_of_birth;
     const donor_tel = req.body.donor_tel;
     const donor_email = req.body.donor_email;
     const donation_type_id = req.body.donation_type_id;
     const region_id = req.body.region_id;
     const donation_date = req.body.donation_date;
-    const donor_year_of_birth = req.body.donor_year_of_birth;
+    
 
-    const transfered = 0;
 
     const addDonation = await pool.query(
-      "INSERT INTO regions (donor_name, donor_surname, donor_tckn,donor_year_of_birth, donor_tel, donor_email, donation_type_id, region_id, donation_date ) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING * ",
+      "INSERT INTO donations (donor_name, donor_surname, donor_tckn,donor_year_of_birth, donor_tel, donor_email, donation_type_id, region_id, donation_date ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING * ",
       [
         donor_name,
         donor_surname,
@@ -282,7 +282,7 @@ app.post("/donations", async (req, res) => {
         donor_email,
         donation_type_id,
         region_id,
-        donation_date,
+        donation_date
       ]
     );
 
@@ -360,7 +360,7 @@ app.post("/users", async (req, res) => {
 //get//
 app.get("/users", async (req, res) => {
   try {
-    const allUsers = await pool.query("SELECT * FROM users");
+    const allUsers = await pool.query("SELECT * FROM users ORDER BY user_id DESC");
     res.json(allUsers.rows);
   } catch (err) {
     console.error(err.message);

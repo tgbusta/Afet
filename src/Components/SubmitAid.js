@@ -56,7 +56,7 @@ const SubmitAid = () => {
         });
   
         console.log(response);
-        toast.success("Kullanıcı kaydı başarılı şekilde oluşturuldu.");
+        toast.success("Yardım kaydı başarılı şekilde oluşturuldu.");
         setTimeout(() => window.location.reload(), 5000);
       }else{
 
@@ -64,7 +64,7 @@ const SubmitAid = () => {
       }
 
     } catch (e) {
-      console.error(e.message);
+      toast.error("Yardım kaydı oluşturulamadı!")
     }
   };
 

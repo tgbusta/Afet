@@ -20,10 +20,23 @@ const SubmitRegion = () => {
   const [districts, setDistricts] = useState([]);
   const [disasters, setDisasters] = useState([]);
   const [disaster_type_id, setDisaster_type_id] = useState("");
-  
+  const [validated, setValidated] = useState(false);
  
 
   const handleSubmit = async (e) => {
+
+
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    }else{
+      setValidated(true);
+    }
+
+    
+
+
     console.log("submit");
 
     e.preventDefault();
@@ -44,7 +57,7 @@ const SubmitRegion = () => {
 
       console.log(response);
     } catch (e) {
-      console.error(e.message);
+      toast.error("Bölge kaydı oluşturulamadı!")
     }
   };
 

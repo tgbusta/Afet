@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Container, Table, Dropdown } from "react-bootstrap";
+import { Container, Table, Dropdown, Button } from "react-bootstrap";
 import SubmitRegion from "../Components/SubmitRegion";
 import moment from "moment";
+import { ToastContainer, toast } from "react-toastify";
 
 const RegionScreen = () => {
   const [regions, setRegions] = useState([]);
@@ -18,8 +19,9 @@ const RegionScreen = () => {
       });
 
       setRegions(regions.filter((regions) => regions.region_id !== id));
+      toast.error("Bölge kaydı silindi!");
     } catch (e) {
-      console.error(e.message);
+      toast.error("Silme işlemi başarısız!");
     }
   };
 
@@ -123,17 +125,18 @@ const RegionScreen = () => {
 
                 <td>{moment(region.disaster_date).format("l")}</td>
                 <td>
-                  <button
+                  <Button
                     variant="outline-danger"
                     onClick={() => deleteRegion(region.region_id)}
                   >
                     Sil
-                  </button>
+                  </Button>
                 </td>
               </tr>
             ))}
           </tbody>
         </Table>
+        <ToastContainer newestOnTop closeOnClick />
       </Container>
     </div>
   );
