@@ -20,12 +20,16 @@ const Footer = () => {
             <h4>Hava Durumu</h4>
           </Row>
           <Row>
+            <Col></Col>
+            <Col>
             <a target="_blank" href="/">
               <img
                 src="https://w.bookcdn.com/weather/picture/32_18522_1_21_34495e_250_2c3e50_ffffff_ffffff_1_2071c9_ffffff_0_6.png?scode=124&domid=765&anc_id=51659"
                 alt="booked.net"
               />
             </a>
+            </Col>
+            <Col></Col>
           </Row>
         </Col>
 
@@ -54,13 +58,13 @@ const Footer = () => {
 
           <Row>
             <Col className="m-4">
-              <a href="https://www.instagram.com/tcailesosyal/">
+              <a href="https://www.instagram.com/tcailesosyal/" target="_blank" rel="noreferrer">
                 <FaInstagram size="2em" className="mx-3" />
                 Instagram
               </a>
             </Col>
             <Col className="m-4">
-              <a href="https://twitter.com/tcailesosyal/">
+              <a href="https://twitter.com/tcailesosyal/" target="_blank" rel="noreferrer">
                 <FaTwitter size="2em" className="mx-3"/>
                 Twitter
               </a>
@@ -69,13 +73,13 @@ const Footer = () => {
 
           <Row>
             <Col className="m-4">
-              <a href="https://www.facebook.com/tcailesosyal">
+              <a href="https://www.facebook.com/tcailesosyal" target="_blank" rel="noreferrer">
                 <FaFacebookF size="2em" className="mx-3"/>
                 Facebook
               </a>
             </Col>
             <Col className="m-4">
-              <a href="https://www.youtube.com/ailevesosyal">
+              <a href="https://www.youtube.com/ailevesosyal" target="_blank" rel="noreferrer">
                 <FaYoutube size="2em" className="mx-3"/>
                 YouTube
               </a>

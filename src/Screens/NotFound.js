@@ -74,6 +74,21 @@ export class NotFound extends Component {
             </Timeline>
           </Col>
         </Row>
+        <Row className="mb-5">
+          <h2>Sosyal Yardım Başvurularında Yeni Dönem</h2>
+        </Row>
+        <Row>
+          <iframe
+            width="560"
+            height="600"
+            src="https://www.youtube.com/embed/IgFWIBmLUys"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+          
+        </Row>
       </Container>
     );
   }
