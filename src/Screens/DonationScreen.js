@@ -106,7 +106,7 @@ useEffect(() => {
                     <td key={donation.region_id}>{filtered.donation_type}</td>
                   ))}
 
-                  <td>{moment(donation.donation_date).format("l")}</td>
+                  <td>{moment(donation.donation_date).format("DD-MM-YYYY")}</td>
                   
                   <td>
                     <Button variant="outline-danger" onClick={() => deleteDonation(donation.donation_id)}>Sil</Button>

@@ -123,7 +123,7 @@ const RegionScreen = () => {
                     <td key={region.region_id}>{filtered.disaster_type}</td>
                   ))}
 
-                <td>{moment(region.disaster_date).format("l")}</td>
+                <td>{moment(region.disaster_date).format("DD-MM-YYYY")}</td>
                 <td>
                   <Button
                     variant="outline-danger"

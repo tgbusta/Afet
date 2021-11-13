@@ -97,7 +97,7 @@ const AidScreen = () => {
                   .map((filtered) => (
                     <td key={aid.region_id}>{filtered.region_name}</td>
                   ))}
-                <td>{moment(aid.aid_date).format("l")}</td>
+                <td>{moment(aid.aid_date).format("DD-MM-YYYY")}</td>
                 {donationtypes
                   .filter((x) => x.donation_type_id === aid.donation_type_id)
                   .map((filtered) => (
