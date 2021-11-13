@@ -30,6 +30,7 @@ const SubmitUser = () => {
         user_pass,
         user_username,
       };
+      console.log(body);
       const response = await fetch("http://localhost:5000/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -38,7 +39,8 @@ const SubmitUser = () => {
 
       console.log(response);
       toast.success("Kullanıcı kaydı başarılı şekilde oluşturuldu.");
-      setTimeout(() => window.location.reload(), 5000);
+     
+     setTimeout(() => window.location.reload(), 5000);
     } catch (e) {
       console.error(e.message);
       toast.error("Kullanıcı kaydı oluşturulamadı!");

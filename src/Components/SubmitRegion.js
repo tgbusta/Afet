@@ -3,15 +3,19 @@ import { Form, Button, Row, Col, FormGroup, Container } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 
 const SubmitRegion = () => {
-  const [cities, setCities] = useState([]);
+  const [validated, setValidated] = useState(false);
+  
   const [city_id, setCity_id] = useState("");
   const [region_name, setRegion_name] = useState("");
   const [disaster_date, setDisaster_date] = useState("");
   const [district_id, setDistrict_id] = useState("");
+  const [disaster_type_id, setDisaster_type_id] = useState("");
+  
+  const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [disasters, setDisasters] = useState([]);
-  const [disaster_type_id, setDisaster_type_id] = useState("");
-  const [validated, setValidated] = useState(false);
+  
+  
 
   const handleSubmit = async (e) => {
     const form = e.currentTarget;
