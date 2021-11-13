@@ -1,19 +1,22 @@
 import React, { useState } from "react";
-import { Navbar, Nav, Container, Image } from "react-bootstrap";
+import {
+  Navbar,
+  Nav,
+  Container,
+  Image,
+  Offcanvas,
+  Row,
+  Col,
+} from "react-bootstrap";
 import { useHistory } from "react-router";
-import { LinkContainer } from "react-router-bootstrap";
 import logo from "../img/logo.jpg";
 
 import SignedIn from "./SignedIn";
 import SignedOut from "./SignedOut";
 
-
-
-
 const Navi = () => {
-
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const history= useHistory()
+  const history = useHistory();
 
   function handleSignIn() {
     setIsAuthenticated(true);
@@ -21,43 +24,52 @@ const Navi = () => {
 
   function handleSignOut() {
     setIsAuthenticated(false);
-history.push("/")
+    history.push("/");
   }
 
   return (
-    <Navbar bg="light" expand="lg" collapseOnSelect>
-      <Container>
-        <LinkContainer to="/">
-          <div className="d-flex bd-highlight">
+    <Navbar bg="light" expand={false}>
+      <Container className="shadow p-4 w-100">
+        
+          <Container className="w-25 ">
             <Navbar.Brand href="/">
-              <div className="p-2 bd-highlight">
-                <Image src={logo} fluid style={{ width: "300px" }} />
-                <br />
-                <h3 className="">Afet Yardım Sistemi</h3>
-                <Navbar.Toggle
-                  aria-controls="basic-navbar-nav nav-menu-custom"
-                  style={{ position: "absolute", top: "65px", right: "65px" }}
-                />
-              </div>
+              <Image src={logo} fluid style={{ width: "300px" }} />
             </Navbar.Brand>
+          </Container>
+          <Container className="w-50" align="center">
+            <h3 >Afet Yardım Sistemi</h3>
+          </Container>
+          <Container className="w-25 " align="end">
+            <Navbar.Toggle aria-controls="offcanvasNavbar"  />
+            <Navbar.Offcanvas
+              id="offcanvasNavbar"
+              aria-labelledby="offcanvasNavbarLabel"
+              placement="end"
+            >
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title id="offcanvasNavbarLabel" className="m-4 px-4">
+                  Afet Yardım Sistemi
+                </Offcanvas.Title>
+              </Offcanvas.Header>
 
-            <div className="p-2 flex-shrink-1 bd-highlight align-self-end">
-              <Navbar.Collapse
-                id="basic-navbar-nav"
-                className="justify-content-end"
-              >
-
-                <Nav className="flex-wrap justify-content-end">
-                  {isAuthenticated ? (
-                    <SignedIn signOut={handleSignOut} />
-                  ) : (
-                    <SignedOut signIn={handleSignIn} />
-                  )}
+              <Offcanvas.Body>
+                <Nav className="justify-content-end flex-grow-1 pe-3">
+                  <Nav.Item>
+                    {isAuthenticated ? (
+                      <SignedIn signOut={handleSignOut} />
+                    ) : (
+                      <SignedOut signIn={handleSignIn} />
+                    )}
+                  </Nav.Item>
                 </Nav>
-              </Navbar.Collapse>
-            </div>
-          </div>
-        </LinkContainer>
+                
+                <Nav.Item className="px-2 mx-5 my-2">
+                <Nav.Link href="/socialmedia">Sosyal Medya</Nav.Link>
+                </Nav.Item>
+              </Offcanvas.Body>
+            </Navbar.Offcanvas>
+          </Container>
+       
       </Container>
     </Navbar>
   );

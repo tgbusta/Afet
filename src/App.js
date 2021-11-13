@@ -10,16 +10,14 @@ import { Container } from "react-bootstrap";
 import Navi from "./Components/Navi";
 import Footer from "./Components/Footer";
 import Login from "./Screens/Login";
+import SocialMedia from "./Screens/SocialMedia";
 
 
 function App() {
   return (
     <Router>
       <Navi />
-      <Container
-        className="shadow p-3 mb-5 rounded"
-        
-      >
+      <Container className="shadow p-3 mb-5 rounded" >
         <Switch>
           <Route path="/" component={HomeScreen} exact />
           <Route path="/home" component={HomeScreen} />
@@ -28,6 +26,7 @@ function App() {
           <Route path="/regions" component={RegionScreen} />
           <Route path="/users" component={UserScreen} />
           <Route path="/login" component={Login} />
+          <Route path="/socialmedia" component={SocialMedia}/>
           <Route component={NotFound} />
         </Switch>
       </Container>
