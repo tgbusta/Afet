@@ -10,6 +10,7 @@ import { Container } from "react-bootstrap";
 import Navi from "./Components/Navi";
 import Footer from "./Components/Footer";
 import Login from "./Screens/Login";
+import Register from "./Screens/Register";
 import SocialMedia from "./Screens/SocialMedia";
 
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="/regions" component={RegionScreen} />
           <Route path="/users" component={UserScreen} />
           <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
           <Route path="/socialmedia" component={SocialMedia}/>
           <Route component={NotFound} />
         </Switch>
