@@ -3,9 +3,11 @@ const app = express();
 const cors = require("cors");
 const pool = require("./db");
 const soap = require("soap");
+const sendEmail = require("./_helpers/emailHelper");
 
 app.use(cors());
 app.use(express.json());
+
 
 
 //---------------nvi -------------------//
@@ -415,6 +417,24 @@ app.delete("/users/:id", async (req, res) => {
   }
 });
 //http://localhost:5000/users/17
+
+/** email test */
+
+app.get("/sendemail", async (req, res) => {
+  try {
+    
+    sendEmail({
+      to: "tugba.usta@ailevecalisma.gov.tr",
+      subject: 'Please Verify Your Email',
+      html: "<h4>Verify Email</h4><p>Thanks for registering!</p>"
+    });
+    
+
+    res.json(user.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
 
 app.listen(5000, () => {
   console.log("Server has started on port 5000");

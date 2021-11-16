@@ -1,0 +1,12 @@
+{
+    "emailFrom": "afetyardim06@gmail.com",
+    "smtpOptions": {
+        "host": "smtp.gmail.com",
+        "port": 465,
+        "secure": true,
+        "auth": {
+            "user": "afetyardim06@gmail.com",
+            "pass": "aF3t!yArD!m"
+        }
+    }
+}
