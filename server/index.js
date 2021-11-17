@@ -4,6 +4,10 @@ const cors = require("cors");
 const pool = require("./db");
 const soap = require("soap");
 const sendEmail = require("./_helpers/emailHelper");
+const {
+  v4: uuidv4
+} = require("uuid");
+const templateTxt = require("./_helpers/");
 
 app.use(cors());
 app.use(express.json());
@@ -12,27 +16,29 @@ app.use(express.json());
 
 //---------------nvi -------------------//
 
- 
-app.get("/nvi/:ad/:soyad/:dyili/:tckno" , function(req,res) {
-  var url="https://tckimlik.nvi.gov.tr/Service/KPSPublic.asmx?WSDL"
+
+app.get("/nvi/:ad/:soyad/:dyili/:tckno", function (req, res) {
+  var url = "https://tckimlik.nvi.gov.tr/Service/KPSPublic.asmx?WSDL"
   try {
-    var args={
-      "TCKimlikNo":req.params.tckno,
-      "Ad":req.params.ad,
-      "Soyad":req.params.soyad,
-      "DogumYili":req.params.dyili,
-  }
-    soap.createClient(url, function(err, client) {
-      client.TCKimlikNoDogrula(args, function(err, result) {
-          res.send({"response":result})
-          console.log(req.params)
+    var args = {
+      "TCKimlikNo": req.params.tckno,
+      "Ad": req.params.ad,
+      "Soyad": req.params.soyad,
+      "DogumYili": req.params.dyili,
+    }
+    soap.createClient(url, function (err, client) {
+      client.TCKimlikNoDogrula(args, function (err, result) {
+        res.send({
+          "response": result
+        })
+        console.log(req.params)
       });
-  });
-  } catch (err){
+    });
+  } catch (err) {
     console.error(err.message);
   }
 })
- 
+
 
 // ---------------------------------cities------------------------------ //
 //get//
@@ -48,7 +54,9 @@ app.get("/cities", async (req, res) => {
 //search//
 app.get("/cities/:id", async (req, res) => {
   try {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     const city = await pool.query(
       "SELECT * FROM cities WHERE city_id = $1 ORDER BY city_id DESC",
       [id]
@@ -75,7 +83,9 @@ app.get("/districts", async (req, res) => {
 //search//
 app.get("/districts/:id", async (req, res) => {
   try {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     const district = await pool.query(
       "SELECT * FROM districts WHERE district_id = $1 ORDER BY district_id DESC",
       [id]
@@ -102,7 +112,9 @@ app.get("/disastertypes", async (req, res) => {
 //search//
 app.get("/disastertypes/:id", async (req, res) => {
   try {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     const disasterType = await pool.query(
       "SELECT * FROM disaster_types WHERE disaster_type_id = $1 ORDER BY disaster_type_id DESC",
       [id]
@@ -151,7 +163,9 @@ app.post("/regions", async (req, res) => {
 //delete//
 app.delete("/regions/:id", async (req, res) => {
   try {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     const deleteRegion = await pool.query(
       "DELETE FROM regions WHERE region_id = $1",
       [id]
@@ -211,7 +225,9 @@ app.post("/aids", async (req, res) => {
 //delete//
 app.delete("/aids/:id", async (req, res) => {
   try {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     const deleteAid = await pool.query("DELETE FROM aids WHERE aid_id = $1", [
       id,
     ]);
@@ -236,7 +252,9 @@ app.get("/donationtypes", async (req, res) => {
 //delete//
 app.delete("/donations/:id", async (req, res) => {
   try {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     const deleteDonation = await pool.query(
       "DELETE FROM donations WHERE donation_id = $1",
       [id]
@@ -270,7 +288,7 @@ app.post("/donations", async (req, res) => {
     const donation_type_id = req.body.donation_type_id;
     const region_id = req.body.region_id;
     const donation_date = req.body.donation_date;
-    
+
 
 
     const addDonation = await pool.query(
@@ -373,7 +391,9 @@ app.get("/users", async (req, res) => {
 //search//
 app.get("/users/:id", async (req, res) => {
   try {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     const user = await pool.query(
       "SELECT * FROM users WHERE user_id = $1 ORDER BY user_id DESC",
       [id]
@@ -389,8 +409,12 @@ app.get("/users/:id", async (req, res) => {
 //put//
 app.put("/users/:id", async (req, res) => {
   try {
-    const { id } = req.params;
-    const { user_new_name } = req.body;
+    const {
+      id
+    } = req.params;
+    const {
+      user_new_name
+    } = req.body;
     const updateUser = await pool.query(
       "UPDATE users SET user_name = $1 WHERE user_id = $2",
       [user_new_name, id]
@@ -406,7 +430,9 @@ app.put("/users/:id", async (req, res) => {
 //delete//
 app.delete("/users/:id", async (req, res) => {
   try {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     const deleteUser = await pool.query(
       "DELETE FROM users WHERE user_id = $1",
       [id]
@@ -422,15 +448,44 @@ app.delete("/users/:id", async (req, res) => {
 
 app.get("/sendemail", async (req, res) => {
   try {
-    
+
     sendEmail({
       to: "tugba.usta@ailevecalisma.gov.tr",
       subject: 'Please Verify Your Email',
       html: "<h4>Verify Email</h4><p>Thanks for registering!</p>"
     });
-    
+
 
     res.json(user.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+/** Register user */
+
+app.post("/register", async (req, res) => {
+  try {
+    const user = {
+      ...req.body
+    };
+    const addUser = await pool.query(
+      "INSERT INTO users (user_username, user_name, user_surname, user_pass, user_email,user_auth_code,user_exp_time,user_authcode_valid) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING * ",
+      [user.email, user.name, user.lastName, user.password, user.email, uuidv4(), new Date(), 0]
+    );
+    let userR = addUser.rows[0];
+    res.json(addUser.rows[0]);
+    let html = `<h1>Afet Yardım Hoşgeldiniz</h1>
+    <h2>L&uuml;tfen e posta adesini doğrulayınız.</h2><p>E posta adresini <a title="tıkla" href="[[REPLACE_HERE]]">buraya</a> tıklayarak onaylayabilirsin.</p>
+`;
+    html = html.replace("[[REPLCA_HERE]]", "localhost:5000/verifyCode?id=" + user.user_auth_codeF)
+    sendEmail({
+      to: "tugba.usta@ailevecalisma.gov.tr",
+      subject: 'Please Verify Your Email',
+      html: html
+    });
+
+
   } catch (err) {
     console.error(err.message);
   }

@@ -11,6 +11,7 @@
     "cors": "^2.8.5",
     "moment": "^2.29.1",
     "node-instagram": "^4.3.0",
+    "nodemailer": "^6.7.1",
     "react": "^17.0.2",
     "react-alert-confirm": "^3.3.3",
     "react-bootstrap": "^2.0.0-rc.1",

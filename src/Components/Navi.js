@@ -61,11 +61,15 @@ const Navi = () => {
                       <SignedOut signIn={handleSignIn} />
                     )}
                   </Nav.Item>
-                </Nav>
-                
+                  <Nav.Item className="px-2 mx-5 my-2">
+                <Nav.Link href="/register">Kayıt Ol</Nav.Link>
+                </Nav.Item>
                 <Nav.Item className="px-2 mx-5 my-2">
                 <Nav.Link href="/socialmedia">Sosyal Medya</Nav.Link>
                 </Nav.Item>
+                </Nav>
+                
+              
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           </Container>
