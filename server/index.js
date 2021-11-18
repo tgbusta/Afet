@@ -176,6 +176,26 @@ app.delete("/regions/:id", async (req, res) => {
   }
 });
 
+//put//
+app.put("/regions/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { reg_new_disaster_type_id } = req.body;
+    const { reg_new_city_id } = req.body;
+    const { reg_new_name } = req.body;
+    const { reg_new_dis_date } = req.body;
+    const { reg_new_dist_id} = req.body;
+
+    const updateRegion = await pool.query(
+      "UPDATE donations SET disaster_type_id = $1, city_id = $2, region_name = $3, disaster_date = $4, district_id = $5,  WHERE region_id = $6",
+      [reg_new_disaster_type_id, reg_new_city_id, reg_new_name, reg_new_dis_date,reg_new_dist_id, id]
+    );
+    res.json("Kayıt güncellendi.");
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
 // --------------------------------------------aids-------------------------------------------------------------- //
 //get//
 
@@ -232,6 +252,26 @@ app.delete("/aids/:id", async (req, res) => {
       id,
     ]);
     res.json("silme başarılı");
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+//put//
+app.put("/aids/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { aid_new_region_id } = req.body;
+    const { aid_new_don_type_id } = req.body;
+    const { aid_new_date } = req.body;
+    const { aid_new_tel } = req.body;
+    const { aid_new_mail} = req.body;
+
+    const updateAid = await pool.query(
+      "UPDATE donations SET region_id = $1, donation_type_id = $2, aid_date = $3, affected_tel = $4, affected_email = $5,  WHERE aid_id = $6",
+      [aid_new_region_id, aid_new_don_type_id, aid_new_date, aid_new_tel, aid_new_mail, id]
+    );
+    res.json("Kayıt güncellendi.");
   } catch (err) {
     console.error(err.message);
   }
@@ -307,6 +347,26 @@ app.post("/donations", async (req, res) => {
     );
 
     res.json(addDonation.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+//put//
+app.put("/donations/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { don_new_region_id } = req.body;
+    const { don_new_don_type_id } = req.body;
+    const { don_new_date } = req.body;
+    const { don_new_tel } = req.body;
+    const { don_new_mail} = req.body;
+
+    const updateDonation = await pool.query(
+      "UPDATE donations SET region_id = $1, donation_type_id = $2, donation_date = $3, donor_tel = $4, donor_email = $5,  WHERE donation_id = $6",
+      [don_new_region_id, don_new_don_type_id, don_new_date, don_new_tel, don_new_mail, id]
+    );
+    res.json("Kayıt güncellendi.");
   } catch (err) {
     console.error(err.message);
   }
@@ -424,7 +484,7 @@ app.put("/users/:id", async (req, res) => {
       "UPDATE users SET user_name = $1, user_surname = $2, user_pass = $3, user_email = $4, user_username = $5 WHERE user_id = $6",
       [user_new_name, user_new_surname, user_new_pass, user_new_mail, user_new_username, id]
     );
-    res.json("Kullanıcı ismi değiştirildi.");
+    res.json("Kayıt güncellendi.");
   } catch (err) {
     console.error(err.message);
   }

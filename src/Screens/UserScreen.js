@@ -40,10 +40,10 @@ const UserScreen = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(userx),
         });
-        toast.success("Kullnıacı güncellendi");
+        toast.success("Kullanıcı başarıyla güncellendi");
         console.log(putUser);
       } catch (e) {
-        toast.error("Kullanıcı güncellenemedi.");
+        toast.error("Kullanıcı güncellenemedi!");
       }
     }
     handleClose();
@@ -141,33 +141,33 @@ const UserScreen = () => {
         <Modal.Body>
         <Form>
           <Form.Group className="mb-3">
-            <Form.Label>Adı</Form.Label>
+            <Form.Label>Personel Adı</Form.Label>
             <Form.Control type="text" onChange={r => setEditName(r.target.value)} defaultValue={editName} />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Soyadı</Form.Label>
+            <Form.Label>Personel Soyadı</Form.Label>
             <Form.Control type="text" onChange={r => setEditSurname(r.target.value)} defaultValue={editSurname} />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>E-Posta</Form.Label>
+            <Form.Label>E-Posta Adresi</Form.Label>
             <Form.Control type="text" onChange={r => setEditMail(r.target.value)} defaultValue={editMail} />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Username</Form.Label>
+            <Form.Label>Kullanıcı Adı</Form.Label>
             <Form.Control type="text" onChange={r => setEditUserName(r.target.value)} defaultValue={editUserName} />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Pass</Form.Label>
+            <Form.Label>Şifre</Form.Label>
             <Form.Control type="password" onChange={r => setEditPass(r.target.value)} defaultValue={editPass} />
           </Form.Group>
         </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            Vazgeç
           </Button>
-          <Button variant="primary"  onClick={() => putUser(editID)}>
-            Save Changes
+          <Button variant="success"  onClick={() => putUser(editID)}>
+            Değişiklikleri Kaydet
           </Button>
         </Modal.Footer>
       </Modal>

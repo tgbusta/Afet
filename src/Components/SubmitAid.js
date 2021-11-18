@@ -36,7 +36,7 @@ const SubmitAid = () => {
     }
 
     console.log("submit");
-
+    if(validated){
     e.preventDefault();
     try {
       const body = {
@@ -81,6 +81,7 @@ const SubmitAid = () => {
     } catch (e) {
       toast.error("Yardım kaydı oluşturulamadı!");
     }
+  }
   };
 
   const getRegions = async () => {

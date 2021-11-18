@@ -5,7 +5,6 @@ import {
   Row,
   Col,
   FormGroup,
-  FloatingLabel,
   Container,
 } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
@@ -36,7 +35,7 @@ const SubmitDonation = () => {
     }
 
     console.log("submit");
-
+    if(validated){
     e.preventDefault();
 
     try {
@@ -81,6 +80,7 @@ const SubmitDonation = () => {
     } catch (e) {
       toast.error("Bağış kaydı oluşturulamadı!");
     }
+  }
   };
 
   const getDonation_types = async () => {

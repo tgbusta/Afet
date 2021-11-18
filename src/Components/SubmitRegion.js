@@ -27,7 +27,7 @@ const SubmitRegion = () => {
     }
 
     console.log("submit");
-
+    if(validated){
     e.preventDefault();
     try {
       const body = {
@@ -51,6 +51,7 @@ const SubmitRegion = () => {
       console.error(e.message);
       toast.error("Bölge kaydı oluşturulamadı!");
     }
+  }
   };
 
   const getCities = async () => {
