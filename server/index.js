@@ -7,7 +7,7 @@ const sendEmail = require("./_helpers/emailHelper");
 const {
   v4: uuidv4
 } = require("uuid");
-const templateTxt = require("./_helpers/");
+
 
 app.use(cors());
 app.use(express.json());
@@ -409,15 +409,20 @@ app.get("/users/:id", async (req, res) => {
 //put//
 app.put("/users/:id", async (req, res) => {
   try {
-    const {
-      id
-    } = req.params;
-    const {
-      user_new_name
-    } = req.body;
+    const { id } = req.params;
+    const { user_new_name } = req.body;
+    const { user_new_surname } = req.body;
+    const { user_new_pass } = req.body;
+    const { user_new_mail } = req.body;
+    const { user_new_username} = req.body;
+
+    console.log(req.params);
+    console.log(user_new_name);
+   
+
     const updateUser = await pool.query(
-      "UPDATE users SET user_name = $1 WHERE user_id = $2",
-      [user_new_name, id]
+      "UPDATE users SET user_name = $1, user_surname = $2, user_pass = $3, user_email = $4, user_username = $5 WHERE user_id = $6",
+      [user_new_name, user_new_surname, user_new_pass, user_new_mail, user_new_username, id]
     );
     res.json("Kullanıcı ismi değiştirildi.");
   } catch (err) {
@@ -425,7 +430,7 @@ app.put("/users/:id", async (req, res) => {
   }
 });
 // http://localhost:5000/users/16
-//{ "user_new_name" : "Ramazan" }
+// { "user_new_name" : "Ramazanx", "user_new_surname" : "SARIx", "user_new_pass" : "yenipw", "user_new_mail" : "yeni@mail.com" }
 
 //delete//
 app.delete("/users/:id", async (req, res) => {

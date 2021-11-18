@@ -21,29 +21,31 @@ const SubmitUser = () => {
     }
     console.log("submit");
 
-    e.preventDefault();
-    try {
-      const body = {
-        user_name,
-        user_surname,
-        user_email,
-        user_pass,
-        user_username,
-      };
-      console.log(body);
-      const response = await fetch("http://localhost:5000/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-
-      console.log(response);
-      toast.success("Kullanıcı kaydı başarılı şekilde oluşturuldu.");
-     
-     setTimeout(() => window.location.reload(), 5000);
-    } catch (e) {
-      console.error(e.message);
-      toast.error("Kullanıcı kaydı oluşturulamadı!");
+    if(validated){
+      e.preventDefault();
+      try {
+        const body = {
+          user_name,
+          user_surname,
+          user_email,
+          user_pass,
+          user_username,
+        };
+        console.log(body);
+        const response = await fetch("http://localhost:5000/users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+  
+        console.log(response);
+        toast.success("Kullanıcı kaydı başarılı şekilde oluşturuldu.");
+       
+       setTimeout(() => window.location.reload(), 5000);
+      } catch (e) {
+        console.error(e.message);
+        toast.error("Kullanıcı kaydı oluşturulamadı!");
+      }
     }
   };
 

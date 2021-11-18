@@ -1,10 +1,61 @@
+/* eslint-disable no-sequences */
 import React, { useEffect, useState } from "react";
-import { Container, Table, Dropdown, Button } from "react-bootstrap";
+import { Container, Table, Dropdown, Button, Modal, Form } from "react-bootstrap";
 import SubmitUser from "../Components/SubmitUser";
 import { ToastContainer, toast } from "react-toastify";
 
 const UserScreen = () => {
   const [users, setUsers] = useState([]);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  
+  const calluser = (x) => {
+    users.filter(z => z.user_id === x).map((item, index) => (
+      setEditName(item.user_name),
+      setEditSurname(item.user_surname),
+      setEditMail(item.user_email),
+      setEditUserName(item.user_username),
+      setEditPass(item.user_pass),
+      setEditID(item.user_id)
+    ))
+    handleShow();
+  }
+
+  const putUser = async (id) => {
+    if(id > 0){
+      let userx = {
+        user_new_name: editName,
+        user_new_surname: editSurname,
+        user_new_pass: editPass,
+        user_new_mail: editMail,
+        user_new_username: editUserName
+    }
+      
+      try {
+        const putUser = await fetch("http://localhost:5000/users/" + id, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(userx),
+        });
+        toast.success("Kullnıacı güncellendi");
+        console.log(putUser);
+      } catch (e) {
+        toast.error("Kullanıcı güncellenemedi.");
+      }
+    }
+    handleClose();
+  }
+
+  //Kullanıcı Bilgileri düzenlemek için oluşturulan state'ler
+  const [editID, setEditID] = useState(0);
+  const [editName, setEditName] = useState("");
+  const [editSurname, setEditSurname] = useState("");
+  const [editMail, setEditMail] = useState("");
+  const [editUserName, setEditUserName] = useState("");
+  const [editPass, setEditPass] = useState("");
 
   //delete user function
 
@@ -32,11 +83,9 @@ const UserScreen = () => {
     }
   };
 
-  console.log(users);
-
   useEffect(() => {
-    getUsers();
-  }, []);
+    getUsers(); 
+  }, [show]);
 
   return (
     <div>
@@ -68,12 +117,16 @@ const UserScreen = () => {
                 <td>{user.user_username}</td>
                 <td>{user.user_email}</td>
                 <td>
+                  <Button className="mx-2" variant="outline-info"  onClick={() => calluser(user.user_id)}>
+                   Düzenle
+                  </Button>
                   <Button
                     variant="outline-danger"
                     onClick={() => deleteUser(user.user_id)}
                   >
                     Sil
                   </Button>
+                  
                 </td>
               </tr>
             ))}
@@ -81,6 +134,43 @@ const UserScreen = () => {
         </Table>
         <ToastContainer newestOnTop closeOnClick />
       </Container>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <Form>
+          <Form.Group className="mb-3">
+            <Form.Label>Adı</Form.Label>
+            <Form.Control type="text" onChange={r => setEditName(r.target.value)} defaultValue={editName} />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Soyadı</Form.Label>
+            <Form.Control type="text" onChange={r => setEditSurname(r.target.value)} defaultValue={editSurname} />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>E-Posta</Form.Label>
+            <Form.Control type="text" onChange={r => setEditMail(r.target.value)} defaultValue={editMail} />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Username</Form.Label>
+            <Form.Control type="text" onChange={r => setEditUserName(r.target.value)} defaultValue={editUserName} />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Pass</Form.Label>
+            <Form.Control type="password" onChange={r => setEditPass(r.target.value)} defaultValue={editPass} />
+          </Form.Group>
+        </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary"  onClick={() => putUser(editID)}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
