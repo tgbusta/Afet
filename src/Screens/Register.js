@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import React, { useState,useRef } from "react";
+import { Container,Form,FormGroup,Row, Button } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 
 function Register() {
-
+    const formRef = useRef(null);
     const [name, setName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -11,24 +11,30 @@ function Register() {
     const [rePassword, setRePassword] = useState("");
     const [validated, setValidated] = useState(false);
 
+    const formReset = ()=>{
+        setName("");
+        setEmail("");
+        setLastName("");
+        setPassword("");
+        setRePassword("");
+    }
 
-    const kayitOl =async (event) => {
-        const form = event.currentTarget;
+    const handleSubmit =async (e) => {
+        const form =  e.currentTarget;
         if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-            return;
-        }
+            e.preventDefault();
+            e.stopPropagation();
+          } else {
+            setValidated(true);
+          }
         if (!checkPasswordMatch()) {
-            event.preventDefault();
-            event.stopPropagation();
-            setRePassword("");
+             setRePassword("");
             toast.error("Girmiş olduğunuz şifreler uyuşmamaktadır.");
-
-            return;
+             return;
         }
 
-        setValidated(true);
+        if(validated){
+            e.preventDefault()
         try {
             let user = {
                 name: name,
@@ -42,13 +48,22 @@ function Register() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(user),
               });
+              const jsonData = await resp.json();
+              formReset();
+              formRef.current.reset();
+              setValidated(false);
+              jsonData.status ? toast.success(jsonData.message) : toast.error(jsonData.message);
+
         } catch (e) {
             console.error(e.message);
+        
         }
+     }
 
 
 
     };
+
 
     const checkPasswordMatch = () => {
         if (password !== rePassword)
@@ -57,11 +72,13 @@ function Register() {
 
     }
 
+   
+
     return (
 
-        <div>
+        <Container>
             <h3 className="p-5 text-align-center">Kayıt Formu </h3>
-            <Form noValidate validated={validated} onSubmit={kayitOl}>
+            <Form noValidate validated={validated} ref={formRef} >
                 <Form.Group className="mb-3" controlId="registerName">
                     <Form.Label>İsim</Form.Label>
                     <Form.Control type="text" placeholder="İsim giriniz." onChange={(e) => { setName(e.target.value) }} required />
@@ -98,12 +115,21 @@ function Register() {
                         Bu alanın doldurulması zorunludur.
                     </Form.Control.Feedback>
                 </Form.Group>
-                <Button variant="outline-success" type="submit" >
-                    Kayıt Ol
-                </Button>
+                
+                <Row className="text-center pt-5">
+                    <FormGroup>
+                        <Button 
+                            variant="outline-success"
+                            onClick={handleSubmit}
+                        >
+                            Kayıt Ol
+                        </Button>
+                    </FormGroup>
+                </Row>
             </Form>
             <ToastContainer newestOnTop closeOnClick />
-        </div>
+     </Container>
+
     );
 }
 

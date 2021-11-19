@@ -8,14 +8,6 @@ function Login() {
 
   const girisYap = async (event) => {
     event.preventDefault();
-    try {
-      const response = await fetch("http://localhost:5000/sendemail");
-      const jsonData = await response.json();
-  
-    } catch (e) {
-      console.error(e.message);
-    }
-
   };
 
   return (

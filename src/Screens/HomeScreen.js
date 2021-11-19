@@ -1,13 +1,86 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import {useLocation} from "react-router-dom";
 import { Carousel, Container, Row, Col, Card, Table } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import slider2 from "../img/pexels-ron-lach-9169658.jpg";
 import slider1 from "../img/afetyardim1.jpg";
 import slider3 from "../img/basvuru.JPG";
 import Production from "../Components/Product";
+import { toast,ToastContainer } from "react-toastify";
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 const HomeScreen = () => {
+
+  const timeDifference = (date1) => {
+    let b = date1.split(/\D+/);
+    let dateE= new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
+    let difference = new Date().getTime() - dateE.getTime();
+
+    let daysDifference = Math.floor(difference/1000/60/60/24);
+    difference -= daysDifference*1000*60*60*24
+
+    let hoursDifference = Math.floor(difference/1000/60/60);
+    difference -= hoursDifference*1000*60*60
+
+    let minutesDifference = Math.floor(difference/1000/60);
+    difference -= minutesDifference*1000*60
+
+    let secondsDifference = Math.floor(difference/1000);
+    if(daysDifference>0)
+    return true;
+    if(hoursDifference>1)
+    return true;
+    if(minutesDifference>10)
+    return true;
+    return false;
+}
+
+  const getUsers = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/checkUser/"+ code);
+      const jsonData = await response.json();
+      timeDifference(jsonData.user_exp_time);
+      if(jsonData){
+        if(timeDifference(jsonData.user_exp_time))
+        {
+          toast.warn("Doğrulama linkinin süresi geçmiştir.")
+          return;
+        }
+        if(jsonData.user_authcode_valid){
+          toast.warn("Doğrulama linki daha öncesinde kullanılmıştır.")
+          return;
+        }
+
+            const response = await fetch("http://localhost:5000/validateUser/"+ jsonData.user_id);
+            const respData = await response.json();
+            respData.status ? toast.success(respData.message) : toast.warn("hata");
+      }
+     
+      
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+
+  let query = useQuery();
+  let code ="";
+ 
+
+   useEffect(()=>{
+    if(query && query.get("code")){
+      code=query.get("code");
+      getUsers();
+     }
+   },[]);
+
+  
+
+  
+  
+
   return (
     <div>
       <Container className="py-3">
@@ -139,6 +212,7 @@ const HomeScreen = () => {
             <h2 className="py-2">Siz de Onlara Elinizi Uzatın</h2>
          <Production/>
         </Container>
+        <ToastContainer newestOnTop closeOnClick />
       </Container>
     </div>
   );

@@ -527,6 +527,8 @@ app.get("/sendemail", async (req, res) => {
   }
 });
 
+
+
 /** Register user */
 
 app.post("/register", async (req, res) => {
@@ -534,23 +536,72 @@ app.post("/register", async (req, res) => {
     const user = {
       ...req.body
     };
-    const addUser = await pool.query(
-      "INSERT INTO users (user_username, user_name, user_surname, user_pass, user_email,user_auth_code,user_exp_time,user_authcode_valid) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING * ",
-      [user.email, user.name, user.lastName, user.password, user.email, uuidv4(), new Date(), 0]
+
+    const _user = await pool.query("SELECT * FROM users where user_email= $1 ", [user.email]);
+    if (_user.rowCount===0) {
+
+      const addUser = await pool.query(
+        "INSERT INTO users (user_username, user_name, user_surname, user_pass, user_email,user_auth_code,user_exp_time,user_authcode_valid) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING * ",
+        [user.email, user.name, user.lastName, user.password, user.email, uuidv4(), new Date(), 0]
+      );
+     let html = `<h1>Afet Yardım Hoşgeldiniz</h1>
+      <h2>L&uuml;tfen e posta adesini doğrulayınız.</h2><p>E posta adresini <a title="tıkla" href="[[REPLACE_HERE]]">buraya</a> tıklayarak onaylayabilirsin.</p>
+  `;
+      html = html.replace("[[REPLACE_HERE]]", "http://localhost:3000?code=" + addUser.rows[0].user_auth_code)
+       await sendEmail({
+        to: user.email,
+        subject: 'Please Verify Your Email',
+        html: html
+      });
+
+      res.send({
+        "message": "Kullanici Başarıyla kaydedilmiştir.Lütfen e posta adresinizi kontrol ediniz.",
+        "status":true
+      });
+
+    }else{
+      res.send({
+        "message": "Kullanici zaten Kayıtlı",
+        "status":false
+      });
+     
+    }
+   
+
+
+
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+/** Validate user */
+
+app.get("/checkUser/:code", async (req, res) => {
+  try {
+    const {code} = req.params;
+    const user = await pool.query(
+      "SELECT * FROM users WHERE user_auth_code = $1 ",
+      [code]
     );
-    let userR = addUser.rows[0];
-    res.json(addUser.rows[0]);
-    let html = `<h1>Afet Yardım Hoşgeldiniz</h1>
-    <h2>L&uuml;tfen e posta adesini doğrulayınız.</h2><p>E posta adresini <a title="tıkla" href="[[REPLACE_HERE]]">buraya</a> tıklayarak onaylayabilirsin.</p>
-`;
-    html = html.replace("[[REPLCA_HERE]]", "localhost:5000/verifyCode?id=" + user.user_auth_codeF)
-    sendEmail({
-      to: "tugba.usta@ailevecalisma.gov.tr",
-      subject: 'Please Verify Your Email',
-      html: html
+
+    res.json(user.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+app.get("/validateUser/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateUser = await pool.query(
+      "UPDATE users SET user_authcode_valid = $1 WHERE user_id = $2",
+      [1,id]
+    );
+    res.send({
+      "message": "Bilgileriniz başarıyla doğrulanmıştır.Sisteme giriş yapabilirsiniz.",
+      "status":true
     });
-
-
   } catch (err) {
     console.error(err.message);
   }
