@@ -509,24 +509,6 @@ app.delete("/users/:id", async (req, res) => {
 });
 //http://localhost:5000/users/17
 
-/** email test */
-
-app.get("/sendemail", async (req, res) => {
-  try {
-
-    sendEmail({
-      to: "tugba.usta@ailevecalisma.gov.tr",
-      subject: 'Please Verify Your Email',
-      html: "<h4>Verify Email</h4><p>Thanks for registering!</p>"
-    });
-
-
-    res.json(user.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-  }
-});
-
 
 
 /** Register user */
