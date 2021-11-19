@@ -19,49 +19,55 @@ function Register() {
         setRePassword("");
     }
 
-    const handleSubmit =async (e) => {
+    const handleSubmit = (e) => {
         const form =  e.currentTarget;
         if (form.checkValidity() === false) {
             e.preventDefault();
             e.stopPropagation();
-          } else {
-            setValidated(true);
-          }
-        if (!checkPasswordMatch()) {
-             setRePassword("");
-            toast.error("Girmiş olduğunuz şifreler uyuşmamaktadır.");
-             return;
+           
+          } else{
+
+            if (!checkPasswordMatch()) {
+                setRePassword("");
+               toast.error("Girmiş olduğunuz şifreler uyuşmamaktadır.");
+               
+                return;
+           }
+           deneme(e);
         }
+        setValidated(true);
+       
 
-        if(validated){
-            e.preventDefault()
-        try {
-            let user = {
-                name: name,
-                lastName: lastName,
-                email: email,
-                password: password
-            }
+    };
 
-            const resp = await fetch("http://localhost:5000/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(user),
-              });
-              const jsonData = await resp.json();
-              formReset();
-              formRef.current.reset();
-              setValidated(false);
-              jsonData.status ? toast.success(jsonData.message) : toast.error(jsonData.message);
+    const deneme =async(e)=>{
+        e.preventDefault();
 
-        } catch (e) {
-            console.error(e.message);
         
+       
+    try {
+        let user = {
+            name: name,
+            lastName: lastName,
+            email: email,
+            password: password
         }
-     }
 
+        const resp = await fetch("http://localhost:5000/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(user),
+          });
+          const jsonData = await resp.json();
+          formReset();
+          formRef.current.reset();
+          setValidated(false);
+          jsonData.status ? toast.success(jsonData.message) : toast.error(jsonData.message);
 
-
+    } catch (e) {
+        console.error(e.message);
+    
+    }
     };
 
 
@@ -78,7 +84,7 @@ function Register() {
 
         <Container>
             <h3 className="p-5 text-align-center">Kayıt Formu </h3>
-            <Form noValidate validated={validated} ref={formRef} >
+            <Form noValidate validated={validated} ref={formRef} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="registerName">
                     <Form.Label>İsim</Form.Label>
                     <Form.Control type="text" placeholder="İsim giriniz." onChange={(e) => { setName(e.target.value) }} required />
@@ -118,9 +124,9 @@ function Register() {
                 
                 <Row className="text-center pt-5">
                     <FormGroup>
-                        <Button 
+                        <Button type="submit"
                             variant="outline-success"
-                            onClick={handleSubmit}
+                            
                         >
                             Kayıt Ol
                         </Button>
