@@ -5,8 +5,7 @@ import {
   Container,
   Image,
   Offcanvas,
-  Row,
-  Col,
+
 } from "react-bootstrap";
 import { useHistory } from "react-router";
 import logo from "../img/logo.jpg";

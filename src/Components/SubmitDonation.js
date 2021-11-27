@@ -172,7 +172,7 @@ const SubmitDonation = () => {
 
           <Form.Group as={Col} md="4" controlId="validationCustomDonorTel">
             <Form.Label>
-              Telefon Numarası
+              Telefon Numarası</Form.Label>
               <Form.Control
                 type="tel"
                 placeholder="(5--) --- -- --"
@@ -182,7 +182,7 @@ const SubmitDonation = () => {
               <Form.Control.Feedback type="invalid">
                 Bu alanın doldurulması zorunludur.
               </Form.Control.Feedback>
-            </Form.Label>
+            
           </Form.Group>
 
           <Form.Group as={Col} md="4" controlId="validationCustomDonorEmail">

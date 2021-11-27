@@ -268,7 +268,7 @@ app.put("/aids/:id", async (req, res) => {
     const { aid_new_mail} = req.body;
 
     const updateAid = await pool.query(
-      "UPDATE donations SET region_id = $1, donation_type_id = $2, aid_date = $3, affected_tel = $4, affected_email = $5,  WHERE aid_id = $6",
+      "UPDATE aids SET region_id = $1, donation_type_id = $2, aid_date = $3, affected_tel = $4, affected_email = $5,  WHERE aid_id = $6",
       [aid_new_region_id, aid_new_don_type_id, aid_new_date, aid_new_tel, aid_new_mail, id]
     );
     res.json("Kayıt güncellendi.");

@@ -134,9 +134,10 @@ const UserScreen = () => {
         </Table>
         <ToastContainer newestOnTop closeOnClick />
       </Container>
+
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Kullanıcı Bilgilerini Güncelle</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <Form>
@@ -150,7 +151,7 @@ const UserScreen = () => {
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>E-Posta Adresi</Form.Label>
-            <Form.Control type="text" onChange={r => setEditMail(r.target.value)} defaultValue={editMail} />
+            <Form.Control type="email" onChange={r => setEditMail(r.target.value)} defaultValue={editMail} />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Kullanıcı Adı</Form.Label>
@@ -171,6 +172,7 @@ const UserScreen = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
     </div>
   );
 };

@@ -177,7 +177,7 @@ const SubmitAid = () => {
             <Form.Label>Telefon Numarası</Form.Label>
             <Form.Control
               required
-              type="text"
+              type="tel"
               placeholder="(5--) --- -- --"
               onChange={(e) => setAffected_tel(e.target.value)}
             />
