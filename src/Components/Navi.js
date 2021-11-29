@@ -8,23 +8,17 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-import { useHistory } from "react-router";
+import TokenService from "../Services/TokenService";
 import logo from "../img/logo.jpg";
-
 import SignedIn from "./SignedIn";
 import SignedOut from "./SignedOut";
 
 const Navi = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const history = useHistory();
+  const auth =TokenService.getToken();
 
-  function handleSignIn() {
-    setIsAuthenticated(true);
-  }
-
-  function handleSignOut() {
-    setIsAuthenticated(false);
-    history.push("/");
+ function handleSignOut() {
+    TokenService.deleteToken();
+    window.location = "/welcome";
   }
 
   return (
@@ -55,10 +49,10 @@ const Navi = () => {
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <Nav.Item>
-                    {isAuthenticated ? (
+                    {auth ? (
                       <SignedIn signOut={handleSignOut} />
                     ) : (
-                      <SignedOut signIn={handleSignIn} />
+                      <SignedOut/>
                     )}
                   </Nav.Item>
                   <Nav.Item className="px-2 mx-5 my-2">

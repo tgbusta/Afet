@@ -1,9 +1,13 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const pool = require("./db");
 const soap = require("soap");
 const sendEmail = require("./_helpers/emailHelper");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const verify = require("./verifyToken");
 const {
   v4: uuidv4
 } = require("uuid");
@@ -179,16 +183,28 @@ app.delete("/regions/:id", async (req, res) => {
 //put//
 app.put("/regions/:id", async (req, res) => {
   try {
-    const { id } = req.params;
-    const { reg_new_disaster_type_id } = req.body;
-    const { reg_new_city_id } = req.body;
-    const { reg_new_name } = req.body;
-    const { reg_new_dis_date } = req.body;
-    const { reg_new_dist_id} = req.body;
+    const {
+      id
+    } = req.params;
+    const {
+      reg_new_disaster_type_id
+    } = req.body;
+    const {
+      reg_new_city_id
+    } = req.body;
+    const {
+      reg_new_name
+    } = req.body;
+    const {
+      reg_new_dis_date
+    } = req.body;
+    const {
+      reg_new_dist_id
+    } = req.body;
 
     const updateRegion = await pool.query(
       "UPDATE donations SET disaster_type_id = $1, city_id = $2, region_name = $3, disaster_date = $4, district_id = $5,  WHERE region_id = $6",
-      [reg_new_disaster_type_id, reg_new_city_id, reg_new_name, reg_new_dis_date,reg_new_dist_id, id]
+      [reg_new_disaster_type_id, reg_new_city_id, reg_new_name, reg_new_dis_date, reg_new_dist_id, id]
     );
     res.json("Kayıt güncellendi.");
   } catch (err) {
@@ -260,12 +276,24 @@ app.delete("/aids/:id", async (req, res) => {
 //put//
 app.put("/aids/:id", async (req, res) => {
   try {
-    const { id } = req.params;
-    const { aid_new_region_id } = req.body;
-    const { aid_new_don_type_id } = req.body;
-    const { aid_new_date } = req.body;
-    const { aid_new_tel } = req.body;
-    const { aid_new_mail} = req.body;
+    const {
+      id
+    } = req.params;
+    const {
+      aid_new_region_id
+    } = req.body;
+    const {
+      aid_new_don_type_id
+    } = req.body;
+    const {
+      aid_new_date
+    } = req.body;
+    const {
+      aid_new_tel
+    } = req.body;
+    const {
+      aid_new_mail
+    } = req.body;
 
     const updateAid = await pool.query(
       "UPDATE donations SET region_id = $1, donation_type_id = $2, aid_date = $3, affected_tel = $4, affected_email = $5,  WHERE aid_id = $6",
@@ -355,12 +383,24 @@ app.post("/donations", async (req, res) => {
 //put//
 app.put("/donations/:id", async (req, res) => {
   try {
-    const { id } = req.params;
-    const { don_new_region_id } = req.body;
-    const { don_new_don_type_id } = req.body;
-    const { don_new_date } = req.body;
-    const { don_new_tel } = req.body;
-    const { don_new_mail} = req.body;
+    const {
+      id
+    } = req.params;
+    const {
+      don_new_region_id
+    } = req.body;
+    const {
+      don_new_don_type_id
+    } = req.body;
+    const {
+      don_new_date
+    } = req.body;
+    const {
+      don_new_tel
+    } = req.body;
+    const {
+      don_new_mail
+    } = req.body;
 
     const updateDonation = await pool.query(
       "UPDATE donations SET region_id = $1, donation_type_id = $2, donation_date = $3, donor_tel = $4, donor_email = $5,  WHERE donation_id = $6",
@@ -469,16 +509,28 @@ app.get("/users/:id", async (req, res) => {
 //put//
 app.put("/users/:id", async (req, res) => {
   try {
-    const { id } = req.params;
-    const { user_new_name } = req.body;
-    const { user_new_surname } = req.body;
-    const { user_new_pass } = req.body;
-    const { user_new_mail } = req.body;
-    const { user_new_username} = req.body;
+    const {
+      id
+    } = req.params;
+    const {
+      user_new_name
+    } = req.body;
+    const {
+      user_new_surname
+    } = req.body;
+    const {
+      user_new_pass
+    } = req.body;
+    const {
+      user_new_mail
+    } = req.body;
+    const {
+      user_new_username
+    } = req.body;
 
     console.log(req.params);
     console.log(user_new_name);
-   
+
 
     const updateUser = await pool.query(
       "UPDATE users SET user_name = $1, user_surname = $2, user_pass = $3, user_email = $4, user_username = $5 WHERE user_id = $6",
@@ -520,17 +572,18 @@ app.post("/register", async (req, res) => {
     };
 
     const _user = await pool.query("SELECT * FROM users where user_email= $1 ", [user.email]);
-    if (_user.rowCount===0) {
-
+    if (_user.rowCount === 0) {
+      const salt = await bcrypt.genSalt(10);
+      const psswHashed = await bcrypt.hash(user.password, salt);
       const addUser = await pool.query(
         "INSERT INTO users (user_username, user_name, user_surname, user_pass, user_email,user_auth_code,user_exp_time,user_authcode_valid) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING * ",
-        [user.email, user.name, user.lastName, user.password, user.email, uuidv4(), new Date(), 0]
+        [user.email, user.name, user.lastName, psswHashed, user.email, uuidv4(), new Date(), 0]
       );
-     let html = `<h1>Afet Yardım Hoşgeldiniz</h1>
+      let html = `<h1>Afet Yardım Hoşgeldiniz</h1>
       <h2>L&uuml;tfen e posta adesini doğrulayınız.</h2><p>E posta adresini <a title="tıkla" href="[[REPLACE_HERE]]">buraya</a> tıklayarak onaylayabilirsin.</p>
   `;
       html = html.replace("[[REPLACE_HERE]]", "http://localhost:3000?code=" + addUser.rows[0].user_auth_code)
-       await sendEmail({
+      await sendEmail({
         to: user.email,
         subject: 'Please Verify Your Email',
         html: html
@@ -538,17 +591,17 @@ app.post("/register", async (req, res) => {
 
       res.send({
         "message": "Kullanici Başarıyla kaydedilmiştir.Lütfen e posta adresinizi kontrol ediniz.",
-        "status":true
+        "status": true
       });
 
-    }else{
+    } else {
       res.send({
         "message": "Kullanici zaten Kayıtlı",
-        "status":false
+        "status": false
       });
-     
+
     }
-   
+
 
 
 
@@ -561,7 +614,9 @@ app.post("/register", async (req, res) => {
 
 app.get("/checkUser/:code", async (req, res) => {
   try {
-    const {code} = req.params;
+    const {
+      code
+    } = req.params;
     const user = await pool.query(
       "SELECT * FROM users WHERE user_auth_code = $1 ",
       [code]
@@ -575,20 +630,71 @@ app.get("/checkUser/:code", async (req, res) => {
 
 app.get("/validateUser/:id", async (req, res) => {
   try {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     const updateUser = await pool.query(
       "UPDATE users SET user_authcode_valid = $1 WHERE user_id = $2",
-      [1,id]
+      [1, id]
     );
     res.send({
       "message": "Bilgileriniz başarıyla doğrulanmıştır.Sisteme giriş yapabilirsiniz.",
-      "status":true
+      "status": true
     });
   } catch (err) {
     console.error(err.message);
   }
 });
 
+/** Authentication , Authorization */
+
+app.post("/login", async (req, res) => {
+  try {
+    const user = {
+      ...req.body
+    };
+
+    const _user = await pool.query("SELECT * FROM users where user_email= $1 ", [user.username]);
+    if (_user.rowCount === 0) {
+      res.send({
+        "message": "Kullanıcı adı veya şifre hatalı.",
+        "status": false
+      });
+
+    } else {
+      const validatePasswd = await bcrypt.compare(user.password, _user.rows[0].user_pass);
+
+      if (!validatePasswd) {
+        res.send({
+          "message": "Şifre hatalı.",
+          "status": false
+        });
+      } else {
+
+        console.log(`${ACCESS_TOKEN_SECRET}`);
+
+        const token = await jwt.sign({
+          username: _user.rows[0].user_name
+        },ACCESS_TOKEN_SECRET);
+        
+        res.send({
+          "message": "Giriş başarılı.",
+          "status": true,
+          "token":token
+        });
+      }
+
+
+    }
+
+
+
+
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+const ACCESS_TOKEN_SECRET="ba89352bd55da3fb4d7b82ccb634806d40262ea2bdc349d9744646af9711f3973b10d";
 app.listen(5000, () => {
   console.log("Server has started on port 5000");
 });

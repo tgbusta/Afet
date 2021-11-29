@@ -13,7 +13,7 @@ function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
-const HomeScreen = () => {
+const Welcome = () => {
 const isAuth = TokenService.getToken();
   const timeDifference = (date1) => {
     let b = date1.split(/\D+/);
@@ -220,4 +220,4 @@ const isAuth = TokenService.getToken();
   );
 };
 
-export default HomeScreen;
+export default Welcome;

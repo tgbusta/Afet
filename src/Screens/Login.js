@@ -1,18 +1,37 @@
 import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Container,Form, Button } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
+import TokenService from "../Services/TokenService";
 
 function Login() {
-
   const [usernameLogin, setUsernameLogin] = useState('')
   const [passwordLogin, setPasswordLogin] = useState('')
 
   const girisYap = async (event) => {
     event.preventDefault();
+    let user = {
+      username: usernameLogin,
+      password: passwordLogin
+  }
+    const resp = await fetch("http://localhost:5000/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user),
+    });
+    const jsonData = await resp.json();
+    jsonData.status ? toast.success(jsonData.message) : toast.error(jsonData.message);
+    if(jsonData.token) 
+    {
+      TokenService.setToken(jsonData.token);
+      window.location = "/home";
+    }
+
   };
 
   return (
 
     <div>
+      <Container>
       <h3 className="p-5 text-align-center"> Giriş Yap </h3>
       <Form onSubmit={girisYap}>
         <Form.Group className="mb-3" controlId="loginUsername">
@@ -29,7 +48,10 @@ function Login() {
         <Button variant="outline-success" type="submit">
           Giriş Yap
         </Button>
+
       </Form>
+      <ToastContainer newestOnTop closeOnClick />
+      </Container>
     </div>
   );
 }

@@ -1,13 +1,13 @@
 import React from "react";
 import { Button, Nav } from "react-bootstrap";
 
-export default function SignedOut({ signIn }) {
+export default function SignedOut() {
   return (
     <div>
       <Nav.Item className="p-3 mx-5">
-      <Button variant="outline-dark" onClick={signIn} className="mx-2">
+      <Nav.Link href="/login">
         Giriş Yap
-      </Button>
+     </Nav.Link>
       </Nav.Item>
     </div>
   );
