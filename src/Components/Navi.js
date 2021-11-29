@@ -5,8 +5,7 @@ import {
   Container,
   Image,
   Offcanvas,
-  Row,
-  Col,
+
 } from "react-bootstrap";
 import TokenService from "../Services/TokenService";
 import logo from "../img/logo.jpg";
