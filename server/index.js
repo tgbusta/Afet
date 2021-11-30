@@ -8,41 +8,34 @@ const sendEmail = require("./_helpers/emailHelper");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const verify = require("./verifyToken");
-const {
-  v4: uuidv4
-} = require("uuid");
-
+const { v4: uuidv4 } = require("uuid");
 
 app.use(cors());
 app.use(express.json());
 
-
-
 //---------------nvi -------------------//
 
-
 app.get("/nvi/:ad/:soyad/:dyili/:tckno", function (req, res) {
-  var url = "https://tckimlik.nvi.gov.tr/Service/KPSPublic.asmx?WSDL"
+  var url = "https://tckimlik.nvi.gov.tr/Service/KPSPublic.asmx?WSDL";
   try {
     var args = {
-      "TCKimlikNo": req.params.tckno,
-      "Ad": req.params.ad,
-      "Soyad": req.params.soyad,
-      "DogumYili": req.params.dyili,
-    }
+      TCKimlikNo: req.params.tckno,
+      Ad: req.params.ad,
+      Soyad: req.params.soyad,
+      DogumYili: req.params.dyili,
+    };
     soap.createClient(url, function (err, client) {
       client.TCKimlikNoDogrula(args, function (err, result) {
         res.send({
-          "response": result
-        })
-        console.log(req.params)
+          response: result,
+        });
+        console.log(req.params);
       });
     });
   } catch (err) {
     console.error(err.message);
   }
-})
-
+});
 
 // ---------------------------------cities------------------------------ //
 //get//
@@ -58,9 +51,7 @@ app.get("/cities", async (req, res) => {
 //search//
 app.get("/cities/:id", async (req, res) => {
   try {
-    const {
-      id
-    } = req.params;
+    const { id } = req.params;
     const city = await pool.query(
       "SELECT * FROM cities WHERE city_id = $1 ORDER BY city_id DESC",
       [id]
@@ -87,9 +78,7 @@ app.get("/districts", async (req, res) => {
 //search//
 app.get("/districts/:id", async (req, res) => {
   try {
-    const {
-      id
-    } = req.params;
+    const { id } = req.params;
     const district = await pool.query(
       "SELECT * FROM districts WHERE district_id = $1 ORDER BY district_id DESC",
       [id]
@@ -116,9 +105,7 @@ app.get("/disastertypes", async (req, res) => {
 //search//
 app.get("/disastertypes/:id", async (req, res) => {
   try {
-    const {
-      id
-    } = req.params;
+    const { id } = req.params;
     const disasterType = await pool.query(
       "SELECT * FROM disaster_types WHERE disaster_type_id = $1 ORDER BY disaster_type_id DESC",
       [id]
@@ -137,7 +124,9 @@ app.get("/disastertypes/:id", async (req, res) => {
 
 app.get("/regions", async (req, res) => {
   try {
-    const allRegions = await pool.query("SELECT * FROM regions ORDER BY region_id DESC");
+    const allRegions = await pool.query(
+      "SELECT * FROM regions ORDER BY region_id DESC"
+    );
     res.json(allRegions.rows);
   } catch (err) {
     console.error(err.message);
@@ -167,9 +156,7 @@ app.post("/regions", async (req, res) => {
 //delete//
 app.delete("/regions/:id", async (req, res) => {
   try {
-    const {
-      id
-    } = req.params;
+    const { id } = req.params;
     const deleteRegion = await pool.query(
       "DELETE FROM regions WHERE region_id = $1",
       [id]
@@ -183,28 +170,23 @@ app.delete("/regions/:id", async (req, res) => {
 //put//
 app.put("/regions/:id", async (req, res) => {
   try {
-    const {
-      id
-    } = req.params;
-    const {
-      reg_new_disaster_type_id
-    } = req.body;
-    const {
-      reg_new_city_id
-    } = req.body;
-    const {
-      reg_new_name
-    } = req.body;
-    const {
-      reg_new_dis_date
-    } = req.body;
-    const {
-      reg_new_dist_id
-    } = req.body;
+    const { id } = req.params;
+    const { reg_new_disaster_type_id } = req.body;
+    const { reg_new_city_id } = req.body;
+    const { reg_new_name } = req.body;
+    const { reg_new_dis_date } = req.body;
+    const { reg_new_dist_id } = req.body;
 
     const updateRegion = await pool.query(
       "UPDATE donations SET disaster_type_id = $1, city_id = $2, region_name = $3, disaster_date = $4, district_id = $5,  WHERE region_id = $6",
-      [reg_new_disaster_type_id, reg_new_city_id, reg_new_name, reg_new_dis_date, reg_new_dist_id, id]
+      [
+        reg_new_disaster_type_id,
+        reg_new_city_id,
+        reg_new_name,
+        reg_new_dis_date,
+        reg_new_dist_id,
+        id,
+      ]
     );
     res.json("Kayıt güncellendi.");
   } catch (err) {
@@ -261,9 +243,7 @@ app.post("/aids", async (req, res) => {
 //delete//
 app.delete("/aids/:id", async (req, res) => {
   try {
-    const {
-      id
-    } = req.params;
+    const { id } = req.params;
     const deleteAid = await pool.query("DELETE FROM aids WHERE aid_id = $1", [
       id,
     ]);
@@ -276,28 +256,23 @@ app.delete("/aids/:id", async (req, res) => {
 //put//
 app.put("/aids/:id", async (req, res) => {
   try {
-    const {
-      id
-    } = req.params;
-    const {
-      aid_new_region_id
-    } = req.body;
-    const {
-      aid_new_don_type_id
-    } = req.body;
-    const {
-      aid_new_date
-    } = req.body;
-    const {
-      aid_new_tel
-    } = req.body;
-    const {
-      aid_new_mail
-    } = req.body;
+    const { id } = req.params;
+    const { aid_new_region_id } = req.body;
+    const { aid_new_don_type_id } = req.body;
+    const { aid_new_date } = req.body;
+    const { aid_new_tel } = req.body;
+    const { aid_new_mail } = req.body;
 
     const updateAid = await pool.query(
-      "UPDATE aids SET region_id = $1, donation_type_id = $2, aid_date = $3, affected_tel = $4, affected_email = $5,  WHERE aid_id = $6",
-      [aid_new_region_id, aid_new_don_type_id, aid_new_date, aid_new_tel, aid_new_mail, id]
+      "UPDATE aids SET region_id = $1, donation_type_id = $2, aid_date = $3, affected_tel = $4, affected_email = $5 WHERE aid_id = $6",
+      [
+        aid_new_region_id,
+        aid_new_don_type_id,
+        aid_new_date,
+        aid_new_tel,
+        aid_new_mail,
+        id,
+      ]
     );
     res.json("Kayıt güncellendi.");
   } catch (err) {
@@ -320,9 +295,7 @@ app.get("/donationtypes", async (req, res) => {
 //delete//
 app.delete("/donations/:id", async (req, res) => {
   try {
-    const {
-      id
-    } = req.params;
+    const { id } = req.params;
     const deleteDonation = await pool.query(
       "DELETE FROM donations WHERE donation_id = $1",
       [id]
@@ -337,7 +310,9 @@ app.delete("/donations/:id", async (req, res) => {
 
 app.get("/donations", async (req, res) => {
   try {
-    const allDonations = await pool.query("SELECT * FROM donations ORDER BY donation_id DESC");
+    const allDonations = await pool.query(
+      "SELECT * FROM donations ORDER BY donation_id DESC"
+    );
     res.json(allDonations.rows);
   } catch (err) {
     console.error(err.message);
@@ -357,8 +332,6 @@ app.post("/donations", async (req, res) => {
     const region_id = req.body.region_id;
     const donation_date = req.body.donation_date;
 
-
-
     const addDonation = await pool.query(
       "INSERT INTO donations (donor_name, donor_surname, donor_tckn,donor_year_of_birth, donor_tel, donor_email, donation_type_id, region_id, donation_date ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING * ",
       [
@@ -370,7 +343,7 @@ app.post("/donations", async (req, res) => {
         donor_email,
         donation_type_id,
         region_id,
-        donation_date
+        donation_date,
       ]
     );
 
@@ -383,35 +356,29 @@ app.post("/donations", async (req, res) => {
 //put//
 app.put("/donations/:id", async (req, res) => {
   try {
-    const {
-      id
-    } = req.params;
-    const {
-      don_new_region_id
-    } = req.body;
-    const {
-      don_new_don_type_id
-    } = req.body;
-    const {
-      don_new_date
-    } = req.body;
-    const {
-      don_new_tel
-    } = req.body;
-    const {
-      don_new_mail
-    } = req.body;
+    const { id } = req.params;
+    const { don_new_region_id } = req.body;
+    const { don_new_don_type_id } = req.body;
+    const { don_new_date } = req.body;
+    const { don_new_tel } = req.body;
+    const { don_new_mail } = req.body;
 
     const updateDonation = await pool.query(
       "UPDATE donations SET region_id = $1, donation_type_id = $2, donation_date = $3, donor_tel = $4, donor_email = $5,  WHERE donation_id = $6",
-      [don_new_region_id, don_new_don_type_id, don_new_date, don_new_tel, don_new_mail, id]
+      [
+        don_new_region_id,
+        don_new_don_type_id,
+        don_new_date,
+        don_new_tel,
+        don_new_mail,
+        id,
+      ]
     );
     res.json("Kayıt güncellendi.");
   } catch (err) {
     console.error(err.message);
   }
 });
-
 
 //real post//
 // app.post("/donations", async (req, res) => {
@@ -480,7 +447,9 @@ app.post("/users", async (req, res) => {
 //get//
 app.get("/users", async (req, res) => {
   try {
-    const allUsers = await pool.query("SELECT * FROM users ORDER BY user_id DESC");
+    const allUsers = await pool.query(
+      "SELECT * FROM users ORDER BY user_id DESC"
+    );
     res.json(allUsers.rows);
   } catch (err) {
     console.error(err.message);
@@ -491,9 +460,7 @@ app.get("/users", async (req, res) => {
 //search//
 app.get("/users/:id", async (req, res) => {
   try {
-    const {
-      id
-    } = req.params;
+    const { id } = req.params;
     const user = await pool.query(
       "SELECT * FROM users WHERE user_id = $1 ORDER BY user_id DESC",
       [id]
@@ -509,32 +476,26 @@ app.get("/users/:id", async (req, res) => {
 //put//
 app.put("/users/:id", async (req, res) => {
   try {
-    const {
-      id
-    } = req.params;
-    const {
-      user_new_name
-    } = req.body;
-    const {
-      user_new_surname
-    } = req.body;
-    const {
-      user_new_pass
-    } = req.body;
-    const {
-      user_new_mail
-    } = req.body;
-    const {
-      user_new_username
-    } = req.body;
+    const { id } = req.params;
+    const { user_new_name } = req.body;
+    const { user_new_surname } = req.body;
+    const { user_new_pass } = req.body;
+    const { user_new_mail } = req.body;
+    const { user_new_username } = req.body;
 
     console.log(req.params);
     console.log(user_new_name);
 
-
     const updateUser = await pool.query(
       "UPDATE users SET user_name = $1, user_surname = $2, user_pass = $3, user_email = $4, user_username = $5 WHERE user_id = $6",
-      [user_new_name, user_new_surname, user_new_pass, user_new_mail, user_new_username, id]
+      [
+        user_new_name,
+        user_new_surname,
+        user_new_pass,
+        user_new_mail,
+        user_new_username,
+        id,
+      ]
     );
     res.json("Kayıt güncellendi.");
   } catch (err) {
@@ -547,9 +508,7 @@ app.put("/users/:id", async (req, res) => {
 //delete//
 app.delete("/users/:id", async (req, res) => {
   try {
-    const {
-      id
-    } = req.params;
+    const { id } = req.params;
     const deleteUser = await pool.query(
       "DELETE FROM users WHERE user_id = $1",
       [id]
@@ -561,50 +520,58 @@ app.delete("/users/:id", async (req, res) => {
 });
 //http://localhost:5000/users/17
 
-
-
 /** Register user */
 
 app.post("/register", async (req, res) => {
   try {
     const user = {
-      ...req.body
+      ...req.body,
     };
 
-    const _user = await pool.query("SELECT * FROM users where user_email= $1 ", [user.email]);
+    const _user = await pool.query(
+      "SELECT * FROM users where user_email= $1 ",
+      [user.email]
+    );
     if (_user.rowCount === 0) {
       const salt = await bcrypt.genSalt(10);
       const psswHashed = await bcrypt.hash(user.password, salt);
       const addUser = await pool.query(
         "INSERT INTO users (user_username, user_name, user_surname, user_pass, user_email,user_auth_code,user_exp_time,user_authcode_valid) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING * ",
-        [user.email, user.name, user.lastName, psswHashed, user.email, uuidv4(), new Date(), 0]
+        [
+          user.email,
+          user.name,
+          user.lastName,
+          psswHashed,
+          user.email,
+          uuidv4(),
+          new Date(),
+          0,
+        ]
       );
       let html = `<h1>Afet Yardım Hoşgeldiniz</h1>
       <h2>L&uuml;tfen e posta adesini doğrulayınız.</h2><p>E posta adresini <a title="tıkla" href="[[REPLACE_HERE]]">buraya</a> tıklayarak onaylayabilirsin.</p>
   `;
-      html = html.replace("[[REPLACE_HERE]]", "http://localhost:3000?code=" + addUser.rows[0].user_auth_code)
+      html = html.replace(
+        "[[REPLACE_HERE]]",
+        "http://localhost:3000?code=" + addUser.rows[0].user_auth_code
+      );
       await sendEmail({
         to: user.email,
-        subject: 'Please Verify Your Email',
-        html: html
+        subject: "Please Verify Your Email",
+        html: html,
       });
 
       res.send({
-        "message": "Kullanici Başarıyla kaydedilmiştir.Lütfen e posta adresinizi kontrol ediniz.",
-        "status": true
+        message:
+          "Kullanici Başarıyla kaydedilmiştir.Lütfen e posta adresinizi kontrol ediniz.",
+        status: true,
       });
-
     } else {
       res.send({
-        "message": "Kullanici zaten Kayıtlı",
-        "status": false
+        message: "Kullanici zaten Kayıtlı",
+        status: false,
       });
-
     }
-
-
-
-
   } catch (err) {
     console.error(err.message);
   }
@@ -614,9 +581,7 @@ app.post("/register", async (req, res) => {
 
 app.get("/checkUser/:code", async (req, res) => {
   try {
-    const {
-      code
-    } = req.params;
+    const { code } = req.params;
     const user = await pool.query(
       "SELECT * FROM users WHERE user_auth_code = $1 ",
       [code]
@@ -630,16 +595,15 @@ app.get("/checkUser/:code", async (req, res) => {
 
 app.get("/validateUser/:id", async (req, res) => {
   try {
-    const {
-      id
-    } = req.params;
+    const { id } = req.params;
     const updateUser = await pool.query(
       "UPDATE users SET user_authcode_valid = $1 WHERE user_id = $2",
       [1, id]
     );
     res.send({
-      "message": "Bilgileriniz başarıyla doğrulanmıştır.Sisteme giriş yapabilirsiniz.",
-      "status": true
+      message:
+        "Bilgileriniz başarıyla doğrulanmıştır.Sisteme giriş yapabilirsiniz.",
+      status: true,
     });
   } catch (err) {
     console.error(err.message);
@@ -651,50 +615,52 @@ app.get("/validateUser/:id", async (req, res) => {
 app.post("/login", async (req, res) => {
   try {
     const user = {
-      ...req.body
+      ...req.body,
     };
 
-    const _user = await pool.query("SELECT * FROM users where user_email= $1 ", [user.username]);
+    const _user = await pool.query(
+      "SELECT * FROM users where user_email= $1 ",
+      [user.username]
+    );
     if (_user.rowCount === 0) {
       res.send({
-        "message": "Kullanıcı adı veya şifre hatalı.",
-        "status": false
+        message: "Kullanıcı adı veya şifre hatalı.",
+        status: false,
       });
-
     } else {
-      const validatePasswd = await bcrypt.compare(user.password, _user.rows[0].user_pass);
+      const validatePasswd = await bcrypt.compare(
+        user.password,
+        _user.rows[0].user_pass
+      );
 
       if (!validatePasswd) {
         res.send({
-          "message": "Şifre hatalı.",
-          "status": false
+          message: "Şifre hatalı.",
+          status: false,
         });
       } else {
-
         console.log(`${ACCESS_TOKEN_SECRET}`);
 
-        const token = await jwt.sign({
-          username: _user.rows[0].user_name
-        },ACCESS_TOKEN_SECRET);
-        
+        const token = await jwt.sign(
+          {
+            username: _user.rows[0].user_name,
+          },
+          ACCESS_TOKEN_SECRET
+        );
+
         res.send({
-          "message": "Giriş başarılı.",
-          "status": true,
-          "token":token
+          message: "Giriş başarılı.",
+          status: true,
+          token: token,
         });
       }
-
-
     }
-
-
-
-
   } catch (err) {
     console.error(err.message);
   }
 });
-const ACCESS_TOKEN_SECRET="ba89352bd55da3fb4d7b82ccb634806d40262ea2bdc349d9744646af9711f3973b10d";
+const ACCESS_TOKEN_SECRET =
+  "ba89352bd55da3fb4d7b82ccb634806d40262ea2bdc349d9744646af9711f3973b10d";
 app.listen(5000, () => {
   console.log("Server has started on port 5000");
 });

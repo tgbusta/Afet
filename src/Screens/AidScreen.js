@@ -29,9 +29,9 @@ const AidScreen = () => {
     if(id > 0){
       let aidx = {
         aid_new_tel: editTel,
-        aid_new_email: editEmail,
-        aid_new_region: editRegion,
-        aid_new_dontype: editDontype,
+        aid_new_mail: editEmail,
+        aid_new_region_id: editRegion,
+        aid_new_don_type_id: editDontype,
         aid_new_date: editDate
     }
       
