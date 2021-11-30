@@ -57,7 +57,7 @@ const UserScreen = () => {
   const [editUserName, setEditUserName] = useState("");
   const [editPass, setEditPass] = useState("");
 
-  //delete user function
+  //delete user
 
   const deleteUser = async (id) => {
     try {
@@ -72,6 +72,7 @@ const UserScreen = () => {
     }
   };
 
+  //get users
   const getUsers = async () => {
     try {
       const response = await fetch("http://localhost:5000/users");

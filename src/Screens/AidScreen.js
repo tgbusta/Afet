@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Dropdown, Table, Button, Modal, Form } from "react-bootstrap";
 import SubmitAid from "../Components/SubmitAid";
 import moment from "moment";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const AidScreen = () => {
 
@@ -49,7 +49,6 @@ const AidScreen = () => {
     }
     handleClose();
   }
-
 
   //Yardım Bilgileri düzenlemek için oluşturulan state'ler
   const [editID, setEditID] = useState(0);

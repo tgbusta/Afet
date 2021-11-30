@@ -62,7 +62,6 @@ app.get("/cities/:id", async (req, res) => {
     console.error(err.message);
   }
 });
-//http://localhost:5000/cities/1
 
 //--------------------------------districts-------------------------------------------------------//
 //get//
@@ -89,7 +88,6 @@ app.get("/districts/:id", async (req, res) => {
     console.error(err.message);
   }
 });
-//http://localhost:5000/districts/1
 
 //--------------------------------disaster_type--------------------------------------------------//
 //get//
@@ -116,7 +114,6 @@ app.get("/disastertypes/:id", async (req, res) => {
     console.error(err.message);
   }
 });
-// exmp: http://localhost:5000/disastertypes/1
 
 //--------------- regions-------------------------------------------------------------------------------- //
 
@@ -178,7 +175,7 @@ app.put("/regions/:id", async (req, res) => {
     const { reg_new_dist_id } = req.body;
 
     const updateRegion = await pool.query(
-      "UPDATE donations SET disaster_type_id = $1, city_id = $2, region_name = $3, disaster_date = $4, district_id = $5,  WHERE region_id = $6",
+      "UPDATE regions SET disaster_type_id = $1, city_id = $2, region_name = $3, disaster_date = $4, district_id = $5  WHERE region_id = $6",
       [
         reg_new_disaster_type_id,
         reg_new_city_id,
@@ -364,7 +361,7 @@ app.put("/donations/:id", async (req, res) => {
     const { don_new_mail } = req.body;
 
     const updateDonation = await pool.query(
-      "UPDATE donations SET region_id = $1, donation_type_id = $2, donation_date = $3, donor_tel = $4, donor_email = $5,  WHERE donation_id = $6",
+      "UPDATE donations SET region_id = $1, donation_type_id = $2, donation_date = $3, donor_tel = $4, donor_email = $5  WHERE donation_id = $6",
       [
         don_new_region_id,
         don_new_don_type_id,
@@ -380,46 +377,6 @@ app.put("/donations/:id", async (req, res) => {
   }
 });
 
-//real post//
-// app.post("/donations", async (req, res) => {
-//   try {
-//     const donor_name = req.body.donor_name;
-//     const donor_surname = req.body.donor_surname;
-//     const donor_tckn = req.body.donor_tckn;
-//     const donor_tel = req.body.donor_tel;
-//     const donor_email = req.body.donor_email;
-//     const donation_type_id = req.body.donation_type_id;
-//     const region_id = req.body.region_id;
-//     const donation_date = req.body.donation_date;
-//     const transfered = 0;
-
-//     const adddonations = await pool.query(
-//       "INSERT INTO donations (region_id, donation_type_id, donation_date, transfered, donor_tel, donor_email) VALUES($1, $2, $3, $4, $5, $6) RETURNING * ",
-//       [
-//         region_id,
-//         donation_type_id,
-//         donation_date,
-//         transfered,
-//         donor_tel,
-//         donor_email,
-//       ]
-//     );
-
-//     res.json(adddonations.rows[0]);
-
-//     const res_donation_id = adddonations.rows[0].donation_id;
-
-//     if (res_donation_id) {
-//       const add_donation_real_donor = await pool.query(
-//         "INSERT INTO donations_real_donor (donation_id, donor_name, donor_surname, donor_tckn) VALUES($1, $2, $3, $4) RETURNING * ",
-//         [res_donation_id, donor_name, donor_surname, donor_tckn]
-//       );
-//       res.json(add_donation_real_donor.rows[0]);
-//     }
-//   } catch (err) {
-//     console.error(err.message);
-//   }
-// });
 
 //-------------------------------users---------------------------------------------------------//
 //post//
@@ -441,8 +398,6 @@ app.post("/users", async (req, res) => {
     console.error(err.message);
   }
 });
-//exmp: http://localhost:5000/users
-//{"user_name" : "Ramazan", "user_surname" : "SARI", "user_email" : "ramazan.sari@ailevecalisma.gov.tr", "user_pass" : "00000"}
 
 //get//
 app.get("/users", async (req, res) => {
@@ -455,7 +410,6 @@ app.get("/users", async (req, res) => {
     console.error(err.message);
   }
 });
-// exmp: http://localhost:5000/users
 
 //search//
 app.get("/users/:id", async (req, res) => {
@@ -471,7 +425,7 @@ app.get("/users/:id", async (req, res) => {
     console.error(err.message);
   }
 });
-// exmp: http://localhost:5000/users/16
+
 
 //put//
 app.put("/users/:id", async (req, res) => {
@@ -502,8 +456,6 @@ app.put("/users/:id", async (req, res) => {
     console.error(err.message);
   }
 });
-// http://localhost:5000/users/16
-// { "user_new_name" : "Ramazanx", "user_new_surname" : "SARIx", "user_new_pass" : "yenipw", "user_new_mail" : "yeni@mail.com" }
 
 //delete//
 app.delete("/users/:id", async (req, res) => {
@@ -520,7 +472,7 @@ app.delete("/users/:id", async (req, res) => {
 });
 //http://localhost:5000/users/17
 
-/** Register user */
+/** ---------------------------Register user----------------------------- */
 
 app.post("/register", async (req, res) => {
   try {
@@ -577,7 +529,7 @@ app.post("/register", async (req, res) => {
   }
 });
 
-/** Validate user */
+/*------------------------ Validate user ------------------------------------*/
 
 app.get("/checkUser/:code", async (req, res) => {
   try {
@@ -610,7 +562,7 @@ app.get("/validateUser/:id", async (req, res) => {
   }
 });
 
-/** Authentication , Authorization */
+/*--------------------------- Authentication , Authorization -----------------------------------*/
 
 app.post("/login", async (req, res) => {
   try {

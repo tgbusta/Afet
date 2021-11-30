@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container,Form, Button } from "react-bootstrap";
+import { Container,Form, Button, Row, Col } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import TokenService from "../Services/TokenService";
 
@@ -45,9 +45,12 @@ function Login() {
           <Form.Control type="password" placeholder="Şifre giriniz." onChange={(e) => { setPasswordLogin(e.target.value) }} />
         </Form.Group>
 
-        <Button variant="outline-success" type="submit">
+        <Row className="text-center pt-5">
+          <Col> <Button variant="outline-success" type="submit">
           Giriş Yap
-        </Button>
+        </Button></Col>
+        
+        </Row>
 
       </Form>
       <ToastContainer newestOnTop closeOnClick />

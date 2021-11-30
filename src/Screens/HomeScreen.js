@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {useLocation} from "react-router-dom";
-import { Carousel, Container, Row, Col, Card, Table } from "react-bootstrap";
+import { Carousel, Container, Row, Col, Card } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import slider2 from "../img/pexels-ron-lach-9169658.jpg";
 import slider1 from "../img/afetyardim1.jpg";
@@ -8,7 +8,6 @@ import slider3 from "../img/basvuru.JPG";
 import Production from "../Components/Product";
 import { toast,ToastContainer } from "react-toastify";
 import TokenService from "../Services/TokenService";
-import Navi from "../Components/Navi";
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
