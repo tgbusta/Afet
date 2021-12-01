@@ -6,12 +6,12 @@ export class SocialMedia extends Component {
   render() {
     return (
       <Container>
-        <Row className="mb-5">
+        <Row className="m-3 p-3">
           <h1>Sosyal Medya</h1>
         </Row>
         <Row>
-          <Col>
-            <h2>Twitter'da Afet Yardımları</h2>
+          <Col >
+            <h2 className="m-3 p-3">Twitter'da Afet Yardımları</h2>
             <blockquote
               class="twitter-tweet"
               data-conversation="none"
@@ -43,8 +43,8 @@ export class SocialMedia extends Component {
               charset="utf-8"
             ></script>{" "}
           </Col>
-          <Col>
-            <h2>Bizi Twitter'da takip edin</h2>
+          <Col >
+            <h2 className="m-3 p-3">Bizi Twitter'da takip edin</h2>
             <Timeline
               dataSource={{
                 sourceType: "profile",
@@ -69,8 +69,8 @@ export class SocialMedia extends Component {
             </Timeline>
           </Col>
         </Row>
-        <Row className="mb-5">
-          <h2>Sosyal Yardım Başvurularında Yeni Dönem</h2>
+        <Row className="mb-3">
+          <h2 className="m-3 p-3">Sosyal Yardım Başvurularında Yeni Dönem</h2>
         </Row>
         <Row>
           <iframe

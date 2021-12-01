@@ -158,10 +158,10 @@ const UserScreen = () => {
             <Form.Label>Kullanıcı Adı</Form.Label>
             <Form.Control type="text" onChange={r => setEditUserName(r.target.value)} defaultValue={editUserName} />
           </Form.Group>
-          <Form.Group className="mb-3">
+          {/* <Form.Group className="mb-3">
             <Form.Label>Şifre</Form.Label>
             <Form.Control type="password" onChange={r => setEditPass(r.target.value)} defaultValue={editPass} />
-          </Form.Group>
+          </Form.Group> */}
         </Form>
         </Modal.Body>
         <Modal.Footer>
