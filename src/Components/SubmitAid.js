@@ -36,53 +36,62 @@ const SubmitAid = () => {
     }
 
     console.log("submit");
-    if(validated){
-    e.preventDefault();
-    try {
-      const body = {
-        region_id,
-        donation_type_id,
-        aid_date,
-        affected_name,
-        affected_surname,
-        affected_tckn,
-        affected_email,
-        affected_tel,
-        affected_year_of_birth,
-      };
-      console.log(body);
 
-      const kimlikdogrula = await fetch(
-        "http://localhost:5000/nvi/" +
-          affected_name.toUpperCase() +
-          "/" +
-          affected_surname.toUpperCase() +
-          "/" +
-          affected_year_of_birth +
-          "/" +
-          affected_tckn
-      );
-      const jsonData = await kimlikdogrula.json();
-      console.log(jsonData.response.TCKimlikNoDogrulaResult);
-
-      if (jsonData.response.TCKimlikNoDogrulaResult) {
-        const response = await fetch("http://localhost:5000/aids", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
-
-        console.log(response);
-        toast.success("Yardım kaydı başarılı şekilde oluşturuldu.");
-        setTimeout(() => window.location.reload(), 5000);
-      } else {
-        toast.error("TC Kimlik Numarası doğrulaması başarısız oldu!");
-      }
-    } catch (e) {
-      toast.error("Yardım kaydı oluşturulamadı!");
-    }
-  }
   };
+
+  const submitaidsSecond = async (e) => {
+    if(validated){
+      try {
+        const body = {
+          region_id,
+          donation_type_id,
+          aid_date,
+          affected_name,
+          affected_surname,
+          affected_tckn,
+          affected_email,
+          affected_tel,
+          affected_year_of_birth,
+        };
+        console.log(body);
+  
+        const kimlikdogrula = await fetch(
+          "http://localhost:5000/nvi/" +
+            affected_name.toUpperCase() +
+            "/" +
+            affected_surname.toUpperCase() +
+            "/" +
+            affected_year_of_birth +
+            "/" +
+            affected_tckn
+        );
+        const jsonData = await kimlikdogrula.json();
+        console.log(jsonData.response.TCKimlikNoDogrulaResult);
+  
+        if (jsonData.response.TCKimlikNoDogrulaResult) {
+          const response = await fetch("http://localhost:5000/aids", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          });
+  
+          console.log(response);
+          toast.success("Yardım kaydı başarılı şekilde oluşturuldu.");
+          setTimeout(() => window.location.reload(), 5000);
+        } else {
+          toast.error("TC Kimlik Numarası doğrulaması başarısız oldu!");
+          setValidated(false)
+        }
+      } catch (e) {
+        toast.error("Yardım kaydı oluşturulamadı!");
+        setValidated(false)
+      }
+    }
+  };
+
+  useEffect(() => {
+    submitaidsSecond()
+  }, [validated])
 
   const getRegions = async () => {
     try {

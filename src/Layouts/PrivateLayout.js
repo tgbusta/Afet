@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, Router } from "react-router-dom";
+import { Route, Switch, Redirect} from "react-router-dom";
 import HomeScreen from "../Screens/HomeScreen";
 import AidScreen from "../Screens/AidScreen";
 import DonationScreen from "../Screens/DonationScreen";
@@ -17,11 +17,11 @@ return (
       <Container className="shadow p-3 mb-5 rounded" >
         <Switch>
         <Route path="/home" component={HomeScreen} exact />
-        <Route path="/" component={HomeScreen} />
          <Route path="/aids" component={AidScreen} />
           <Route path="/donations" component={DonationScreen} />
           <Route path="/regions" component={RegionScreen} />
           <Route path="/users" component={UserScreen} />
+          <Redirect from="/" to="/home" />
           <Route component={NotFound} />
         </Switch>
       </Container>

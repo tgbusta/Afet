@@ -27,32 +27,38 @@ const SubmitRegion = () => {
     }
 
     console.log("submit");
-    if(validated){
-    e.preventDefault();
-    try {
-      const body = {
-        disaster_type_id,
-        city_id,
-        region_name,
-        disaster_date,
-        district_id,
-      };
-      console.log(body);
-      const response = await fetch("http://localhost:5000/regions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
 
-      console.log(response);
-      toast.success("Bölge kaydı başarılı şekilde oluşturuldu.");
-      setTimeout(() => window.location.reload(), 5000);
-    } catch (e) {
-      console.error(e.message);
-      toast.error("Bölge kaydı oluşturulamadı!");
-    }
-  }
   };
+
+  useEffect(() => {
+    
+    if(validated){
+
+try {
+  const body = {
+    disaster_type_id,
+    city_id,
+    region_name,
+    disaster_date,
+    district_id,
+  };
+  console.log(body);
+  const response = fetch("http://localhost:5000/regions", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  console.log(response);
+  toast.success("Bölge kaydı başarılı şekilde oluşturuldu.");
+  setTimeout(() => window.location.reload(), 5000);
+} catch (e) {
+  console.error(e.message);
+  toast.error("Bölge kaydı oluşturulamadı!");
+}
+}
+
+}, [validated])
 
   const getCities = async () => {
     try {

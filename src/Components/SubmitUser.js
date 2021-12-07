@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Col, Row, FormGroup, Container } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -20,9 +20,13 @@ const SubmitUser = () => {
       setValidated(true);
     }
     console.log("submit");
+    
+  };
 
+  useEffect(() => {
+    
     if(validated){
-      e.preventDefault();
+      
       try {
         const body = {
           user_name,
@@ -32,7 +36,7 @@ const SubmitUser = () => {
           user_username,
         };
         console.log(body);
-        const response = await fetch("http://localhost:5000/users", {
+        const response = fetch("http://localhost:5000/users", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
@@ -45,9 +49,11 @@ const SubmitUser = () => {
       } catch (e) {
         console.error(e.message);
         toast.error("Kullanıcı kaydı oluşturulamadı!");
+        setValidated(false)
       }
     }
-  };
+
+  }, [validated])
 
   return (
     <Container>

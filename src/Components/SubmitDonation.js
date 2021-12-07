@@ -35,53 +35,61 @@ const SubmitDonation = () => {
     }
 
     console.log("submit");
+
+  };
+
+  const submitDonationSecond = async (e) => {
     if(validated){
-    e.preventDefault();
-
-    try {
-      const body = {
-        donor_name,
-        donor_surname,
-        donor_tckn,
-        donor_year_of_birth,
-        donor_tel,
-        donor_email,
-        donation_type_id,
-        region_id,
-        donation_date,
-      };
-
-      const kimlikdogrula = await fetch(
-        "http://localhost:5000/nvi/" +
-          donor_name.toUpperCase() +
-          "/" +
-          donor_surname.toUpperCase() +
-          "/" +
-          donor_year_of_birth +
-          "/" +
-          donor_tckn
-      );
-      const jsonData = await kimlikdogrula.json();
-      console.log(jsonData.response.TCKimlikNoDogrulaResult);
-
-      if (jsonData.response.TCKimlikNoDogrulaResult) {
-        const response = await fetch("http://localhost:5000/donations", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
-
-        console.log(response);
-        toast.success("Bağış kaydı başarılı şekilde oluşturuldu.");
-        setTimeout(() => window.location.reload(), 5000);
-      } else {
-        toast.error("TC Kimlik Numarası doğrulaması başarısız oldu!");
+      try {
+        const body = {
+          donor_name,
+          donor_surname,
+          donor_tckn,
+          donor_year_of_birth,
+          donor_tel,
+          donor_email,
+          donation_type_id,
+          region_id,
+          donation_date,
+        };
+  
+        const kimlikdogrula = await fetch(
+          "http://localhost:5000/nvi/" +
+            donor_name.toUpperCase() +
+            "/" +
+            donor_surname.toUpperCase() +
+            "/" +
+            donor_year_of_birth +
+            "/" +
+            donor_tckn
+        );
+        const jsonData = await kimlikdogrula.json();
+        console.log(jsonData.response.TCKimlikNoDogrulaResult);
+  
+        if (jsonData.response.TCKimlikNoDogrulaResult) {
+          const response = await fetch("http://localhost:5000/donations", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          });
+  
+          console.log(response);
+          toast.success("Bağış kaydı başarılı şekilde oluşturuldu.");
+          setTimeout(() => window.location.reload(), 5000);
+        } else {
+          toast.error("TC Kimlik Numarası doğrulaması başarısız oldu!");
+          setValidated(false)
+        }
+      } catch (e) {
+        toast.error("Bağış kaydı oluşturulamadı!");
+        setValidated(false)
       }
-    } catch (e) {
-      toast.error("Bağış kaydı oluşturulamadı!");
     }
   }
-  };
+
+  useEffect(() => {
+    submitDonationSecond();
+  }, [validated])
 
   const getDonation_types = async () => {
     try {
