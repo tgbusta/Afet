@@ -505,11 +505,11 @@ app.post("/register", async (req, res) => {
   `;
       html = html.replace(
         "[[REPLACE_HERE]]",
-        "http://localhost:3000?code=" + addUser.rows[0].user_auth_code
+        "http://localhost:3000/welcome?code=" + addUser.rows[0].user_auth_code
       );
       await sendEmail({
         to: user.email,
-        subject: "Please Verify Your Email",
+        subject: "Kayıt olmak için lütfen onaylayınız.",
         html: html,
       });
 
@@ -571,7 +571,7 @@ app.post("/login", async (req, res) => {
     };
 
     const _user = await pool.query(
-      "SELECT * FROM users where user_email= $1 ",
+      "SELECT * FROM users where user_email= $1",
       [user.username]
     );
     if (_user.rowCount === 0) {
@@ -590,8 +590,13 @@ app.post("/login", async (req, res) => {
           message: "Şifre hatalı.",
           status: false,
         });
-      } else {
-        console.log(`${ACCESS_TOKEN_SECRET}`);
+      } else if(!_user.rows[0].user_authcode_valid){
+        res.send({
+          message: "Lütfen önce hesabınızı doğrulayın.",
+          status: false,
+        });
+      }
+      else{
 
         const token = await jwt.sign(
           {

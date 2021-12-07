@@ -17,6 +17,7 @@ return (
       <Container className="shadow p-3 mb-5 rounded" >
         <Switch>
         <Route path="/home" component={HomeScreen} exact />
+        <Route path="/" component={HomeScreen} />
          <Route path="/aids" component={AidScreen} />
           <Route path="/donations" component={DonationScreen} />
           <Route path="/regions" component={RegionScreen} />

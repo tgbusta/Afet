@@ -11,6 +11,7 @@ const PublicLayout = () => (
       <Route path="/register" component={Register} />
       <Route path="/socialmedia" component={SocialMedia}/>
       <Route path="/welcome" component={Welcome} />
+      <Route path="/" component={Welcome} />
       <Redirect from="*" to="/welcome" />
     </Switch>
   </div>

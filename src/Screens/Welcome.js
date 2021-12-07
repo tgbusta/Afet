@@ -1,20 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, {  useEffect } from "react";
 import {useLocation} from "react-router-dom";
-import { Carousel, Container, Row, Col, Card, Table } from "react-bootstrap";
+import { Carousel, Container, Row, Col, Card } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import slider2 from "../img/pexels-ron-lach-9169658.jpg";
 import slider1 from "../img/afetyardim1.jpg";
 import slider3 from "../img/basvuru.JPG";
 import Production from "../Components/Product";
 import { toast,ToastContainer } from "react-toastify";
-import TokenService from "../Services/TokenService";
-import Navi from "../Components/Navi";
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
 const Welcome = () => {
-const isAuth = TokenService.getToken();
+
   const timeDifference = (date1) => {
     let b = date1.split(/\D+/);
     let dateE= new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
@@ -29,7 +27,6 @@ const isAuth = TokenService.getToken();
     let minutesDifference = Math.floor(difference/1000/60);
     difference -= minutesDifference*1000*60
 
-    let secondsDifference = Math.floor(difference/1000);
     if(daysDifference>0)
     return true;
     if(hoursDifference>1)

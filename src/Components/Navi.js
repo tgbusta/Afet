@@ -50,9 +50,7 @@ const Navi = () => {
                   {auth ? <SignedIn signOut={handleSignOut} /> : <SignedOut />}
                 </Nav.Item>
 
-                <Nav.Link className="mx-5 my-2 px-3" href="/register">
-                  Kayıt Ol
-                </Nav.Link>
+                
 
                 <Nav.Link className="mx-5 my-2 px-3" href="/socialmedia">
                   Sosyal Medya
